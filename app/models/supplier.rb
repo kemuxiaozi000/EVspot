@@ -71,4 +71,11 @@ class Supplier < ApplicationRecord
   def select_all_by_id_arr(sup_arr)
     Supplier.where('id IN (?)', sup_arr)
   end
+
+  # 電源種別を取得する
+  def select_pst_by_id(id_arr)
+    Supplier.joins('INNER JOIN power_supply_types ON suppliers.power_supply_types_id = power_supply_types.id')
+            .select('suppliers.*, power_supply_types.name as pst_name')
+            .where('suppliers.id IN (?)', id_arr)
+  end
 end

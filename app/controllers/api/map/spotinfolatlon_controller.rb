@@ -9,11 +9,13 @@ class Api::Map::SpotinfolatlonController < ApplicationController
   # @param :lon
   # @return スポットテーブルの構造体 + key:supplier value:提供者テーブルの構造体
   def index
+    Userlog.new.insert(session[:user_name], 'map', 'スポット情報取得処理', params.to_s)
     # 住所
     lat = params[:lat].to_s
     lon = params[:lon].to_s
+
     # スポット情報の取得
-    @result = Spot.new.select_by_latlon_new(lat, lon)
+    @result = Spot.new.select_by_latlon_new(lat, lon, params)
     @result['watingtime'] = Common.new.select_by_watingtime
     render json: @result
   end

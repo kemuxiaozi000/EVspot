@@ -3,6 +3,11 @@
 
 $(document).ready(function () {
   var remains = 0;
+  var latitude;//緯度
+  var longitude;//経度
+
+  getMyplace();
+
   function getTimeString(second) {
     var min = parseInt(second / 60);
     var sec = second % 60;
@@ -20,32 +25,48 @@ $(document).ready(function () {
     return timeString;
   }
 
+  /**
+   *
+   * @param {integer} second 残り秒数
+   */
   function setTime(second) {
     var timer = null;
     remains = second;
     var timeString = getTimeString(remains);
     $('#charging_time').text(timeString);
+    statusView(timer, remains);
     function countDown(){
       // 残り秒数を1秒減らす
-      remains--;
+      if (remains != 0) {
+        remains--;
+      }
       timeString = getTimeString(remains);
       $('#charging_time').text(timeString);
-      if(remains == 0) {
-        clearInterval(timer);
-        console.log('countdown complete!');
-      }
+      statusView(timer, remains);
     }
     timer = setInterval(countDown, 1000);
   }
 
-  // やめるボタン
-  $('#stop_charging').click(function() {
-    var chargeTime = (30 - parseInt(remains / 60));
-    if (!confirm('本当にやめますか？')) {
-      return false;
+  /**
+   *
+   * @param {id} timer インターバル
+   * @param {integer} remains 残り秒数
+   */
+  function statusView(timer, remains) {
+    if(remains <= 0) {
+      clearInterval(timer);
+      console.log('countdown complete!');
+      $('#charge_icon').attr('src', charge_complete_img_path).attr('alt', '充電完了');
+      $('.box-title').text('充電完了');
+      $('#stop_charging').text('精算する');
     }
+  }
+
+  // やめるボタン
+  $('#checkout').click(function() {
+    var chargeTime = (30 - parseInt(remains / 60));
     $.ajax({
-      url: '/api/charge/historyinfo/create',
+      url: '/api/charge/historyinfo/index',
       data: {
         time: chargeTime,
         spot_id: spot_id
@@ -62,46 +83,68 @@ $(document).ready(function () {
     })
   });
 
+  function getMyplace() {
+    // var output = document.getElementById("result");
+    if (!navigator.geolocation){//Geolocation apiがサポートされていない場合
+      // output.innerHTML = "<p>Geolocationはあなたのブラウザーでサポートされておりません</p>";
+      alert("あなたのブラウザーでサポートされておりません");
+      return;
+    }
+    function success(position) {
+      latitude  = position.coords.latitude;//緯度
+      longitude = position.coords.longitude;//経度
+      // output.innerHTML = '<p>緯度 ' + latitude + '° <br>経度 ' + longitude + '°</p>';
+    }
+    function error(error) {
+      var err_msg = "";
+      switch(error.code)
+      {
+        case 1:
+          err_msg = "位置情報の利用が許可されていません";
+          break;
+        case 2:
+          err_msg = "デバイスの位置が判定できません";
+          break;
+        case 3:
+          err_msg = "タイムアウトしました";
+          break;
+      }
+      //エラーの場合
+      // output.innerHTML = err_msg;
+      alert(err_msg);
+    }
+    navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true});//成功と失敗を判断
+  }
+  // 画面遷移
+  function postForm(url, data) {
+    var $form = $('<form/>', {'action': url, 'method': 'post'});
+    for(var key in data) {
+      $form.append($('<input/>', {'type': 'hidden', 'name': key, 'value': data[key]}));
+    }
+    $form.appendTo(document.body);
+    $form.submit();
+  }
+  // map画面表示
+  function spot(lat, lon) {
+    var $form = $('<form />', {
+      action: 'map',
+      target: '_self',
+      method: 'post'
+    });
+    $postData = $('<input />', {type: 'hidden', name: 'destination', value: ''});
+    $form.append($postData);
+    $postData = $('<input />', {type: 'hidden', name: 'lat', value: lat});
+    $form.append($postData);
+    $postData = $('<input />', {type: 'hidden', name: 'lon', value: lon});
+    $form.append($postData);
+    $("body").append($form);
+    window.location.href = window.location.origin + "/map?" + $form.serialize() ;
+  }
   // スポット情報
   $("#spot_info").click(function(){
-    // Geolocation APIに対応している
-    if (navigator.geolocation) {
-      getPosition();
-    // Geolocation APIに対応していない
-    } else {
-      alert("この端末では位置情報が取得できません");
-    }
-
-    // 現在値取得
-    function getPosition() {
-      navigator.geolocation.getCurrentPosition(
-        function(position){
-          spot(position.coords.latitude, position.coords.longitude);
-
-        },
-        function(error){
-          alert(error);
-        }
-      )
-    }
-    // map画面表示
-    function spot(lat, lon) {
-      var url = "/map";
-      var $postData;
-      var $form = $('<form />', {
-      action: url,
-      method: 'get'
-      });
-      $postData = $('<input />', {type: 'hidden', name: 'destination', value: ''});
-      $form.append($postData);
-      $postData = $('<input />', {type: 'hidden', name: 'lat', value: lat});
-      $form.append($postData);
-      $postData = $('<input />', {type: 'hidden', name: 'lon', value: lon});
-      $form.append($postData);
-      $("body").append($form);
-      $form.submit();
-    }
+    spot(latitude, longitude);
   });
 
-  setTime(1800);
+  var remainingSecond = parseInt($('#chargeRemainingSecond').val());
+  setTime(remainingSecond);
 });

@@ -1,0 +1,25 @@
+<li class="dropdown user user-menu">
+  <% if charging? %>
+    <a href="#" id="chargeStatus" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <img src='<%=asset_path "charge.png" %>' alt="..." height="25" width="25" style="margin-right: 3px;">
+    </a>
+    <ul class="dropdown-menu">
+
+      <li class="user-body">
+        <div class="row row-height">
+          <div class="col-xs-12 text-center h3">
+            <b>充電完了まで</b>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 text-center h3">
+            <label class="chargeRemainingMinute">00</label>
+            <label> / 30分</label>
+          </div>
+        </div>
+      </li>
+      <a href="/charge_status" class="btn btn-default btn-flat btn-block">充電状況確認</a>
+    </ul>
+    <% end %>
+</li>

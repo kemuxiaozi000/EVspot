@@ -14,11 +14,15 @@ jobs:
           - DB_NAME: 'kevd_test'
           - RAILS_ENV: 'test'
           - RACK_ENV: 'test'
+          - CODECLIMATE_REPO_TOKEN: c21144f28bbaa487437b6700fb4e640df0f68f5cf701f0f38ce6c6480380b105
+          - VAPID_PUBLIC_KEY: 'BJRtCxCXthdinm4M7aP01OTJLpx8BoW8Ix7aqrTFFIVjeMUw50WGFpCJmdqMWTzxkb9uSuD5rGiHQr7VslMINZM='
+          - VAPID_PRIVATE_KEY: 'OiihcL67n5DiqWYfXXMkbXHPNgZzaz7M5a-1N8NHAWE='
+          - SECRET_KEY_BASE: '8e4bd8aa22d52eeabc6cf0cb10152cba3d6e4e8879273975a5ec0176e23c37e5a89e6931dbc742f8b7c4ac01c50f82c3de8c7ff428bd75f11bc47bc8437f18f3'
       - image: circleci/mysql:5.7.22
         environment:
           - TZ: Asia/Tokyo
           - MYSQL_DATABASE: kevd_test
-          - MYSQL_ROOT_PASSWORD: pass
+          - MYSQL_ROOT_PASSWORD: password
         ports:
           - 3306:3306
         # comment
@@ -62,21 +66,21 @@ jobs:
           name: rubocop
           command: rubocop
 
-      # - run:
-      #     name: Init DB
-      #     command: |
-      #       bundle exec rake db:drop
-      #       bundle exec rake db:create
-      #       bundle exec rake db:migrate RAILS_ENV=test
-      #       bundle exec rake db:seed RAILS_ENV=test
+      - run:
+          name: Init DB
+          command: |
+            bundle exec rake db:drop
+            bundle exec rake db:create
+            bundle exec rake db:migrate RAILS_ENV=test
+            bundle exec rake db:seed RAILS_ENV=test
 
-      # - run:
-      #     name: Test
-      #     command: bundle exec rspec
+      - run:
+          name: Test
+          command: bundle exec rspec
 
-      # - run:
-      #     name: Post Coverage to CodeClimate
-      #     command: bundle exec codeclimate-test-reporter
+      - run:
+          name: Post Coverage to CodeClimate
+          command: bundle exec codeclimate-test-reporter
 
   deploy_to_review:
     machine: true

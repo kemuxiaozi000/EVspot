@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7.22
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_DATABASE: kevd
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    hostname: db
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+  web:
+    build: .
+    command: ./script/web_entrypoint.sh
+    volumes:
+      - .:/kevd
+    environment:
+      RAILS_ENV: 'production'
+      RACK_ENV: 'production'
+      DB_HOST: 'db'
+      DB_PORT: '3306'
+      DB_USER: 'root'
+      DB_PASSWORD: 'password'
+      DB_NAME: 'kevd'
+      RAILS_LOG_TO_STDOUT: "yes"
+      WEB_CONCURRENCY: 1 #STG/本番ならもっとあげること（8?）
+      MAX_CONNECTION_POOL: 5 #STG/本番ならもっとあげること（40?）
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    depends_on:
+      - 'db'

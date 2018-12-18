@@ -7,16 +7,21 @@
       <div class="box-body">
         <h3 id="charging_time" class="text-center"></h3>
         <div class="text-center">
-          <img src='<%= asset_path 'charging.gif' %>' alt="充電中...">
+          <img id="charge_icon" src='<%= asset_path 'charging.gif' %>' alt="充電中...">
         </div>
       </div>
       <div class="box-footer">
         <button id="spot_info" class="btn btn-block btn-info">スポット情報</button>
-        <button type="button" id="stop_charging" class="btn btn-block btn-success">充電をやめる</button>
+        <button type="button" id="stop_charging" class="btn btn-block btn-success" data-toggle="modal" data-target="#confirmModal" data-backdrop="true">
+          充電をやめる
+        </button>
         <%= javascript_tag do %>
-          var spot_id = <%= params[:spot_id] %>
+          var spot_id = <%= session[:charge_spot_id] %>;
+          var charge_complete_img_path = "<%= asset_path 'charge_complete.gif' %>";
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<%= render partial: "modal" %>

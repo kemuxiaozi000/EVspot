@@ -9,22 +9,47 @@
 # coding: utf-8
 require 'csv'
 
-
 # Spot
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spots`')
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spots`')
 if Spot.count.zero?
   CSV.foreach('db/gogoevspot.csv') do |row|
+    # 各spotに3個のクーポンIDをつける
+    coupon_id_1 = rand(1..6)
+    coupon_id_2 = rand(1..6)
+    coupon_id_3 = rand(1..6)
+    coupon_id = coupon_id_1.to_s + ':'+ coupon_id_2.to_s + ':' + coupon_id_3.to_s
+    coupon_info = [nil, coupon_id]
+
     # 供給者IDは1～9をランダムで登録する
     supplier_id = rand(1..9)
-    Spot.create(name: row[0], lat: row[1], lon:row[2], supplier_id: supplier_id,detail_id:row[3])
+    Spot.create(name: row[0], lat: row[1], lon:row[2], coupon_id: coupon_info[rand(0..1)], supplier_id: supplier_id, detail_id:row[3])
   end
 end
 
 # Spot_detail
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
+ ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
 if SpotDetail.count.zero?
+  # 付帯情報のパターン(レコードごとにランダムで登録)
+  additional_info = [nil, 'トイレ', '喫煙所', 'トイレ:喫煙所']
+  # 機器種別のパターン(レコードごとにランダムで登録)
+  charge_types = ['急速充電', '普通充電', '急速充電:普通充電']
+  # 店舗情報のパターン(レコードごとにランダムで登録)
+  facility_info = [nil, 'カフェ', 'レストラン', 'カフェ:ショッピング', 'カフェ:遊び場', 'カフェ:授乳室', 'カフェ:レストラン:ショッピング:遊び場:授乳室']
+  # 周辺情報のパターン(レコードごとにランダムで登録)
+  nearby_info = [nil, nil, nil, '徒歩10分圏', '徒歩5分圏']
+  # 対象サービスのパターン(レコードごとにランダムで登録)
+  supported_services = ['NCS', 'ZESP2', 'NCS:ZESP2', 'その他充電サービス', 'NCS:ZESP2:その他充電サービス']
+  # 混雑時間帯のパターン(レコードごとにランダムで登録)
+  crowded_time_zone = [nil, nil, '11:00～13:00', '17:00～20:00', '11:00～13:00、17:00～19:00']
   CSV.foreach('db/gogoevspotdetail.csv') do |row|
-    SpotDetail.create(address: row[0], week: row[1], sat: row[2], sun: row[3], holiday: row[4], sales_remarkes: row[5], tel: row[6], remarks: row[7], stand_1: row[8], stand_2: row[9], stand_3: row[10])
+    SpotDetail.create(address: row[0], week: row[1], sat: row[2], sun: row[3], holiday: row[4],
+       sales_remarkes: row[5], tel: row[6], remarks: row[7], stand_1: row[8], stand_2: row[9], stand_3: row[10],
+       additional_information: additional_info[rand(0..(additional_info.length - 1))],
+       charge_types: charge_types[rand(0..(charge_types.length - 1))],
+       facility_information: facility_info[rand(0..(facility_info.length - 1))],
+       nearby_information: nearby_info[rand(0..nearby_info.length - 1)],
+       supported_services: supported_services[rand(0..supported_services.length - 1)],
+       crowded_time_zone: crowded_time_zone[rand(0..crowded_time_zone.length - 1)])
   end
 end
 
@@ -69,7 +94,7 @@ if PowerSupplyType.count.zero?
 end
 
 # Common
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `common`')
+# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `commons`')
 if Common.count.zero?
   CSV.foreach('db/common.csv') do |row|
     Common.create(name: row[1], value: row[2])

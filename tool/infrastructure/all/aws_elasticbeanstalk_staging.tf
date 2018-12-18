@@ -90,7 +90,7 @@ resource "aws_elastic_beanstalk_environment" "aws_eb_web_app_staging_env" {
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "MatcherHTTPCode"
-    value     = "200"
+    value     = "401"
   }
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
@@ -145,7 +145,7 @@ resource "aws_elastic_beanstalk_environment" "aws_eb_web_app_staging_env" {
   setting {
     namespace = "aws:elbv2:loadbalancer"
     name      = "ManagedSecurityGroup"
-    value     = "${aws_security_group.sg_eb.id}"
+    value     = "${aws_security_group.sg_eb_full_access.id}"
   }
 #  setting {
 #    namespace = "aws:elasticbeanstalk:healthreporting:system"
@@ -221,5 +221,15 @@ resource "aws_elastic_beanstalk_environment" "aws_eb_web_app_staging_env" {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "RAILS_SERVE_STATIC_FILES"
     value     = "1"
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "VAPID_PUBLIC_KEY"
+    value     = "BJRtCxCXthdinm4M7aP01OTJLpx8BoW8Ix7aqrTFFIVjeMUw50WGFpCJmdqMWTzxkb9uSuD5rGiHQr7VslMINZM="
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "VAPID_PRIVATE_KEY"
+    value     = "OiihcL67n5DiqWYfXXMkbXHPNgZzaz7M5a-1N8NHAWE="
   }
 }

@@ -27,6 +27,8 @@ services:
       RAILS_LOG_TO_STDOUT: "yes"
       WEB_CONCURRENCY: 1 #STG/本番ならもっとあげること（8?）
       MAX_CONNECTION_POOL: 5 #STG/本番ならもっとあげること（40?）
+      VAPID_PUBLIC_KEY: 'BJRtCxCXthdinm4M7aP01OTJLpx8BoW8Ix7aqrTFFIVjeMUw50WGFpCJmdqMWTzxkb9uSuD5rGiHQr7VslMINZM='
+      VAPID_PRIVATE_KEY: 'OiihcL67n5DiqWYfXXMkbXHPNgZzaz7M5a-1N8NHAWE='
     ports:
       - "3000:3000"
     links:

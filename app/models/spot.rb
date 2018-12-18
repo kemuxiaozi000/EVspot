@@ -30,8 +30,8 @@ class Spot < ApplicationRecord
   end
 
   # 緯度経度から付近のスポット情報を取得(new)
-  def select_by_latlon_new(lat, lon)
-    sql = get_arround_sql(lat, lon, 5)
+  def select_by_latlon_new(lat, lon, spot_detail_search_params = {})
+    sql = get_arround_sql(lat, lon, 5, spot_detail_search_params)
     spot_data = ActiveRecord::Base.connection.select_all(sql)
     result = {}
     result['spot'] = data_input(spot_data)
@@ -52,21 +52,24 @@ class Spot < ApplicationRecord
       result_data['coupon_id'] = data['coupon_id']
       result_data['supplier_id'] = data['supplier_id']
       result_data['detail_id'] = data['detail_id']
-      result_data['detail_data'] = SpotDetail.new.select_by_id(data['detail_id'])
-      result_data['supplier'] = Supplier.new.select_by_id(devide_string(data['supplier_id'].to_s, ':'))
+      result_data['detail_data'] = SpotDetail.new.select_all_by_id(data['detail_id'])
+      # result_data['supplier'] = Supplier.new.select_by_id(devide_string(data['supplier_id'].to_s, ':'))
+      result_data['supplier'] = Supplier.new.select_pst_by_id(devide_string(data['supplier_id'].to_s, ':'))
       arr.push(result_data)
     end
     arr
   end
 
-  def get_arround_sql(lat, lon, num)
+  def get_arround_sql(lat, lon, num, spot_detail_search_params)
     sql_select = 'select id,name,lat,lon,coupon_id,supplier_id,detail_id '
-    sql_select += "from(SELECT id,name,lat,lon,coupon_id,supplier_id,detail_id,GLength(GeomFromText(CONCAT('LineString("
+    sql_select += "from(SELECT spots.id as id,name,lat,lon,coupon_id,supplier_id,detail_id,GLength(GeomFromText(CONCAT('LineString("
     sql_select += lon
     sql_select += ' '
     sql_select += lat
-    sql_select += ",', lon, ' ', lat,')'))) * 111.3194 AS distance FROM spots ORDER BY distance) as cus where distance <= :num"
-
+    sql_select += ",', lon, ' ', lat,')'))) * 111.3194 AS distance, additional_information, charge_types, facility_information, nearby_information FROM spots "
+    sql_select += ' inner join spot_details on spot_details.id = spots.detail_id '
+    sql_select += 'ORDER BY distance) as cus where distance <= :num '
+    sql_select += SpotDetail.new.get_spot_detail_condition_sql(spot_detail_search_params)
     sql = ActiveRecord::Base.send(
       :sanitize_sql_array,
       [
@@ -97,8 +100,13 @@ class Spot < ApplicationRecord
       result['detail_id'] = data.detail_id
       result['supplier'] = supplier_id.zero? ? Supplier.new.select_all_by_id_arr(devide_string(data.supplier_id.to_s, ':')) : Supplier.new.select_by_id(supplier_id)
       result['coupon'] = Coupon.new.select_all_by_id_arr(devide_string(data.coupon_id.to_s, ':'))
-      result['detail'] = SpotDetail.new.select_by_id(data.detail_id.to_i)
+      result['detail'] = SpotDetail.new.select_all_by_id(data.detail_id.to_i)
     end
     result
+  end
+
+  # IDで検索
+  def select_by_id(spot_id)
+    Spot.where(id: spot_id)
   end
 end

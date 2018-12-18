@@ -3,5 +3,8 @@
 class TopController < ApplicationController
   def index
     @page_title = 'トップ - これからEVドライブ'
+
+    # ログ取得
+    Userlog.new.insert(session[:user_name].to_s, 'top', nil, params.to_s)
   end
 end

@@ -3,7 +3,8 @@
 class Api::Charge::HistoryinfoController < ApplicationController
   protect_from_forgery except: :index
   require 'date'
-  def create
+  def index
+    Userlog.new.insert(session[:user_name], 'charge_status', '明細登録処理', params.to_s)
     # 時間（分）
     time = params[:time]
     # 充電スポットID

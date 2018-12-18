@@ -5,6 +5,116 @@
         <a href="/">これから<b>EV</b>ドライブ(仮)</a>
       </center>
     </div>
+    <form id="spot_search_form" action="#" method="post">
+      <ul class="sidebar-menu tree" data-widget="tree">
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-cog"></i>
+              <span>スポット絞り込み</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li>
+                <a>トイレ
+                  <div class="pull-right">
+                    <input name="toilet" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>喫煙所
+                  <div class="pull-right">
+                    <input name="smoking_area" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>急速充電
+                  <div class="pull-right">
+                    <input name="rapid_charge" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>普通充電
+                  <div class="pull-right">
+                    <input name="normal_charge" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>カフェ
+                  <div class="pull-right">
+                    <input name="cafe" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>レストラン
+                  <div class="pull-right">
+                    <input name="restaurant" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>ショッピング
+                  <div class="pull-right">
+                    <input name="shopping" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>プレイスペース
+                  <div class="pull-right">
+                    <input name="play_space" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+               <li>
+                <a>授乳スペース
+                  <div class="pull-right">
+                    <input name="nursing_room" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>近隣に観光スポット
+                  <div class="pull-right">
+                    <input name="sightseeing" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>クーポン
+                  <div class="pull-right">
+                    <input name="coupon" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+                  </div>
+                </a>
+              </li>
+<!--
+              <li>
+                  <a>
+                    <label>対象サービス</label>
+                  </a>
+                  <select name="target_service" multiple class="form-control" style="min-height: 75px;">
+                    <option value="cns">NCS</option>
+                    <option value="zesp2">ZESP2</option>
+                    <option value="other_service">その他</option>
+                  </select>
+              </li>
+-->
+            <div class="bg-primary sidebar-form">
+              <button type="submit" id="spot_search_button" class="btn-primary form-control">
+                絞り込み
+                <i class="fa fa-search pull-right" style="padding-top: 3px;"></i>
+              </button>
+            </div>
+            </ul>
+        </li>
+      </ul>
+    </form>
 
     <!-- <div class="bg-primary sidebar-form" >
       <button id="research" class="btn-primary form-control">再検索<i class="fa fa-search pull-right" style="padding-top: 3px;"></i></button>

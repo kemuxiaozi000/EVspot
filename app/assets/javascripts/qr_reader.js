@@ -1,6 +1,6 @@
 $(document).ready(function () {
     mode = 'camera';
-    var modeChange = function(mode) {
+    var modeChange = function (mode) {
         if (mode === 'camera') {
             document.getElementById('video-input').style.display = 'none';
             document.getElementById('photo-input').style.display = 'block';
@@ -21,9 +21,9 @@ $(document).ready(function () {
 
     // カメラ情報取得
     navigator.mediaDevices.enumerateDevices()
-        .then(function(cameras) {
+        .then(function (cameras) {
             var cams = [];
-            cameras.forEach(function(device) {
+            cameras.forEach(function (device) {
                 if (device.kind === 'videoinput') {
                     cams.push({
                         'id': device.deviceId,
@@ -41,11 +41,11 @@ $(document).ready(function () {
 
     var video = document.getElementById('video');
 
-    var startReadQR = function() {
+    var startReadQR = function () {
         setInterval('decode();', 500);
     };
 
-    var changeCamera = function(index) {
+    var changeCamera = function (index) {
         if (localStream) {
             localStream.getVideoTracks()[0].stop();
         }
@@ -57,7 +57,7 @@ $(document).ready(function () {
         setCamera();
     };
 
-    var setCamera = function() {
+    var setCamera = function () {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || windiow.navigator.mozGetUserMedia;
         window.URL = window.URL || window.webkitURL;
 
@@ -109,15 +109,15 @@ $(document).ready(function () {
         startReadQR();
     };
 
-    document.getElementById('toCamera').addEventListener('click', function() {
+    document.getElementById('toCamera').addEventListener('click', function () {
         modeChange('camera');
     });
 
-    document.getElementById('toMovie').addEventListener('click', function() {
+    document.getElementById('toMovie').addEventListener('click', function () {
         modeChange('video');
     });
 
-    document.getElementById('changeCamera').addEventListener('click', function() {
+    document.getElementById('changeCamera').addEventListener('click', function () {
         var newIndex = activeIndex + 1;
         if (newIndex >= devices.length) {
             newIndex = 0;
@@ -157,7 +157,7 @@ function decode() {
             var input = document.getElementById('qr');
             if (!(decodeInformation instanceof Error)) {
                 // input.value = decodeInformation;
-                nextView();
+                nextView(decodeInformation);
             }
         });
     }
@@ -165,16 +165,17 @@ function decode() {
 
 function openQRCamera(node) {
     var reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = function () {
         node.value = '';
-        qrcode.callback = function(res) {
+        qrcode.callback = function (res) {
             if (res instanceof Error) {
                 alert('QRコードが見つかりませんでした。QRコードがカメラのフレーム内に収まるよう、再度撮影してください。');
             } else {
+                res = res ? res : "1";
                 $('#qr').val(res);
                 // var qr = document.getElementById('qr');
                 // qr.value = res;
-                nextView();
+                nextView(res);
             }
         };
 
@@ -184,8 +185,8 @@ function openQRCamera(node) {
     reader.readAsDataURL(node.files[0]);
 }
 
-function nextView() {
-    var url = 'charge_welcome?spot_id=' + $('#qr').val();
+function nextView(res) {
+    var url = 'charge_welcome?spot_id=' + res;
     var $form = $('<form />', {
         action: url,
         target: 'top',

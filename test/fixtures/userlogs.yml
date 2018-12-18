@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  datetime: 2018-11-09 08:23:35
+  user_name: MyString
+  screen: MyString
+  action: MyString
+  parametar: MyString
+
+two:
+  datetime: 2018-11-09 08:23:35
+  user_name: MyString
+  screen: MyString
+  action: MyString
+  parametar: MyString

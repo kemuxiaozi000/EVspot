@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <input type="hidden" class="spot_id" value="<%= @spot_id %>">
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-header "><strong>クーポン情報</strong></div>
+            <div class="box-body coupon_list_area">
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var iconCoupon = '<%= asset_path "coupon.png" %>';
+</script>
+<%= javascript_include_tag "coupon"%>

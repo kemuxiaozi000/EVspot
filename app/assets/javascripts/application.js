@@ -31,3 +31,6 @@
 //= require admin-lte/dist/js/adminlte.min
 //= require admin-lte/plugins/iCheck/icheck
 //= require encoding-japanese/encoding.min
+//= require push.js/bin/push.js
+//= require push.js/bin/push.min.js
+//= require serviceworker-companion

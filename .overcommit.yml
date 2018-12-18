@@ -1,0 +1,71 @@
+# Use this file to configure the Overcommit hooks you wish to use. This will
+# extend the default configuration defined in:
+# https://github.com/brigade/overcommit/blob/master/config/default.yml
+#
+# At the topmost level of this YAML file is a key representing type of hook
+# being run (e.g. pre-commit, commit-msg, etc.). Within each type you can
+# customize each hook, such as whether to only run it on certain files (via
+# `include`), whether to only display output if it fails (via `quiet`), etc.
+#
+# For a complete list of hooks, see:
+# https://github.com/brigade/overcommit/tree/master/lib/overcommit/hook
+#
+# For a complete list of options that you can use to customize hooks, see:
+# https://github.com/brigade/overcommit#configuration
+#
+# Uncomment the following lines to make the configuration take effect.
+
+PreCommit:
+  LineEndings:
+    description: 'Check line endings'
+    enabled: true
+    eol: "\n"
+    exclude:
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.mp3'
+      - '**/*.mp4'
+      - '**/*.pyc'
+      - '**/*.pyd'
+      - 'tool/infrastructure/review/.terraform/**/*'
+  YamlSyntax:
+    enabled: true
+    description: 'Check YAML syntax'
+    required_library: 'yaml'
+    include:
+      - '**/*.yaml'
+      - '**/*.yml'
+  ShellCheck:
+    enabled: false # JB disabled this, no need to be aggressive with shell
+    description: 'Analyze with ShellCheck'
+    required_executable: 'shellcheck'
+    flags: ['--format=gcc']
+    include: '**/*.sh'
+  RuboCop:
+    enabled: true
+#    on_warn: fail # Treat all warnings as failures
+    description: 'Analyze with RuboCop'
+    required_executable: 'rubocop'
+    flags: ['--format=emacs', '--force-exclusion', '--display-cop-names']
+    install_command: 'gem install rubocop'
+    include:
+      - '**/*.gemspec'
+      - '**/*.rake'
+      - '**/*.rb'
+      - '**/*.ru'
+      - '**/Gemfile'
+      - '**/Rakefile'
+  RailsBestPractices:
+    enabled: true
+    description: 'Analyze with RailsBestPractices'
+    required_executable: 'rails_best_practices'
+    flags: ['--without-color']
+    install_command: 'gem install rails_best_practices'
+
+
+#PostCheckout:
+#  ALL: # Special hook name that customizes all hooks of this type
+#    quiet: true # Change all post-checkout hooks to only display output on failure
+#
+#  IndexTags:
+#    enabled: true # Generate a tags file with `ctags` each time HEAD changes

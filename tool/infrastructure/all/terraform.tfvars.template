@@ -11,7 +11,7 @@ db_username = "admin"
 db_password = "PasswordMustBeFrom8To41Characters!"
 db_instance_type = "db.t2.small"
 web_instance_type = "t2.micro"
-loadbalancer_certificate_arn = "arn:aws:acm:ap-northeast-1:072176254947:certificate/52b508c2-9c37-4c56-b977-3dba138febe0"
+loadbalancer_certificate_arn = "<LOADBALANCER_CERTIFICATE_ARN>"
 
 # Application settings
 app_name = "<APP_NAME>"

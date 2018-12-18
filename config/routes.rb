@@ -53,11 +53,18 @@ Rails.application.routes.draw do
   # 詳細画面
   get 'detail' => 'detail#index'
 
+  # クーポン画面
+  get 'coupon' => 'coupon#index'
+
   # 充電管理画面
   get 'suppliers_edit' => 'suppliers_edit#index'
 
   # 待ち時間管理画面
   get 'waitingtime' => 'waitingtime#index'
+
+  resources :web_push, only: [:create]
+  # スポット詳細画面
+  get 'spot_detail' => 'spot_detail#index', as: 'spot_detail'
 
   # DBアクセス
   namespace :api do
@@ -130,13 +137,27 @@ Rails.application.routes.draw do
     namespace :charge, format: 'json' do
       # 明細情報を取得する処理
       namespace :historyinfo do
-        post '/create', action: 'create'
+        post '/index', action: 'index'
       end
     end
     # レシート情報画面
     namespace :historyview, format: 'json' do
       # 選ぶ供給情報を取得する処理
       namespace :historyinfo do
+        post '/index', action: 'index'
+      end
+    end
+    # クーポン画面
+    namespace :couponlist, format: 'json' do
+      # 選ぶ供給情報を取得する処理
+      namespace :couponinfo do
+        post '/index', action: 'index'
+      end
+    end
+    # push送信処理
+    namespace :webpush, format: 'json' do
+      # 選ぶ供給情報を取得する処理
+      namespace :pushsend do
         post '/index', action: 'index'
       end
     end

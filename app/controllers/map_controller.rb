@@ -9,5 +9,10 @@ class MapController < ApplicationController
     @spot_lat = params[:lat].nil? ? '' : params[:lat].to_f
     # lon（空許容）
     @spot_lon = params[:lon].nil? ? '' : params[:lon].to_f
+
+    @spot_id = params[:spot_id]
+
+    # ログ取得
+    Userlog.new.insert(session[:user_name].to_s, 'map', nil, params.to_s)
   end
 end

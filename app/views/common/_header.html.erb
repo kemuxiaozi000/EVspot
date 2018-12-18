@@ -9,8 +9,14 @@
   <nav class="navbar navbar-static-top" role="navigation">
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
+        <%= render "common/chargeRemind" %>
         <%= render "common/loginUser" %>
       </ul>
     </div>
   </nav>
 </header>
+<input type="hidden" id="charging" value="<%= charging? %>">
+<input type="hidden" id="chargeStartTime" value="<%= get_charge_start_time %>">
+<input type="hidden" id="chargeRemainingMinute" value="<%= get_charge_remaining_minute %>">
+<input type="hidden" id="chargeRemainingSecond" value="<%= get_charge_remaining_second %>">
+<%= javascript_include_tag "common"%>

@@ -10,14 +10,13 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require bootstrap/dist/css/bootstrap.min
+ *= require bootstrap-toggle/css/bootstrap-toggle.min
+ *= require bootstrap-datepicker/dist/css/bootstrap-datepicker.min
+ *= require datatables.net-bs/css/dataTables.bootstrap.min
+ *= require admin-lte/dist/css/AdminLTE.min
+ *= require admin-lte/dist/css/skins/skin-black.min
+ *= require admin-lte/plugins/iCheck/all
  *= require_tree .
  *= require_self
  */
-
-@import 'bootstrap/dist/css/bootstrap.min';
-@import 'bootstrap-toggle/css/bootstrap-toggle.min';
-@import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min';
-@import 'datatables.net-bs/css/dataTables.bootstrap.min';
-@import 'admin-lte/dist/css/AdminLTE.min';
-@import 'admin-lte/dist/css/skins/skin-black.min';
-@import 'admin-lte/plugins/iCheck/all';

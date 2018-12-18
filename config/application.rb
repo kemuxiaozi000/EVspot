@@ -20,5 +20,10 @@ module Kevd
     config.generators do |g|
       g.scss false
     end
+
+    config.assets.precompile = %w[
+      application.css
+      application.js
+    ]
   end
 end

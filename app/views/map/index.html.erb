@@ -10,3 +10,8 @@
 <script src="https://maps.google.com/maps/api/js?key=AIzaSyCCJ7asAsYkKB9_tgOqwQESsqKEPMf1vRc"></script>
 <%= javascript_include_tag "map"%>
 <%= javascript_include_tag "mapvisual_silver" %>
+
+<%= javascript_include_tag "common"%>
+<input type="hidden" id="charging" value="<%= charging? %>">
+<input type="hidden" id="chargeRemainingMinute" value="<%= get_charge_remaining_minute %>">
+<input type="hidden" id="chargeRemainingSecond" value="<%= get_charge_remaining_second %>">

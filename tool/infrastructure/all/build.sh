@@ -52,6 +52,10 @@ if [ -z "${SECRET_KEY_BASE}" ]; then
   exit 1
 fi
 
+if [ -z "${LOADBALANCER_CERTIFICATE_ARN}" ]; then
+  LOADBALANCER_CERTIFICATE_ARN="arn:aws:acm:ap-northeast-1:072176254947:certificate/52b508c2-9c37-4c56-b977-3dba138febe0"
+fi
+
 # Generate terraform.tfvars file
 echo "Generate terraform.tfvars file from environment variables"
 if [ "$(uname)" = 'Darwin' ]; then
@@ -65,6 +69,7 @@ cp terraform.tfvars.template terraform.tfvars
 sed -i -e "s#<APP_NAME>#${APPLICATION_NAME}#g" terraform.tfvars
 sed -i -e "s#<AWS_ACCOUNT_ID>#${AWS_ACCOUNT_HASH}#g" terraform.tfvars
 sed -i -e "s#<SECRET_KEY_BASE>#${SECRET_KEY_BASE}#g" terraform.tfvars
+sed -i -e "s#<LOADBALANCER_CERTIFICATE_ARN>#${LOADBALANCER_CERTIFICATE_ARN}#g" terraform.tfvars
 
 terraform init
 terraform apply .

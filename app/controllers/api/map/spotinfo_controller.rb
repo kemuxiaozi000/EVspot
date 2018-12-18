@@ -8,6 +8,7 @@ class Api::Map::SpotinfoController < ApplicationController
   # @param :address 住所
   # @return スポットテーブルの構造体 + key:supplier value:提供者テーブルの構造体
   def index
+    Userlog.new.insert(session[:user_name], 'map', 'スポット情報取得処理', params.to_s)
     # 住所
     address = params[:address].to_s
     address_latlon = Geocode.new.upsert_by_address(address)

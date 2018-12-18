@@ -48,7 +48,10 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 
   # circleCI use
+  gem 'rspec'
+  gem 'rspec-rails'
   gem 'rubocop'
+  gem 'simplecov'
 end
 
 group :development do
@@ -66,6 +69,9 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+
+  # send coverage
+  gem 'codeclimate-test-reporter'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -76,3 +82,11 @@ gem 'geocoder'
 # mysql geometry column setting
 # gem 'ridgepole'
 # gem 'armg'
+
+# Gemfile
+gem 'serviceworker-rails'
+gem 'webpush'
+# WINDOWS Gems That don't play well with nix
+platforms :mswin do
+  gem 'wdm', '>= 0.1.0', group: %i[development test]
+end

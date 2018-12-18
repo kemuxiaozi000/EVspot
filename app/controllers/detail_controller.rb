@@ -10,5 +10,8 @@ class DetailController < ApplicationController
     @spot_id = spot_id
     # 提供者ID（空許容）
     @supplier_id = params[:supplier_id].to_i
+
+    # ログ取得
+    Userlog.new.insert(session[:user_name].to_s, 'detail', nil, params.to_s)
   end
 end

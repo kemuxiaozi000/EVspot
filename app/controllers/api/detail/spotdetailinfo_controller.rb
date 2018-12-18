@@ -12,6 +12,7 @@ class Api::Detail::SpotdetailinfoController < ApplicationController
   #         + key:coupon value:クーポンテーブルの構造体の配列
   #         + key:detail value:スポット詳細テーブルの構造体の配列
   def index
+    Userlog.new.insert(session[:user_name], 'detail', '詳細情報取得', params.to_s)
     # スポットID
     spot_id = params[:spot_id].to_i
     # 提供者ID

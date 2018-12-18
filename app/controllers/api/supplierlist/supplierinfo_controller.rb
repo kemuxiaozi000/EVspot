@@ -4,6 +4,7 @@ class Api::Supplierlist::SupplierinfoController < ApplicationController
   protect_from_forgery except: :index
 
   def index
+    Userlog.new.insert(session[:user_name], 'supplier', '絞り込み処理', params.to_s)
     @supplier_params = {
       # 電源種別（必須）
       power_supply_type_id: params[:power_supply_type_id],
