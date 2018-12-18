@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Version of your assets, change this if you want to expire all your assets.
@@ -16,4 +18,8 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w[common.css]
 
 Rails.application.config.assets.precompile += %w[top.js]
+Rails.application.config.assets.precompile += %w[map.js]
 Rails.application.config.assets.precompile += %w[detail.js]
+Rails.application.config.assets.precompile += %w[mapvisual_silver.js]
+Rails.application.config.assets.precompile += %w[login.js]
+Rails.application.config.assets.precompile += %w[member.js]

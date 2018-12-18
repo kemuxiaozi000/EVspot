@@ -1,47 +1,46 @@
 <div class="col-xs-12">
-    <div class="box box-info">
-        <h2 class="box-title"><%= @name %></h2>
-    </div>
-    <div class="box-body" style="overflow: auto;">
-        <div class="container">
-            <div class="table-resposive">
-                <table id="detail_area" class="table table-striped">
-                </table>
-            </div>
-            <form>
-                <input type="button" id="submit_button" value="詳細表示">
-            </form>
+  <div class="box box-success">
+    <div class="box-body">
+      <div class="media">
+        <div class="media-left">
+          <img src='<%= asset_path 'cat.png' %>' alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);">
         </div>
+        <div class="media-body">
+          <div class="clearfix">
+            <h4 id="spot_name" style="margin-top: 0"></h4>
+            <p style="margin-bottom: 0">
+              <i class="fa fa-fw fa-car margin-r5"></i><span id="spot_type"></span>
+            </p>
+            <p style="margin-bottom: 0">
+              <i class="fa fa-fw fa-phone margin-r5"></i><span id="spot_tel"></span>
+            </p>
+            <p style="margin-bottom: 0">
+              <i class="fa fa-fw fa-map-marker margin-r5"></i><span id="spot_address"></span>
+            </p>
+            <p style="margin-bottom: 0">
+              <i class="glyphicon glyphicon-time fa-fw margin-r5"></i><span id="spot_time"></span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="alert alert-danger">
+    <h4 id="coupon_name"><i class="icon fa fa-ban"></i></h4>
+    <h2 id="coupon_value"></h2>
+    <p>有効期間 : <span id="coupon_start"></span> ～ <span id="coupon_end"></span></p>
+  </div>
+  <div class="box box-info">
+    <div id="suplier_area" class="box-body" style="overflow: auto; height: 300px;">
+    </div>
+  </div>
 </div>
-
-<script type="text/javascript">
-<!--
-function member() {
-    $.ajax({
-        url: '/detail/memberInfo',
-        data: {name: 'aoki'},
-        type: 'GET'
-    })
-    .done(function(data,textStatus,jqXHR) {
-        alert('通信成功!' + data.length);
-        if(data.length > 0) {
-            var memberInfo = '<tr><td class="col-xs-4">コメント</td><td class="col-xs-8">' + data["comment"] + '</td></tr>'
-                + '<tr><td class="col-xs-4">特技</td><td class="col-xs-8">' + data["skill"] + '</td></tr>'
-                + '<tr><td class="col-xs-4">好きなこと</td><td class="col-xs-8">' + data["favorite"] + '</td></tr>'
-                + '<tr><td class="col-xs-4">大切なもの</td><td class="col-xs-8">' + data["important"] + '</td></tr>'
-                + '<tr><td class="col-xs-4">幸せの軸</td><td class="col-xs-8">' + data["happiness"] + '</td></tr>'
-                + '<tr><td class="col-xs-4">あなたの夢</td><td class="col-xs-8">' + data["dream"] + '</td></tr>';
-            $('#detail_area').append(memberInfo);
-        }
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        console.log(errorThrown);
-    });
-}
-
-$('#submit_button').on('click', function() {
-    member();
-})
--->
-</script>
+<footer class="navbar navbar-default navbar-fixed-bottom">
+  <div class="box box-primary" style="margin-bottom: 0px;">
+    <div class="box-body">
+      <h4 id="route_search" align="center">ここへ向かう</h4>
+      <span id="spot_lat"></span>
+      <span id="spot_lon"></span>
+    </div>
+  </div>
+</footer>

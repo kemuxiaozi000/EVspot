@@ -1,16 +1,18 @@
 <%= render "top/header" %>
 <section class="content-header">
   <h1>
-    <%= @title %>
+    TOP
     <small>Control panel</small>
   </h1>
+  <%# <ol class="breadcrumb">
+    <li><a href="/top"><i class="fa fa-dashboard"></i> Top</a></li>
+  </ol> %>
 </section>
 <section class="content">
   <div class="row">
-      <%= render "top/main" %>
+    <%= render "top/main" %>
   </div>
 </section>
-
 
 <%= javascript_include_tag "top"%>
 <%= stylesheet_link_tag "common", :media => "all" %>

@@ -1,25 +1,36 @@
 <div class="col-xs-12">
-    <div class="box box-info">
-        <div class="box-header">
-            <h2 class="box-title">member</h2>
-        </div>
-        <div id="member_area" class="box-body" style="overflow: auto; height: 350px;">
-                <!-- <ul>
-                        <% @members.each do |member| %>
-                          <li><%= link_to "#{member[:name]}", "members/#{member[:key]}" %></li>
-                        <% end %>
-                      </ul> -->
-            <% @members.each do |member| %>
-                <div class="info-box" onclick="myFunction(5)">
-                    <span class="info-box-icon bg-aqua">
-                        <i class="glyphicon glyphicon-user"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">ZEUS7</span>
-                        <span class="info-box-number"><%= member[:name] %></span>
-                    </div>
-                </div>
-            <% end %>
+  <div class="box box-success">
+    <div class="box-header">
+      <h2 class="box-title">目的地</h2>
+    </div>
+    <div class="box-body">
+      <div class="input-group">
+        <input id="destination" type="text" class="form-control input-lg">
+        <span class="input-group-addon">
+          <span id="search" class="glyphicon glyphicon-search"></span>
+        </span>
         </div>
     </div>
+  </div>
+  <div class="box box-info">
+    <div class="box-header">
+      <h2 class="box-title">お得クーポン</h2>
+    </div>
+    <div id="coupon_area" class="box-body" style="overflow: auto; height: 350px;">
+    </div>
+  </div>
 </div>
+<script>
+    function myFunction(val) {
+      var url = "/detail";
+      var $postData;
+      var $form = $('<form />', {
+      action: url,
+      method: 'get'
+      });
+      $postData = $('<input />', {type: 'hidden', name: 'coupon_id', value: val});
+      $form.append($postData);
+      $("body").append($form);
+      $form.submit();
+    }
+</script>

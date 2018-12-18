@@ -1,0 +1,153 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ruby:2.4.2
+        ports:
+          - "3000:3000"
+        environment:
+          - TZ: Asia/Tokyo
+          - DB_HOST: '127.0.0.1'
+          - DB_PORT: '3306'
+          - DB_USER: 'root'
+          - DB_PASSWORD: 'password'
+          - DB_NAME: 'kevd_test'
+          - RAILS_ENV: 'test'
+          - RACK_ENV: 'test'
+      - image: circleci/mysql:5.7.22
+        environment:
+          - TZ: Asia/Tokyo
+          - MYSQL_DATABASE: kevd_test
+          - MYSQL_ROOT_PASSWORD: pass
+        ports:
+          - 3306:3306
+        # comment
+
+    working_directory: /kevd
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      # ライブラリの追加
+      - run:
+          name: Install libraries
+          command: |
+            curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+            apt-get update && \
+            apt-get install -y  --no-install-recommends \
+            nodejs build-essential libpq-dev postgresql-client apt-transport-https libopencv-dev && \
+            rm -rf /var/lib/apt/lists/*
+
+      - run:
+          name: Install yarn
+          command: npm install -g yarn
+
+      - run:
+          name: Install bundle
+          command: bundle install -j 4 --path vendor/bundle
+
+      - run:
+          name: yarn install
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: rubocop
+          command: rubocop
+
+      # - run:
+      #     name: Init DB
+      #     command: |
+      #       bundle exec rake db:drop
+      #       bundle exec rake db:create
+      #       bundle exec rake db:migrate RAILS_ENV=test
+      #       bundle exec rake db:seed RAILS_ENV=test
+
+      # - run:
+      #     name: Test
+      #     command: bundle exec rspec
+
+      # - run:
+      #     name: Post Coverage to CodeClimate
+      #     command: bundle exec codeclimate-test-reporter
+
+#   deploy_to_review:
+#     machine: true
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - docker-cache-{{ .Branch }}
+#             - docker-cache
+#       - run: chmod 777 ./tool/deploy/deploy.sh
+#       - run: ENVIRONMENT=review APPLICATION_NAME=kevd bash ./tool/deploy/deploy.sh
+#       - save_cache:
+#           key: docker-cache-{{ .Branch }}-{{ checksum "~/cache/image.tar" }}
+#           paths:
+#             - ~/cache
+
+#   deploy_to_staging:
+#     machine: true
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - docker-cache-{{ .Branch }}
+#             - docker-cache
+#       - run: chmod 777 ./tool/deploy/deploy.sh
+#       - run: ENVIRONMENT=staging APPLICATION_NAME=kevd bash ./tool/deploy/deploy.sh
+#       - save_cache:
+#           key: docker-cache-{{ .Branch }}-{{ checksum "~/cache/image.tar" }}
+#           paths:
+#             - ~/cache
+
+#   deploy_to_demo:
+#     machine: true
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - docker-cache-{{ .Branch }}
+#             - docker-cache
+#       - run: chmod 777 ./tool/deploy/deploy.sh
+#       - run: ENVIRONMENT=demo APPLICATION_NAME=kevd bash ./tool/deploy/deploy.sh
+#       - save_cache:
+#           key: docker-cache-{{ .Branch }}-{{ checksum "~/cache/image.tar" }}
+#           paths:
+#             - ~/cache
+
+workflows:
+  version: 2
+  build_and_test_and_deploy:
+    jobs:
+      - build
+      # - deploy_to_review:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - review
+      #           - infrastructure
+      # - deploy_to_staging:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - staging
+      #           - develop
+      # - deploy_to_demo:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop

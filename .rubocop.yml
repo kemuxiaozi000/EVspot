@@ -1,0 +1,72 @@
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+# モジュール名::クラス名の定義を許可
+ClassAndModuleChildren:
+  Enabled: false
+
+# メソッド名のprefixに「set_」「get_」を許可
+AccessorMethodName:
+  Enabled: false
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+# one more indent in private/protected blocks
+Layout/IndentationConsistency:
+  EnforcedStyle: rails
+
+# No char/line limits for spec and config
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+Metrics/LineLength:
+  Max: 170
+  IgnoredPatterns: ['\A#']
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+# use '->{}' instead of 'lambda' for readability
+Style/Lambda:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RedundantBegin:
+  Enabled: false
+
+# style comment
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# "Missing top-level class documentation comment" メッセージを無視する
+Documentation:
+  Enabled: false
+
+
+# Ignore auto-generated files
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'db/**/*'
+    - 'test/**/*'
+  TargetRubyVersion: 2.4
+  TargetRailsVersion: 5.1
+
+
+  DisplayCopNames: true

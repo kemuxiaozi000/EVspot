@@ -7,19 +7,20 @@
 #   gem 'mysql2'
 #
 # And be sure to use new-style password hashing:
-#   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
+#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
-  host: localhost
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  database: <%= ENV['DB_NAME'] %>
 
 development:
   <<: *default
-  database: kevd_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -49,6 +50,3 @@ test:
 #
 production:
   <<: *default
-  database: kevd_production
-  username: kevd
-  password: <%= ENV['KEVD_DATABASE_PASSWORD'] %>

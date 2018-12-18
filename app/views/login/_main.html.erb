@@ -1,0 +1,60 @@
+<div class="login-box">
+
+  <div class="login-logo">
+    <a href="/">これから<b>EV</b>ドライブ(仮)</a>
+  </div>
+
+  <div class="login-box-body">
+    <h4><p class="login-box-msg">ログインして下さい。</p></h4>
+    <div class="alert alert-danger errorMassage" id="err_msg" style="display: none;"> ログインに失敗しました</div>
+
+    <form action="/top" method="GET" id="loginSubmitForm">
+      <div class="form-group has-feedback">
+      <input id="idInput" type="email" class="form-control" placeholder="Email">
+      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+      <input id="pwdInput" type="password" class="form-control" placeholder="Password">
+      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="col-xs-12">
+          <button id="login" type="button" class="btn btn-lg btn-primary btn-block btn-flat">ログイン</button>
+      </div>
+    </form>
+    <div class="social-auth-links text-center">
+        <p>- OR -</p>
+        <a href="member" class="text-center">Register a new membership</a>
+    </div>
+  </div>
+  <!-- <div class="login-box-body">
+
+    <h4><p class="login-box-msg">ログインして下さい。</p></h4>
+
+    <div class="alert alert-danger errorMassage" id="err_msg" style="display: none;"> ログインに失敗しました</div>
+
+    <form action="/top" method="GET" id="loginSubmitForm">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="idVal" class="form-group has-feedback">
+            <input id="idInput" type="text" class="form-control form-group has-feedback" name="id" placeholder="Email" required>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div id="pwdVal" class="form-group has-feedback">
+            <input id="pwdInput" type="password" class="form-control form-group has-feedback" name="password" placeholder="パスワード" required>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <button id="login" type="button" class="btn btn-lg btn-primary btn-block btn-flat">ログイン</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="social-auth-links text-center">
+      <p>- OR -</p>
+
+    </div>
+    <a href="/member" class="text-center">会員登録</a>
+
+  </div> -->
+
+</div>

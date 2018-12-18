@@ -1,32 +1,14 @@
+# frozen_string_literal: true
+
 class DetailController < ApplicationController
-    def aoki
-        @nameParam = 'aoki'
-        @name = '青木海'
-        render 'index'
-    end
-    def miyamoto
-        @nameParam = 'miyamoto'
-        @name = '宮本豪'
-        render 'index'
-    end
-    def ajax
-        if params[:name] == 'aoki'
-            @memberInfo = { 'comment' => '青木コメント',
-                'skill' => 'ボイスパーカッション',
-                'favorite' => 'サイクリング、ボルダリング',
-                'important' => '家族の笑顔',
-                'happiness' => '美味しいものを食べる',
-                'dream' => 'アイスランド旅行'
-            }
-        elsif params[:name] == 'miyamoto' 
-            @memberInfo = { 'comment' => '？？？',
-                'skill' => '？？？',
-                'favorite' => '？？？',
-                'important' => '？？？',
-                'happiness' => '？？？',
-                'dream' => '？？？'
-            }
-            end
-        render :json => @memberInfo
-    end
+  def index
+    @page_title = '詳細画面 - これからEVドライブ'
+    # クーポンID
+    coupon_id = params[:coupon_id].to_i
+    # スポットID
+    spot_id = params[:spot_id].to_i.zero? ? Spot.new.select_all_by_couponid(coupon_id) : params[:spot_id].to_i
+    @spot_id = spot_id
+    # 提供者ID（空許容）
+    @supplier_id = params[:supplier_id].to_i
+  end
 end

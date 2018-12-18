@@ -1,33 +1,35 @@
-version: '2'
+version: '3'
 services:
-  app:
+  db:
+    image: mysql:5.7.22
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_DATABASE: kevd
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    hostname: db
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+  web:
     build: .
+    command: ./script/web_entrypoint.sh
+    volumes:
+      - .:/kevd
     environment:
       RAILS_ENV: development
       DB_HOST: 'db'
       DB_PORT: '3306'
       DB_USER: 'root'
-      DB_PASSWORD: 'pass'
+      DB_PASSWORD: 'password'
       DB_NAME: 'kevd'
-      DATABASE_URL: mysql2://root:pass@mysql:3306
-      MYSQL_ROOT_PASSWORD: 'pass'
+      RAILS_LOG_TO_STDOUT: "yes"
+      WEB_CONCURRENCY: 1 #STG/本番ならもっとあげること（8?）
+      MAX_CONNECTION_POOL: 5 #STG/本番ならもっとあげること（40?）
     ports:
-      - '3000:3000'
-    volumes:
-      - .:/kevd
+      - "3000:3000"
     links:
-      - mysql
-  mysql:
-    image: mysql:5.7.10
-    environment:
-      MYSQL_DATABASE: kevd
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: 'pass'
-    ports:
-      - '3306:3306'
-    hostname: db
-    volumes:
-      - mysql-data:/var/lib/mysql
-volumes:
-  mysql-data:
-    driver: local
+      - db
+    depends_on:
+      - 'db'

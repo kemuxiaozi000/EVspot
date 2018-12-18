@@ -1,15 +1,23 @@
 <%= render "top/header" %>
 <section class="content-header">
   <h1>
-    自己紹介
+    DETAIL
+    <small>Control panel</small>
   </h1>
+  <%# <ol class="breadcrumb">
+    <li><a href="/top"><i class="fa fa-dashboard"></i> Top</a></li>
+    <li><a href="/map"><i class="fa fa-dashboard"></i> Map</a></li>
+    <li class="active">Detail</li>
+  </ol> %>
+  <input type="hidden" id="spot_id" value="<%= @spot_id %>">
+  <input type="hidden" id="supplier_id" value="<%= @supplier_id %>">
 </section>
 <section class="content">
   <div class="row">
-      <%= render "detail/main" %>
+    <%= render "detail/main" %>
   </div>
-</section>
 
+</section>
 
 <%= javascript_include_tag "detail"%>
 <%= stylesheet_link_tag "common", :media => "all" %>

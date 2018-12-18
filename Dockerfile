@@ -1,30 +1,22 @@
-FROM ruby:2.4.2
+FROM ruby:2.4.2-alpine3.7
 ENV LANG C.UTF-8
-ENV APP_ROOT /kevd_test_ver
+ENV APP_HOME /kevd
 
-WORKDIR $APP_ROOT
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+ADD Gemfile* $APP_HOME/
 
-RUN apt-get update && \
-    apt-get install -y nodejs \
-                       mysql-client \
-                       postgresql-client \
-                       sqlite3 \
-                       --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add --no-cache \
+      build-base ruby-dev libressl-dev libc-dev \
+      linux-headers mariadb-dev yarn && \
+    gem install --no-ri --no-rdoc bundler && \
+    bundle install && \
+    apk del --purge linux-headers build-base libc-dev libressl-dev ruby-dev && \
+    rm -rf /var/cache/apk/*
 
-COPY Gemfile $APP_ROOT
-COPY Gemfile.lock $APP_ROOT
+ADD . $APP_HOME
 
-RUN \
-  echo 'gem: --no-document' >> ~/.gemrc && \
-  cp ~/.gemrc /etc/gemrc && \
-  chmod uog+r /etc/gemrc && \
-  bundle config --global build.nokogiri --use-system-libraries && \
-  bundle config --global jobs 4 && \
-  bundle install && \
-  rm -rf ~/.gem
+EXPOSE 3000
 
-COPY . $APP_ROOT
-
-EXPOSE  3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ENTRYPOINT ["sh", "./script/web_entrypoint.sh"]

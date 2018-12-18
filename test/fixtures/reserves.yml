@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  datetime: 2018-09-19 01:58:13
+  from_date: 2018-09-19
+  to_date: 2018-09-19
+  spot_id: 1
+  status: 1
+
+two:
+  datetime: 2018-09-19 01:58:13
+  from_date: 2018-09-19
+  to_date: 2018-09-19
+  spot_id: 1
+  status: 1

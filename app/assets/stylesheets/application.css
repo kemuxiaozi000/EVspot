@@ -13,10 +13,11 @@
  *= require_tree .
  *= require_self
  */
- @import 'bootstrap/dist/css/bootstrap.min';
- @import 'bootstrap-toggle/css/bootstrap-toggle.min';
- @import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min';
- @import 'datatables.net-bs/css/dataTables.bootstrap.min';
- @import 'admin-lte/dist/css/AdminLTE.min';
- @import 'admin-lte/dist/css/skins/skin-black.min';
- @import 'admin-lte/plugins/iCheck/all';
+
+@import 'bootstrap/dist/css/bootstrap.min';
+@import 'bootstrap-toggle/css/bootstrap-toggle.min';
+@import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min';
+@import 'datatables.net-bs/css/dataTables.bootstrap.min';
+@import 'admin-lte/dist/css/AdminLTE.min';
+@import 'admin-lte/dist/css/skins/skin-black.min';
+@import 'admin-lte/plugins/iCheck/all';
