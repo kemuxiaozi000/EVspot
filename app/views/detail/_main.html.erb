@@ -1,0 +1,47 @@
+<div class="col-xs-12">
+    <div class="box box-info">
+        <h2 class="box-title"><%= @name %></h2>
+    </div>
+    <div class="box-body" style="overflow: auto;">
+        <div class="container">
+            <div class="table-resposive">
+                <table id="detail_area" class="table table-striped">
+                </table>
+            </div>
+            <form>
+                <input type="button" id="submit_button" value="詳細表示">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+<!--
+function member() {
+    $.ajax({
+        url: '/detail/memberInfo',
+        data: {name: 'aoki'},
+        type: 'GET'
+    })
+    .done(function(data,textStatus,jqXHR) {
+        alert('通信成功!' + data.length);
+        if(data.length > 0) {
+            var memberInfo = '<tr><td class="col-xs-4">コメント</td><td class="col-xs-8">' + data["comment"] + '</td></tr>'
+                + '<tr><td class="col-xs-4">特技</td><td class="col-xs-8">' + data["skill"] + '</td></tr>'
+                + '<tr><td class="col-xs-4">好きなこと</td><td class="col-xs-8">' + data["favorite"] + '</td></tr>'
+                + '<tr><td class="col-xs-4">大切なもの</td><td class="col-xs-8">' + data["important"] + '</td></tr>'
+                + '<tr><td class="col-xs-4">幸せの軸</td><td class="col-xs-8">' + data["happiness"] + '</td></tr>'
+                + '<tr><td class="col-xs-4">あなたの夢</td><td class="col-xs-8">' + data["dream"] + '</td></tr>';
+            $('#detail_area').append(memberInfo);
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+    });
+}
+
+$('#submit_button').on('click', function() {
+    member();
+})
+-->
+</script>

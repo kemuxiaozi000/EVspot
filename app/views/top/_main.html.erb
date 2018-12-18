@@ -1,0 +1,25 @@
+<div class="col-xs-12">
+    <div class="box box-info">
+        <div class="box-header">
+            <h2 class="box-title">member</h2>
+        </div>
+        <div id="member_area" class="box-body" style="overflow: auto; height: 350px;">
+                <!-- <ul>
+                        <% @members.each do |member| %>
+                          <li><%= link_to "#{member[:name]}", "members/#{member[:key]}" %></li>
+                        <% end %>
+                      </ul> -->
+            <% @members.each do |member| %>
+                <div class="info-box" onclick="myFunction(5)">
+                    <span class="info-box-icon bg-aqua">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">ZEUS7</span>
+                        <span class="info-box-number"><%= member[:name] %></span>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

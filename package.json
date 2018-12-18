@@ -1,0 +1,9 @@
+{
+  "name": "kevd",
+  "private": true,
+  "dependencies": {
+    "admin-lte": "2.4.3",
+    "bootstrap-toggle": "^2.2.2",
+    "encoding-japanese": "1.0.28"
+  }
+}

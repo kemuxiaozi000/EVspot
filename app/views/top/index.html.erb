@@ -1,0 +1,16 @@
+<%= render "top/header" %>
+<section class="content-header">
+  <h1>
+    <%= @title %>
+    <small>Control panel</small>
+  </h1>
+</section>
+<section class="content">
+  <div class="row">
+      <%= render "top/main" %>
+  </div>
+</section>
+
+
+<%= javascript_include_tag "top"%>
+<%= stylesheet_link_tag "common", :media => "all" %>
