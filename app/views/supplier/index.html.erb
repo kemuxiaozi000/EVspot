@@ -3,27 +3,77 @@
   <%= render "supplier/sidemenu" %>
   <div class="content-wrapper">
     <div class="content">
-      <div class="row">
-        <div class="col-xs-12" style="margin: 0px;">
-          <div class="box box-info" style="margin: 0px;">
-            <div class="box-body supplier_list_area" style="overflow-y: scroll;">
+
+      <div class="row selected_suppier" style="overflow-y: scroll;">
+        <div class="col-xs-12" style="border-bottom: ridge; margin-bottom: 5px;">
+        <figcaption class="text-left h5" style="margin: 0px;"><i class="fa fa-bolt"></i>&nbsp;<strong>選択中のでんき</strong></figcaption>
+          <div class="box box-danger">
+            <div class="box-body">
+              <% if @select_supplier[0].present? %>
+              <a href="supplier_detail?supplier_id=<%= @select_supplier[0].id %>">
+                <ul class="products-list product-list-in-box charging_select" id="<%= @select_supplier[0].id %>" title="<%= @select_supplier[0].name %>">
+                  <li class="item" style="position: relative;">
+                    <figure class="product-img">
+                      <img src="<%= @select_supplier_electric_photo %>" class="img-fluid border border-primary unzoomed">
+                      <figcaption class="text-center h6" style="margin: 0px;"><%= @select_supplier[0].origin %></figcaption>
+                    </figure>
+                    <figure class="product-img">
+                      <img src="<%= @select_supplier_photo %>" class="img-fluid border border-primary unzoomed">
+                      <figcaption class="text-center h6" style="margin: 0px;"><%= @select_supplier[0].name %></figcaption>
+                    </figure>
+                    <div class="product-info" style="padding-left: 50px;">
+                      <span class="product-title">
+                        <strong style="font-size : middle"><%= @select_supplier[0].comment %></strong>
+                      </span>
+                      <div class="label label-info pull-right" style="position: absolute; bottom: 10px; right: 0;">
+                        <strong style="font-size : medium" ><%= @select_supplier[0].value %>円</strong>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </a>
+              <% else %>
+                <ul class="products-list product-list-in-box charging_not_select">
+                  <figcaption class="text-center h4" style="margin: 0px;">未選択です。</figcaption>
+                </ul>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
+
+      <figcaption class="text-left h5 selectable_suppier" style="margin: 0px;"><i class="fa fa-bolt"></i>&nbsp;<strong>選べるでんき</strong></figcaption>
+
+      <div class="row supplier_list_area" style="overflow-y: scroll;">
+      </div>
+
     </div>
   </div>
 </div>
-<script>
-  var fire_electric = '<%= asset_path "fire_electric.jpg" %>';
-  var sun_electric = '<%= asset_path "sun_electric.jpg" %>';
-  var other_electric = '<%= asset_path "other_electric.png" %>';
-  var geothermal_electric = '<%= asset_path "geothermal_electric.jpg" %>';
-  var newclear_electric = '<%= asset_path "newclear_electric.png" %>';
-  var water_electric = '<%= asset_path "water_electric.jpg" %>';
-  var wind_electric = '<%= asset_path "wind_electric.jpg" %>';
-  var nge48 = '<%= asset_path "nge48.png" %>';
 
-</script>
+<style>
+.charging_not_select {
+  height: 80px;
+  display:table-cell;
+  vertical-align:middle;
+}
+.box.box-danger {
+  margin-bottom: 5px;
+}
+.box.box-info {
+  margin-bottom: 10px;
+}
+.box-body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.product-img img {
+  border-radius: 5px;
+  margin-right: 3px;
+}
+.product-title {
+  min-height: 40px;
+}
+</style>
 
 <%= javascript_include_tag "supplier"%>

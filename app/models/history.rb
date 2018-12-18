@@ -34,7 +34,7 @@ class History < ApplicationRecord
 
   def create_by_time(time, spot_id, supplier_id, price)
     volume = time.to_i * 10
-    datetime = Time.now
+    datetime = Time.zone.now.in_time_zone('Asia/Tokyo')
     history = History.create(datetime: datetime, spot_id: spot_id, volume: volume, price: price, supplier_id: supplier_id)
     history
   end

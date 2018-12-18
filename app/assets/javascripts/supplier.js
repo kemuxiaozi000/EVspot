@@ -15,50 +15,43 @@ $(document).ready(function () {
         if (data.length > 0) {
           // 供給者情報をレコードごとに表示する
           for (var key in data) {
+            content += '<div class="col-xs-12">';
+            content += '<div class="box box-info">';
+            content += '<div class="box-body">';
             content += '<a href="supplier_detail?supplier_id=' + data[key].id + '">'
             content += '<ul class="products-list product-list-in-box charging_select" id="' + data[key].id + '" title="' + data[key].name + '">';
-            content += '<li class="item">';
+            content += '<li class="item" style="position: relative;">';
 
-            content += '<div class="product-img">'
+            content += '<figure class="product-img">'
             // 発電画像設定処理
-            if (data[key].name == 'NGE') {
-              content += '<img src="' + nge48 + '" >';
-            } else if (data[key].origin == "太陽光") {
-              content += '<img src="' + sun_electric + '" >';
-            } else if (data[key].origin == "火力") {
-              content += '<img src="' + fire_electric + '">';
-            } else if (data[key].origin == "風力") {
-              content += '<img src="' + wind_electric + '">';
-            } else if (data[key].origin == "水力") {
-              content += '<img src="' + water_electric + '">';
-            } else if (data[key].origin == "地熱") {
-              content += '<img src="' + geothermal_electric + '">';
-            } else if (data[key].origin == "原子力") {
-              content += '<img src="' + newclear_electric + '">';
-            } else {
-              content += '<img src="' + other_electric + '">';
-            }
-            content += '</div>';
+            content += '<img src="' + data[key].electric_photo + '" class="img-fluid border border-primary unzoomed">';
+            content += '<figcaption class="text-center h6" style="margin: 0px;">' + data[key].origin + '</figcaption>';
+            content += '</figure>';
 
-            content += '<div class="product-info">';
+            content += '<figure class="product-img">'
+            // 個人画像設定処理
+            content += '<img src="' + data[key].photo + '" class="img-fluid border border-primary unzoomed">';
+            content += '<figcaption class="text-center h6" style="margin: 0px;">' + data[key].name + '</figcaption>';
+            content += '</figure>';
 
-            content += '<span class="label label-info pull-right">';
-            content += '<strong style="font-size : large" >' + data[key].value + '円</strong>';
-            content += '</span>';
+            content += '<div class="product-info" style="padding-left: 50px;">';
+
             content += '<span class="product-title">';
             content += '<strong style="font-size : middle">' + data[key].comment + '</strong>';
             content += '</span>';
 
-            content += '<span class="product-description" style="color: black;">'
-            content += '<span style="font-size: 12px;">' + data[key].origin + '</span>';
-
-            content += '</span>';
-
+            content += '<div class="label label-info pull-right" style="position: absolute; bottom: 10px; right: 0;">';
+            content += '<strong style="font-size : medium" >' + data[key].value + '円</strong>';
             content += '</div>';
+
+            content += '</br>';
 
             content += '</li>';
             content += '</ul>';
             content += '</a>';
+            content += '</div>';
+            content += '</div>';
+            content += '</div>';
           }
         } else {
           // 絞り込みの結果、表示する供給者情報がない場合にメッセージを表示する
@@ -77,14 +70,6 @@ $(document).ready(function () {
         console.log(errorThrown);
       });
   });
-
-  // 画面に合わせて位置を調整
-  var windowH = $(window).height();
-  var headerH = $(".main-header").height();
-  var contentPadding = parseInt($(".content").css("padding-top").replace('px', ''));
-  contentPadding += parseInt($(".content").css("padding-bottom").replace('px', ''));
-  contentPadding += parseInt($(".supplier_list_area").css("padding-bottom").replace('px', ''));
-  $(".supplier_list_area").css("height", parseInt(windowH - headerH - contentPadding));
 
   // 供給者情報の絞り込み実行
   $('.supplier_search_form').submit();

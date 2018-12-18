@@ -10,7 +10,7 @@
 require 'csv'
 
 # Spot
-ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spots`')
+# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spots`')
 if Spot.count.zero?
   CSV.foreach('db/gogoevspot.csv') do |row|
     # 各spotに0～3個のクーポンIDを付ける
@@ -41,7 +41,7 @@ if Spot.count.zero?
 end
 
 # Spot_detail
-ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
+# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
 if SpotDetail.count.zero?
   # 付帯情報のパターン(レコードごとにランダムで登録)
   additional_info = [nil, 'トイレ', '喫煙所', 'トイレ:喫煙所']
@@ -76,7 +76,7 @@ if Supplier.count.zero?
 end
 
 # Coupons
-ActiveRecord::Base.connection.execute('TRUNCATE TABLE `coupons`')
+# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `coupons`')
 if Coupon.count.zero?
   CSV.foreach('db/coupons.csv') do |row|
     Coupon.create(title: row[1], message: row[2], from_date: row[3], to_date: row[4], lat: row[7], lon: row[8])
@@ -108,7 +108,7 @@ if PowerSupplyType.count.zero?
 end
 
 # Common
-ActiveRecord::Base.connection.execute('TRUNCATE TABLE `commons`')
+# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `commons`')
 if Common.count.zero?
   CSV.foreach('db/common.csv') do |row|
     Common.create(id: row[0], name: row[1], value: row[2])

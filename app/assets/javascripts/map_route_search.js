@@ -127,77 +127,91 @@ function routeSearchDrawAsync(origin, destination, stopoverIndex) {
       optimizeWaypoints: true
     };
     DS.route(request, function (result, status) {
-      var leg = result.routes[0].legs[0];
+      if (status == google.maps.DirectionsStatus.OK) {
+        var leg = result.routes[0].legs[0];
 
-      // 経路検索距離が48km以上のため色分けが必要
-      var infowindow = new google.maps.InfoWindow();
-      var directionsService = new google.maps.DirectionsService();
-      directionsDisplay = new google.maps.DirectionsRenderer({
-        suppressPolylines: true,
-        suppressMarkers: true,
-        infoWindow: infowindow
-      });
-      directionsDisplay.setMap(map);
-      // 1.経由地点算出
-      var distance = 0;
-      var waypts = [];
-      var flg48 = false;
-      var flg120 = false;
-      leg.steps.forEach(function (step, index) {
-        distance = distance + step.distance.value;
-        if (distance > CHNGE_ROOT_COLOR_YELLOW) {
-          if (flg48 == false) {
-            // 48kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
-            waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_YELLOW));
-            console.log("over 48km -- set position");
-            flg48 = true;
+        // 経路検索距離が48km以上のため色分けが必要
+        var infowindow = new google.maps.InfoWindow();
+        var directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer({
+          suppressPolylines: true,
+          suppressMarkers: true,
+          infoWindow: infowindow
+        });
+        directionsDisplay.setMap(map);
+        // 1.経由地点算出
+        var distance = 0;
+        var waypts = [];
+        var flg48 = false;
+        var flg120 = false;
+        leg.steps.forEach(function (step, index) {
+          distance = distance + step.distance.value;
+          if (distance > CHNGE_ROOT_COLOR_YELLOW) {
+            if (flg48 == false) {
+              // 48kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
+              waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_YELLOW));
+              console.log("over 48km -- set position");
+              flg48 = true;
+            }
           }
-        }
-        if (distance > CHNGE_ROOT_COLOR_RED) {
-          if (flg120 == false) {
-            // 120kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
-            waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_RED));
-            console.log("over 120km -- set position");
-            flg120 = true;
+          if (distance > CHNGE_ROOT_COLOR_RED) {
+            if (flg120 == false) {
+              // 120kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
+              waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_RED));
+              console.log("over 120km -- set position");
+              flg120 = true;
+            }
           }
+        });
+        // 2.calculateAndDisplayRoute
+        var org = leg.start_location;
+        calculateAndDisplayRoute(
+          directionsService,
+          directionsDisplay,
+          waypts,
+          org,
+          destination,
+          lastFlg
+        );
+        // 目的地までの距離を取得し、総距離に加算
+        totalDistance += leg.distance.value;
+        // 目的地までの所要時間を取得し、総所要時間に加算
+        totalDurationSeconds += leg.duration.value;
+
+        // 現在のルート描画範囲内での充電回数を、総充電回数に加算する
+        totalChargeTimes += parseInt(leg.distance.value / 1000 / 96);
+
+        if (lastFlg) {
+          // 必要充電回数の設定
+          setChargeTimes(totalChargeTimes);
+          // 到着予想時刻の取得
+          var totalEstimateTimeText = getEstimateTime(totalChargeTimes, totalDurationSeconds);
+          // 到着予想時刻を画面に出力
+          setEstimateTime("estimateTime", totalEstimateTimeText);
+
+        } else {
+          // 経由地到着予想時刻の設定
+          var estimateTimeTextStopover = getEstimateTime(totalChargeTimes, totalDurationSeconds);
+          // 経由地到着予想時刻を画面に出力
+          setEstimateTime("estimateTimeStopover" + (stopoverIndex + 1), estimateTimeTextStopover);
+          // 充電回数を1回分加算する
+          totalChargeTimes++;
+          $(".stopover" + (stopoverIndex + 1)).css("display", "block");
         }
-      });
-      // 2.calculateAndDisplayRoute
-      var org = leg.start_location;
-      calculateAndDisplayRoute(
-        directionsService,
-        directionsDisplay,
-        waypts,
-        org,
-        destination,
-        lastFlg
-      );
-      // 目的地までの距離を取得し、総距離に加算
-      totalDistance += leg.distance.value;
-      // 目的地までの所要時間を取得し、総所要時間に加算
-      totalDurationSeconds += leg.duration.value;
-
-      // 現在のルート描画範囲内での充電回数を、総充電回数に加算する
-      totalChargeTimes += parseInt(leg.distance.value / 1000 / 96);
-
-      if (lastFlg) {
-        // 必要充電回数の設定
-        setChargeTimes(totalChargeTimes);
-        // 到着予想時刻の取得
-        var totalEstimateTimeText = getEstimateTime(totalChargeTimes, totalDurationSeconds);
-        // 到着予想時刻を画面に出力
-        setEstimateTime("estimateTime", totalEstimateTimeText);
-
+        resolve("OK");
       } else {
-        // 経由地到着予想時刻の設定
-        var estimateTimeTextStopover = getEstimateTime(totalChargeTimes, totalDurationSeconds);
-        // 経由地到着予想時刻を画面に出力
-        setEstimateTime("estimateTimeStopover" + (stopoverIndex + 1), estimateTimeTextStopover);
-        // 充電回数を1回分加算する
-        totalChargeTimes++;
-        $(".stopover" + (stopoverIndex + 1)).css("display", "block");
+        // 画面に合わせて位置を調整
+        var windowH = $(window).height();
+        var windowW = $(window).width();
+        var width = $("#alertFadeOnMap").width();
+        $("#alertFadeOnMap").css("bottom", parseInt(windowH / 2));
+        $("#alertFadeOnMap").css("left", parseInt((windowW - width) / 2));
+        // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
+        $("#alertFadeOnMap").fadeIn(500);
+        window.setTimeout(function () {
+          $("#alertFadeOnMap").fadeOut();
+        }, 5000);
       }
-      resolve("OK");
     });
   });
 }

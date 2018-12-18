@@ -5,7 +5,7 @@ require 'concerns/utils'
 class Spot < ApplicationRecord
   include Utils
 
-  # 緯度経度,zoom率から付近のスポット情報を取得
+  # 緯度経度,範囲から付近のスポット情報を取得
   def select_by_latlon_zoom(lat, lon, range, spot_detail_search_params = {})
     sql = get_arround_sql(lat, lon, range, spot_detail_search_params)
     spot_data = ActiveRecord::Base.connection.select_all(sql)
@@ -28,6 +28,7 @@ class Spot < ApplicationRecord
       result_data['coupon_id'] = data['coupon_id']
       result_data['supplier_id'] = data['supplier_id']
       result_data['detail_id'] = data['detail_id']
+      result_data['distance'] = data['distance']
       result_data['detail_data'] = set_spot_detail_data(data)
       # SpotDetail.new.select_all_by_id(data['detail_id'])
       # result_data['supplier'] = Supplier.new.select_by_id(devide_string(data['supplier_id'].to_s, ':'))
@@ -45,8 +46,7 @@ class Spot < ApplicationRecord
     sql_select += 'inner join (select id,'
     sql_select += "(GLength(GeomFromText(CONCAT('LineString(" + current_lon + ' ' + current_lat
     sql_select += ",', lon, ' ', lat,')'))) * 111.3194) as distance from spots) dis on dis.id = spots.id "
-    sql_select += 'where '
-    sql_select += 'dis.distance <= :num '
+    sql_select += 'where dis.distance <= :num '
     sql_select += SpotDetail.new.get_spot_detail_condition_sql(spot_detail_search_params)
     # インタビュー用に対象のスポット情報を必ず表示させる
     sql_select += 'or (spots.id = 895 or spots.id = 1129 or spots.id = 2378 or spots.id = 2992 or spots.id = 9691 or spots.id = 9693) '
@@ -66,8 +66,7 @@ class Spot < ApplicationRecord
     sql_select = 'spots.id as id,name,lat,lon,coupon_id,supplier_id,detail_id,'
     sql_select += 'address,week,sat,sun,holiday,sales_remarkes,tel,remarks,'
     sql_select += 'stand_1,stand_2,stand_3,additional_information,charge_types,'
-    sql_select += 'facility_information,nearby_information,supported_services,'
-    sql_select += 'crowded_time_zone, dis.distance '
+    sql_select += 'facility_information,nearby_information,supported_services,crowded_time_zone, dis.distance as distance '
     sql_select
   end
 
@@ -111,12 +110,11 @@ class Spot < ApplicationRecord
   # IDで検索
   def select_by_id(spot_id)
     Spot.where(id: spot_id)
-    # SpotDetail.where(id: detail_id) # とりあえず追加
   end
 
-  # クーポン存在チェック(IDで検索)
-  def select_coupon_by_id(spot_id)
-    result_data = Spot.where(id: spot_id).where.not(coupon_id: nil)
-    result_data.length.positive? ? 1 : 0
+  # お気に入り検索
+  def select_favorite_spots
+    favorite_spot_ids = Common.new.select_favorite_spot_ids
+    Spot.where(id: favorite_spot_ids)
   end
 end

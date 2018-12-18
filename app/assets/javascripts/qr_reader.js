@@ -186,7 +186,7 @@ function openQRCamera(node) {
 }
 
 function nextView(res) {
-    var url = 'charge_welcome?spot_id=' + res;
+    var url = 'charge_authenticate?spot_id=' + res;
     var $form = $('<form />', {
         action: url,
         target: 'top',

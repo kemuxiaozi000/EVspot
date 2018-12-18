@@ -1,0 +1,126 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <%= render "supplier/sidemenu" %>
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-body">
+              <a href="">
+                <ul class="products-list product-list-in-box charging_select" id="" title="XXXXXXXXXXXXXXXXXXXXXXXXXX">
+                  <li class="item">
+                    <figure class="product-img">
+                      <%= image_tag("sun_electric.jpg", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">太陽光</figcaption>
+                    </figure >
+                    <figure class="product-img">
+                      <%= image_tag("matsubara.jpg", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">松原</figcaption>
+                    </figure >
+                    <div class="product-info" style="padding-left: 50px;">
+                      <div class="product-title">
+                        <strong style="font-size: medium;">XXXXXXXXXXXXXXXXXXXX</strong>
+                      </div>
+                      <div class="label label-info pull-right">
+                        <strong style="font-size: medium" >500 円</strong>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-body">
+              <a href="">
+                <ul class="products-list product-list-in-box charging_select" id="" title="XXXXXXXXXXXXXXXXXXXXXXXXXX">
+                  <li class="item">
+                    <figure class="product-img">
+                      <%= image_tag("wind_electric.jpg", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">風力</figcaption>
+                    </figure >
+                    <figure class="product-img">
+                      <%= image_tag("hatakeyama.jpg", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">畠山</figcaption>
+                    </figure >
+                    <div class="product-info" style="padding-left: 50px;">
+                      <div class="product-title">
+                        <strong style="font-size: medium;">XXXXXXXXXXXXXXXXXXXX</strong>
+                      </div>
+                      <div class="label label-info pull-right">
+                        <strong style="font-size: medium" >500 円</strong>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-body">
+              <a href="">
+                <ul class="products-list product-list-in-box charging_select" id="" title="XXXXXXXXXXXXXXXXXXXXXXXXXX">
+                  <li class="item">
+                    <figure class="product-img">
+                      <%= image_tag("fire_electric.jpg", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">火力</figcaption>
+                    </figure >
+                    <figure class="product-img">
+                      <%= image_tag("no_image.png", :alt => 'sample', :class => 'img-fluid border border-primary unzoomed') %>
+                      <figcaption class="text-center h6" style="margin: 0px;">〇〇電力</figcaption>
+                    </figure >
+                    <div class="product-info" style="padding-left: 50px;">
+                      <div class="product-title">
+                        <strong style="font-size: medium;">XXXXXXXXXXXXXXXXXXXX</strong>
+                      </div>
+                      <div class="label label-info pull-right">
+                        <strong style="font-size: medium" >500 円</strong>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.box.box-info {
+  margin-bottom: 10px;
+}
+.box-body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.product-img img {
+  border-radius: 5px;
+  margin-right: 3px;
+}
+.product-title {
+  min-height: 40px;
+}
+</style>
+<script>
+  var fire_electric = '<%= asset_path "fire_electric.jpg" %>';
+  var sun_electric = '<%= asset_path "sun_electric.jpg" %>';
+  var other_electric = '<%= asset_path "other_electric.png" %>';
+  var geothermal_electric = '<%= asset_path "geothermal_electric.jpg" %>';
+  var newclear_electric = '<%= asset_path "newclear_electric.png" %>';
+  var water_electric = '<%= asset_path "water_electric.jpg" %>';
+  var wind_electric = '<%= asset_path "wind_electric.jpg" %>';
+  var nge48 = '<%= asset_path "nge48.png" %>';
+
+</script>

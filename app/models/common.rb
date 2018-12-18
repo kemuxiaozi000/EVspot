@@ -18,4 +18,9 @@ class Common < ApplicationRecord
     result = Common.where('id = 3')
     result[0].value
   end
+
+  def select_favorite_spot_ids
+    # id4,5,6がお気に入りスポット
+    Common.where(id: [4..6]).select('value')
+  end
 end

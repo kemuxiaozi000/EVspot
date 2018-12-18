@@ -2,7 +2,7 @@
   <%= render "common/header" %>
   <input type="hidden" id="spot_id" value="<%= @spot_id %>">
   <div class="content-wrapper">
-    <div class="content">
+    <div class="content" style="width: 100vw;">
       <div class="row">
         <div class="col-xs-12">
           <div class="box box-info">
@@ -11,7 +11,7 @@
             </div>
             <div class="box-body">
               <div class="clearfix">
-                <h4 id="spot_name" style="margin-top: 0">北海道三菱自動車販売(株) 南店</h4>
+                <h4 id="spot_name" style="margin-top: 0"></h4>
               </div>
               <div class="clearfix detail_icon" style="padding-bottom: 10px;"></div>
               <div class="col-xs-12">
@@ -28,15 +28,15 @@
                   <i class="fa fa-fw fa-phone"></i><span id="spot_tel">【電話】011-531-5181   </span>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                  <i class="fa fa-fw fa-map-marker"></i><span id="spot_address">【住所】北海道札幌市中央区南十条西10-1-15   </span>
+                  <i class="fa fa-fw fa-map-marker"></i><span id="spot_address">【住所】   </span>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                  <i class="glyphicon glyphicon-time fa-fw"></i><span id="spot_time">【営業時間】平日:24時間営業, 土:null, 日:null</span>
+                  <i class="glyphicon glyphicon-time fa-fw"></i><span id="spot_time">【営業時間】</span>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                  <a href="/coupon?spot_id=<%= @spot_id %>" class="btn btn-primary" <% if @coupon == 0 %>disabled="disabled" style="pointer-events: none;"<% end %> >クーポン</a>
-                  <button class="btn btn-success destination_set" id="destination">ここへ行く</button>
-                  <a class="btn btn-warning" id="reservation" data-toggle="modal" data-target="#reservationModal" role="button">予約</a>
+                  <a href="/coupon?spot_id=<%= @spot_id %>" class="btn btn-primary col-xs-4" id="coupon_btn" >クーポン</a>
+                  <button class="btn btn-success destination_set col-xs-4" id="destination">ここへ行く</button>
+                  <a class="btn btn-warning col-xs-4" id="reservation" data-toggle="modal" data-target="#reservationModal" role="button">予約</a>
                 </div>
               </div>
             </div>

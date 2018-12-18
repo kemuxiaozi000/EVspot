@@ -1,0 +1,60 @@
+.supplier-card {
+  position: relative;
+  font-family: 'Meiryo',Arial,sans-serif;
+  border-radius: 3px;
+  background: #fff;
+  width: 100%;
+  padding: 5px 0px;
+  margin-bottom: 10px;
+}
+.supplier-card.sun {
+  border-left: 5px solid #f56954;
+}
+.supplier-card.nuclear {
+  border-left: 5px solid #5469f5;
+}
+.supplier-card.wind {
+  border-left: 5px solid #69c554;
+}
+.supplier-card a {
+  text-decoration: none;
+  color: #333;
+}
+.supplier-card .col-xs-4 {
+  padding-left: 5px;
+  padding-right: 0px;
+}
+.supplier-card .col-xs-8 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.supplier-img {
+  padding: 5px;
+  border: 1px solid #838383;
+  text-align: center;
+}
+.supplier-img img {
+  height: 60px;
+}
+
+.supplier-card .supplier-producing-area{
+  background: #99ecec;
+  border-radius: 3px;
+  font-size: small;
+  text-align: center;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.supplier-card .charge-price span{
+  background: #00c0ef;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  right: 0px;
+  bottom: 10px;
+  padding: 3px 8px;
+}

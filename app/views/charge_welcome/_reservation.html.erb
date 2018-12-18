@@ -1,0 +1,26 @@
+<div class="box-body">
+  <div class="col-xs-12" style="padding-top:10px;">
+    <h4 style="font-weight: bold; margin-top: 0px; margin-bottom: 5px; padding-bottom: 5px; text-align: left; border-bottom: 1px solid #10af9e;">
+        充電スポット
+      </h4>
+  </div>
+
+  <div class="col-xs-12">
+    <p><h4><%= @spot_name %></h4></p>
+    <p class="pull-right">の充電スタンドです。</p>
+  </div>
+
+  <div class="col-xs-12" style="padding-top:10px;">
+
+    <div class="alert alert-info alert-dismissible" style="border-radius: 15px;">
+      <h4><i class="icon fa fa-info"></i> 予約中です。</h4>
+      <p><b>1人待ち</b></p>
+      <p><b><%= get_reserve_remaining_time.strftime('%H:%M') %>から利用可能</b></p>
+    </div>
+    <a id="spot_info" class="btn btn-block btn-info" href="/map?spotinfo_zoom=true">スポット情報</a>
+    <a href="<%= passtime_path %>" class="btn btn-block btn-primary">
+      <i class="fa fa-plug"></i> ひまつぶし
+    </a>
+
+  </div>
+</div>

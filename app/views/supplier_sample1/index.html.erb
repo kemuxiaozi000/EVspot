@@ -1,0 +1,75 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <%= render "supplier/sidemenu" %>
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12" style="margin: 0px;">
+          <div class="supplier-card sun">
+            <a href="/supplier_detail?supplier_id=2">
+              <div class="col-xs-4">
+                <div class="supplier-img">
+                  <img src="<%= asset_path 'inuyamajou.jpg' %>">
+                </div>
+                <div class="supplier-producing-area">
+                  <span>岐阜県高山市</span>
+                </div>
+              </div>
+              <div class="col-xs-8">
+                <div class="supplier-comment">
+                  <span>旅行先の地域で発電した電気です。</span>
+                </div>
+              </div>
+              <div class="charge-price">
+                <span>500円</span>
+              </div>
+              <div class="clearfix"></div>
+            </a>
+          </div>
+          <div class="supplier-card nuclear">
+            <a href="/supplier_detail?supplier_id=2">
+              <div class="col-xs-4">
+                <div class="supplier-img">
+                  <img src="<%= asset_path 'chubu.png' %>">
+                </div>
+                <div class="supplier-producing-area">
+                  <span>愛知県名古屋市</span>
+                </div>
+              </div>
+              <div class="col-xs-8">
+                <div class="supplier-comment">
+                  <span>中部電力です。</span>
+                </div>
+              </div>
+              <div class="charge-price">
+                <span>500円</span>
+              </div>
+              <div class="clearfix"></div>
+            </a>
+          </div>
+          <div class="supplier-card wind">
+            <a href="/supplier_detail?supplier_id=2">
+              <div class="col-xs-4">
+                <div class="supplier-img">
+                  <img src="<%= asset_path 'uwajima.jpg' %>">
+                </div>
+                <div class="supplier-producing-area">
+                  <span>新潟県新潟市</span>
+                </div>
+              </div>
+              <div class="col-xs-8">
+                <div class="supplier-comment">
+                  <span>新潟で発電した電気です。</span>
+                </div>
+              </div>
+              <div class="charge-price">
+                <span>500円</span>
+              </div>
+              <div class="clearfix"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

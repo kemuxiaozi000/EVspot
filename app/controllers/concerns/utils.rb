@@ -23,4 +23,24 @@ module Utils
   def devide_string(string, word)
     string.split(word)
   end
+
+  # 発電種別による絞り込み
+  def get_photo(data)
+    image = data['photo'].present? ? data['photo'] : 'no_image.png'
+    ActionController::Base.helpers.asset_path image, type: :image
+  end
+
+  # 発電種別による絞り込み
+  def get_electric_photo(data)
+    electric_image = data['name'] == 'NGE' ? 'nge48.png' : 'other_electric.png'
+    case data['origin']
+    when '太陽光' then electric_image = 'sun_electric.jpg'
+    when '火力' then electric_image = 'fire_electric.jpg'
+    when '風力' then electric_image = 'wind_electric.jpg'
+    when '水力' then electric_image = 'water_electric.jpg'
+    when '地熱' then electric_image = 'geothermal_electric.jpg'
+    when '原子力' then electric_image = 'newclear_electric.png'
+    end
+    ActionController::Base.helpers.asset_path electric_image, type: :image
+  end
 end

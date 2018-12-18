@@ -1,0 +1,41 @@
+<div class="content">
+  <div class="col-xs-12">
+    <div class="box box-success">
+
+      <div class="box-header">
+        <h2 class="box-title">ようこそ user さん</h2>
+      </div>
+
+      <div class="box-body">
+        <div class="col-xs-12" style="padding-top:10px;">
+          <h4 style="font-weight: bold; margin-top: 0px; margin-bottom: 5px; padding-bottom: 5px; text-align: left; border-bottom: 1px solid #10af9e;">
+            充電スポット
+          </h4>
+        </div>
+
+        <div class="col-xs-12">
+          <p><h4><%= @spot_name %></h4></p>
+          <p class="pull-right">の充電スタンドです。</p>
+        </div>
+
+        <div class="col-xs-12" style="padding-top:5px;">
+          <center>
+          <a class="btn btn-app btn-block" style="font-size: x-large; height: 200px; border-radius: 10px; margin-left: 0px; background: lightcyan;">
+            <i class="fa fa-thumbs-up" style="font-size: 55px; margin-top:35px;"></i>
+            <label class="text-center" style="margin-top:20px; font-size: 5vw;">認証が完了しました。</label>
+          </a>
+          </center>
+        </div>
+      </div>
+      <div class="box-footer">
+        <div class="text-center">
+          <a href="/" class="btn btn-default btn-sm cancelBtn col-xs-6">キャンセル</a>
+          <a href="<%= supplier_path %>" class="btn btn-info btn-sm order_reservation col-xs-6">
+            <i class="fa fa-bolt" ></i> 次へ
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

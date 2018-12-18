@@ -10,6 +10,7 @@ class UserbaseController < ApplicationController
     datetime = Time.zone.now.in_time_zone('Asia/Tokyo')
     todaysdate = Time.new(datetime.year, datetime.mon, datetime.day, datetime.hour, datetime.min, datetime.sec)
     !session[:user_name].present? ? session[:user_name] = todaysdate.to_s : nil
+    @favorite_spot = Spot.new.select_favorite_spots
     Userlog.new.insert(session[:user_name].to_s, 'home', nil, params.to_s)
   end
 end

@@ -1,0 +1,89 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <%= render "supplier/sidemenu" %>
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+
+
+<!-- sample3 start -->
+<div class="col-xs-12">
+  <div class="box box-info">
+    <div class="box-body supplier_list_area" style="overflow-y: scroll;">
+      <a href="supplier_detail?supplier_id=1">
+      <ul class="products-list product-list-in-box charging_select" id="1" title="松原">
+        <li class="item">
+          <div class="product-img"><img src='<%= asset_path "sun_electric.jpg" %>'></div>
+          <div class="product-info">
+            <span class="label label-info pull-right"><strong style="font-size : large">500円</strong></span>
+            <span class="product-title"><strong style="font-size : middle">太陽光で発電した電気です。</strong></span>
+            <span class="product-description">
+              <span style="background-color: #FF6666; color: white; border-radius: 3px; display: inline-block; padding: 1px;">ECO</span>
+            </span>
+          </div>
+        </li>
+      </ul>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-12">
+  <div class="box box-info">
+    <div class="box-body supplier_list_area" style="overflow-y: scroll;">
+      <a href="supplier_detail?supplier_id=17">
+      <ul class="products-list product-list-in-box charging_select" id="1" title="カルデラ発電（株）">
+        <li class="item">
+          <div class="product-img"><img src='<%= asset_path "aso.jpg" %>'></div>
+          <div class="product-info">
+            <span class="label label-info pull-right"><strong style="font-size : large">500円</strong></span>
+            <span class="product-title"><strong style="font-size : middle">熊本の地熱で発電した電気です。</strong></span>
+            <span class="product-description">
+              <span style="background-color: #FF6666; color: white; border-radius: 3px; display: inline-block; padding: 1px;">産地応援</span>
+            </span>
+          </div>
+        </li>
+      </ul>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-12">
+  <div class="box box-info">
+    <div class="box-body supplier_list_area" style="overflow-y: scroll;">
+      <a href="supplier_detail?supplier_id=32">
+      <ul class="products-list product-list-in-box charging_select" id="1" title="UMI">
+        <li class="item">
+          <div class="product-img"><img src='<%= asset_path "matsubara.jpg" %>'></div>
+          <div class="product-info">
+            <span class="label label-info pull-right"><strong style="font-size : large">500円</strong></span>
+            <span class="product-title"><strong style="font-size : middle">自分の好きな相手を応援するでんきです。</strong></span>
+            <span class="product-description">
+              <span style="background-color: #FF6666; color: white; border-radius: 3px; display: inline-block; padding: 1px;">顔が見える</span>
+            </span>
+          </span>
+        </li>
+      </ul>
+      </a>
+<!-- sample3 end -->
+    </div>
+  </div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var fire_electric = '<%= asset_path "fire_electric.jpg" %>';
+  var sun_electric = '<%= asset_path "sun_electric.jpg" %>';
+  var other_electric = '<%= asset_path "other_electric.png" %>';
+  var geothermal_electric = '<%= asset_path "geothermal_electric.jpg" %>';
+  var newclear_electric = '<%= asset_path "newclear_electric.png" %>';
+  var water_electric = '<%= asset_path "water_electric.jpg" %>';
+  var wind_electric = '<%= asset_path "wind_electric.jpg" %>';
+  var nge48 = '<%= asset_path "nge48.png" %>';
+
+</script>

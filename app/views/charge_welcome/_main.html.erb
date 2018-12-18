@@ -1,33 +1,21 @@
-<div class="content">
+<div class="content" style="width: 100%;">
   <div class="col-xs-12">
     <div class="box box-success">
       <div class="box-header">
         <h2 class="box-title">ようこそ user さん</h2>
       </div>
-      <div class="box-body">
-        <div class="col-xs-12">
-          ここは<%= @spot_name %>の充電スタンドです。
-        </div>
-        <div class="col-xs-12" style="padding-top:5px;">
-          <% if get_reserve_remaining_minute != 0 %>
-            <div class="alert alert-success text-center reservationMessge">予約が完了しました。</div>
-          <% end %>
-        </div>
-      </div>
-      <div class="box-footer">
-        <div class="text-center">
-          <a href="<%= charging_path %>" class="btn btn-default btn-sm cancelBtn" <% if get_reserve_remaining_minute != 0 %> disabled="disabled" style="pointer-events: none;"<% end %>>キャンセル</a>
-          <% if params[:reservation] == 'on' %>
-            <a class="btn btn-info btn-sm order_reservation" <% if get_reserve_remaining_minute != 0 %> disabled="disabled" style="pointer-events: none;"<% end %>>
-              <i class="fa fa-users" ></i> 順番予約
-            </a>
-          <% else %>
-            <a href="<%= charge_status_path + '?spot_id=' + params[:spot_id] %>" class="btn btn-success btn-sm">
-              <i class="fa fa-plug"></i> 充電する
-            </a>
-          <% end %>
-        </div>
-      </div>
+
+      <!-- 充電予約開始画面 -->
+      <% if params[:reservation] == 'on' %>
+        <%= render "charge_welcome/reservationStart" %>
+      <!-- 充電予約中画面 -->
+      <% elsif get_reserve_remaining_minute != 0 %>
+        <%= render "charge_welcome/reservation" %>
+      <!-- 充電開始画面 -->
+      <% else %>
+        <%= render "charge_welcome/chargeStart" %>
+      <% end %>
+
     </div>
   </div>
 </div>

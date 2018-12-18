@@ -6,19 +6,17 @@
 
 <div class="row">
   <div class="col-xs-12" style="padding-right: 0px; padding-left: 0px;">
-    <div id="map" style="width: 100vw; height: 100vh;"></div>
+    <div id="map" style="width: 100vw;"></div>
+    <% if params[:show_spot_list] == 'on' %>
+      <div id="spot_list_area">
+      </div>
+    <% end %>
     <div class="col-xs-12" style="position: absolute; top: 5px;">
       <header class="main-header" style="margin-right: 0px;width: 15px;">
-      <%# <header class="main-header"> %>
         <div class="input-group" >
           <span class="input-group-addon" style="padding-left: 6px;padding-right: 6px;padding-bottom: 3px;padding-top: 3px;width: 30px;height: 30px;border-top-width: 0px;border-bottom-width: 0px;">
             <span class="fa fa-bars fa-lg" data-toggle="push-menu" style="padding: 0px; "></span>
           </span>
-          <%# <span id="distance" style="font-size:36px;padding-right:10px;"></span> %>
-          <%# <input id="destination_text" type="text" class="form-control input-lg">
-          <span class="input-group-addon">
-            <span id="destination_search" class="glyphicon glyphicon-search"></span>
-          </span> %>
         </div>
       </header>
     </div>
@@ -76,7 +74,7 @@
   var iconSightseeing = '<%= asset_path "sightseeing.png" %>';
   var pageCoupon = '<%= coupon_path  %>';
   var spotInfoZoom = false;
-  <% if params[:spotinfo_zoom] == "true" %>
+  <% if params[:spotinfo_zoom] == "true" || params[:show_spot_list] == "on" %>
     spotInfoZoom = true;
   <% end %>
 
@@ -97,3 +95,24 @@
     $form.submit();
   }
 </script>
+<style>
+#spot_list_area {
+  height: 20vh;
+  overflow-y: scroll;
+  background: white;
+}
+.spot_info {
+  border-radius: 5px;
+  border: 1px solid #515151;
+  border-bottom: 0px none;
+  background: #6eec96;
+}
+a .spot_info {
+  text-decoration: none;
+  color: #515151;
+}
+.spot_info .col-xs-3 {
+  border-left: 2px dotted #515151;
+  min-height: 63px;
+}
+</style>

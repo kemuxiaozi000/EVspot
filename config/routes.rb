@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get 'charge_history' => 'charge_history#index'
 
   # 充電スポット認証画面
-  get 'charge_authenticate/index'
+  get 'charge_authenticate' => 'charge_authenticate#index'
 
   # 充電スポット充電開始画面
   get 'charge_welcome/index'
@@ -77,6 +77,11 @@ Rails.application.routes.draw do
 
   # 供給者詳細画面
   get 'supplier_detail' => 'supplier_detail#index', as: 'supplier_detail'
+
+  # でんきリスト(供給情報画面)のサンプル画面
+  get 'supplier_sample1' => 'supplier_sample1#index'
+  get 'supplier_sample2' => 'supplier_sample2#index'
+  get 'supplier_sample3' => 'supplier_sample3#index'
 
   # 管理者ログイン画面
   get 'admin_login' => 'admin_login#index'

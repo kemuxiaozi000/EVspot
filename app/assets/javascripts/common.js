@@ -41,7 +41,6 @@ $(document).ready(function () {
 
     var url = "/charge_welcome?spot_id=" + $("#temporary_spot_id").val();
     if (time != 0) {
-      url += "&reservation=on";
       $("#reservationChk").text("充電可能まで");
       $("#reservationMinute").show();
     } else {
@@ -93,6 +92,9 @@ $(document).ready(function () {
       }, 5000);
     }
   });
+
+  // フッタの「充電する」メニューの設定
+  setFooterChargingMenu(charging);
 });
 
 function createAlart(minutes) {
@@ -187,4 +189,22 @@ function loaderFadeOut() {
     $("#searchButton").prop("disabled", false);
     $("#detailSearchButton").prop("disabled", false);
   });
+}
+
+/**
+ * フッタの「充電する」メニューの設定
+ * @param {boolean} isCharging 充電中かどうか
+ */
+function setFooterChargingMenu(isCharging) {
+  if (isCharging) {
+    $("#footer_charging_anchor").attr("href", "/charge_status");
+    $("#footer_charging_icon").attr("src", footer_charging_in_progress_icon);
+  } else if (footer_reserving) {
+    $("#footer_charging_anchor").attr("href", "/charge_welcome?spot_id=" + footer_temporary_spot_id);
+    $("#footer_charging_icon").attr("src", footer_charging_in_reservation_icon);
+  } else {
+    $("#footer_charging_anchor").attr("href", "/qrreader");
+    $("#footer_charging_icon").attr("src", footer_charging_icon);
+  }
+  $("#footer_charging_icon").css("visibility", "visible");
 }

@@ -1,0 +1,114 @@
+<footer class="main-footer">
+  <div class="container">
+    <div class="row">
+      <a href="/">
+        <div class="col-xs-3 text-center">
+          <img src="<%= asset_path 'footer_home.png' %>"><br>
+          <span class="h6">ホーム</span>
+        </div>
+      </a>
+      <a href="/map">
+        <div class="col-xs-3 text-center">
+          <img src="<%= asset_path 'footer_drive_plan.png' %>"><br>
+          <span class="h6">ドライブ計画</span>
+        </div>
+      </a>
+      <a id="footer_charging_anchor" href="/qrreader?">
+        <div class="col-xs-3 text-center">
+          <img id="footer_charging_icon" src="/" style="visibility: hidden; height: 40px"><br>
+          <span class="h6">充電する</span>
+        </div>
+      </a>
+      <a id="footer_coupon_anchor">
+        <div class="col-xs-3 text-center">
+          <img src="<%= asset_path 'footer_coupon.png' %>"><br>
+          <span class="h6">クーポン</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var footer_charging_icon = "<%= asset_path 'footer_charging.png' %>";
+var footer_charging_in_progress_icon = "<%= asset_path 'footer_charging_in_progress.png' %>";
+var footer_charging_in_reservation_icon = "<%= asset_path 'footer_charging_in_reservation.png' %>";
+var footer_reserving = <%= reserving? %>;
+var footer_temporary_spot_id = "<%= get_temporary_spot_id %>";
+
+$(document).ready(function () {
+  // コンテンツの高さ調整
+  <% case params[:controller] %>
+  <% when 'map' %>
+  resizeMap();
+  <% when 'coupon' %>
+  resizeCoupon();
+  <% when 'supplier' %>
+  resizeSupplierList();
+  <% else %>
+  resizeContent();
+  <% end %>
+
+  // クーポンボタンのURL設定
+  <% if charging? %>
+  var coupon_spot_id = <%= session[:charge_spot_id] %>;
+  <% elsif reserving? %>
+  var coupon_spot_id = <%= get_temporary_spot_id %>;
+  <% else %>
+  var coupon_spot_id = "";
+  <% end %>
+  $("#footer_coupon_anchor").attr("href", "/coupon?spot_id=" + coupon_spot_id);
+});
+
+/**
+ * 地図ページのGoogle Map表示部分の高さを調整する
+ */
+function resizeMap() {
+  var windowHeight = $(window).height();
+  var spotListHeight = $("#spot_list_area").length ? $("#spot_list_area").height() : 0;
+  var footerHeight = $(".main-footer").height();
+  footerHeight += parseInt($(".main-footer").css("padding").replace("px", "")) * 2;
+  $("#map").css("height", parseInt(windowHeight - (spotListHeight + footerHeight)) + "px");
+}
+
+/**
+ * クーポン画面のクーポン一覧部分の高さを調整する
+ */
+function resizeCoupon() {
+  var windowHeight = $(window).height();
+  var headerHeight = $(".main-header").height();
+  var contentPadding = parseInt($(".content").css("padding").replace("px", ""));
+  var boxHeaderHeight = $(".box-header").height() + parseInt($(".box-header").css("padding").replace("px", "")) * 2;
+  boxHeaderHeight += 4; // box-infoのborderの分を加算
+  var footerHeight = $(".main-footer").height() + parseInt($(".main-footer").css("padding").replace("px", "")) * 2;
+  $(".coupon_list_area").css("height", (windowHeight - (headerHeight + contentPadding + boxHeaderHeight + footerHeight)) + "px");
+}
+
+/**
+ * 供給者一覧画面の供給者一覧部分の高さを調整する
+ */
+function resizeSupplierList() {
+  var windowHeight = $(window).height();
+  var headerHeight = $(".main-header").height();
+  var contentPadding = parseInt($(".content").css("padding-top").replace('px', ''));
+  contentPadding += parseInt($(".content").css("padding-bottom").replace('px', ''));
+  contentPadding += $(".selected_suppier").height();
+  contentPadding += $(".selectable_suppier").height();
+  var footerHeight = $(".main-footer").height();
+  footerHeight += parseInt($(".main-footer").css("padding-top").replace("px", "")) * 2;
+  $(".supplier_list_area").css("height", parseInt(windowHeight - (headerHeight + contentPadding + footerHeight)) + "px");
+}
+
+/**
+ * ヘッダ・フッタの存在するページの、コンテンツ部分の高さを調整する
+ */
+function resizeContent() {
+  var windowHeight = $(window).height();
+  var headerHeight = $(".main-header").height();
+  var footerHeight = $(".main-footer").height();
+  footerHeight += parseInt($(".main-footer").css("padding").replace("px", "")) * 2;
+  $(".content").css("height", parseInt(windowHeight - (headerHeight + footerHeight)) + "px");
+  $(".content").css("overflow-y", "scroll");
+}
+
+</script>

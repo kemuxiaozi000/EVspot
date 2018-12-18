@@ -1,0 +1,80 @@
+<aside id="sidebar" class="main-sidebar">
+  <section class="sidebar">
+    <div class="user-panel" style="height:50px;">
+      <div class="info">
+        <a href="/" class="logo">
+          <label style="font-size:20px;">供給情報</label>
+        </a>
+      </div>
+    </div>
+    <form class="supplier_search_form">
+      <div class="bg-primary sidebar-form" >
+        <button id="research" class="btn-primary form-control">検索<i class="fa fa-search pull-right" style="padding-top: 3px;"></i></button>
+      </div>
+      <ul class="sidebar-menu tree" data-widget="tree" style="color:white;">
+        <li class="treeview">
+          <a href="#">
+          <i class="fa fa-edit"></i> <span>供給者絞り込み</span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+          </span>
+          </a>
+          <ul class="treeview-menu" style="padding-top:5px; padding-bottom:10px;">
+            <label for="suppiler_search_name">発電者</label>
+            <li>
+              <a>発電者は私
+              <div class="pull-right">
+                <input name="supplier_me" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_supply_type">発電種別</label>
+            <li>
+              <a>自然エネルギー
+              <div class="pull-right">
+                <input name="natural_energy" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>火力
+              <div class="pull-right">
+                <input name="thermal_power" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_producing_area">発電場所</label>
+            <li>
+              <a>地元愛
+              <div class="pull-right">
+                <input name="love_local" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>復興支援
+              <div class="pull-right">
+                <input name="reconstruction_support" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>その他
+              <div class="pull-right">
+                <input name="other_area" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_producing_area">価格</label>
+            <div class="container-fluid">
+              <div class="input-group  col-lg-12">
+                <div class="col-xs-2" style="padding: 3px 0px 0px 0px;color: #8ba4af"><center >0　～</center></div>
+                <input type="number" class="col-xs-5" id="supplier_search_price_max" name="price_max" placeholder="high" style="color:black;left: 15px;">
+              </div>
+            </div>
+          </ul>
+        </li>
+      </ul>
+    </form>
+  </section>
+</aside>

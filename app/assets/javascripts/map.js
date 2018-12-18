@@ -3,6 +3,7 @@ var map;
 // 現在地取得
 var latitude; //緯度
 var longitude; //経度
+var zoomLevel; // ズームレベル
 
 // 現在地のマーカー
 const START_MARKER = "https://maps.google.com/mapfiles/kml/pal4/icon62.png";
@@ -12,7 +13,7 @@ const STOPOVER_MARKER = "https://maps.google.com/mapfiles/kml/pal5/icon13.png";
 // 現在地取得できない場合の初期値
 const DEF_LAT = 35.507456;
 const DEF_LON = 139.617585;
-var DEF_ZOOM;
+const DEF_ZOOM = 15;
 
 // 充電待ち時間
 var waitingTime = null;
@@ -47,7 +48,7 @@ function initMap() {
       lat: saveCenterLat == null ? DEF_LAT : saveCenterLat,
       lng: saveCenterLon == null ? DEF_LON : saveCenterLon
     }, // 仮
-    zoom: DEF_ZOOM,
+    zoom: zoomLevel,
     gestureHandling: "greedy",
     disableDoubleClickZoom: true,
     scrollwheel: true,
@@ -79,6 +80,81 @@ function getSpotsAroundMe(position) {
     }),
     zIndex: google.maps.Marker.MAX_ZINDEX + 1
   });
+
+  // 周辺スポット一覧
+  if (document.getElementById("spot_list_area") != null) {
+    var range = 10;
+    // 周辺スポット情報を表示する
+    getArroundSpots(latitude, longitude, range)
+  }
+}
+
+/**
+*  周辺のSpotを取得
+* @param {float} lat 緯度
+* @param {float} lon 経度
+* @param {integer} range 範囲(km)
+*/
+function getArroundSpots(lat, lon, range) {
+  $.ajax({
+    url: "/api/map/spotinfolatlon/read",
+    data: {
+      lat: lat,
+      lon: lon,
+      range: range,
+      natural_energy: "",
+      toilet: "",
+      smoking_area: "",
+      rapid_charge: "",
+      normal_charge: "",
+      cafe: "",
+      restaurant: "",
+      shopping: "",
+      play_space: "",
+      nursing_room: "",
+      sightseeing: "",
+      coupon: ""
+    },
+    type: "POST"
+  })
+    .done(function (data, textStatus, jqXHR) {
+      // HTML作成
+      var content = '';
+      if (data) {
+        data.spot.forEach(function (value) {
+          content += '<a href="/spot_detail?spot_id=' + value.id + '">';
+          content += '<div class="spot_info">';
+          content += '<div class="col-xs-6">';
+          content += '<span>' + value.name + '</span>';
+          content += '</div >';
+          content += '<div class="col-xs-3">';
+          content += '<span>' + '10:00' + 'から充電可</span>';
+          content += '</div>';
+          content += '<div class="col-xs-3">';
+          content += '<span>' + value.distance.toFixed(1) + 'km</span>';
+          content += '</div>';
+          content += '<div class="clearfix"></div>';
+          content += '</div>';
+          content += '</a>';
+        });
+      } else {
+        // 絞り込みの結果、表示する供給者情報がない場合にメッセージを表示する
+        content += '<div class="spot_info">';
+        content += '<div class="col-xs-12">';
+        content += '検索結果がありません。';
+        content += '</div>';
+        content += '</div>';
+      }
+      document.getElementById("spot_list_area").innerHTML = content;
+      // $('.spot_list_area').html(content);
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("検索できませんでした。");
+      console.log(errorThrown);
+    })
+    .always(function (jqXHR, textStatus, errorThrown) {
+      console.log("complete:spotinfolatlon");
+    });
 }
 
 /**
@@ -241,9 +317,19 @@ $(document).ready(function () {
 
   //charge画面からマップ画面に遷移する
   if (spotInfoZoom) {
-    DEF_ZOOM = 15;
+    zoomLevel = DEF_ZOOM;
   } else {
-    DEF_ZOOM = 13;
+    zoomLevel = 13;
+  }
+
+  if ($("#spot_list_area").length) {
+    // 「現在地へ戻る」ボタンの位置を調整
+    var currentPlaceBottom = parseInt($(".currentPlace").parent().css("bottom").replace("px", ""));
+    var spotListHeight = $("#spot_list_area").height();
+    $(".currentPlace").parent().css("bottom", (currentPlaceBottom + spotListHeight) + "px");
+    // ルート検索時の情報表示領域の位置を調整
+    var routeInfoBottom = parseInt($(".routeInfo").css("bottom").replace("px", ""));
+    $(".routeInfo").css("bottom", (routeInfoBottom + spotListHeight) + "px");
   }
 
   // 初期化
@@ -354,3 +440,4 @@ $(document).ready(function () {
     }
   }
 });
+

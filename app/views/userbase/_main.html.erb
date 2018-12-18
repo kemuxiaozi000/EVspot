@@ -1,39 +1,125 @@
-<div class="content">
+<div class="content" style="padding: 10px; width: fit-content;">
   <div class="container-fluid">
     <div class="row">
 
-      <div class="col-xs-12 col-sm-6">
-        <div class="small-box" style="height: 100px;">
-          <a class="col-xs-12 btn btn-primary" href="/distinations" >
-            <i class="fa fa-map" style="font-size:50px;"></i>
-            <h4><span class="label label-white">行き先を探す<label></h4>
-          </a>
+      <div class="col-xs-12">
+        <div class="box" style="border-top: none; border-radius: 20px; margin-bottom: 10px;">
+          <div class="media">
+
+            <div class="media-left">
+              <div class="col-xs-12">
+                <a class="ad-click-event">
+                  <% if charging? %>
+                    <% if get_charge_remaining_second != 0 %>
+                      <img id="charge_icon" src='<%=asset_path "charging.gif" %>' width="80" alt="..." class="media-object" style="margin-top: 20px;">
+                    <% else %>
+                      <img src='<%=asset_path "charge_complete.gif" %>' width="80" alt="..." class="media-object" style="margin-top: 20px;">
+                    <% end %>
+                  <% else %>
+                    <img src='<%=asset_path "charge_6.gif" %>' width="80" alt="..." class="media-object" style="margin-top: 20px;">
+                  <% end %>
+                </a>
+              </div>
+            </div>
+
+            <div class="media-body">
+              <div class="clearfix">
+                <h4>バッテリー</h4>
+                <b>
+                  <p style="margin-bottom: 5px;">
+                    <span>60%</span>
+                    <span><small>(120kmまで走行可能)</small></span>
+                  </p>
+                </b>
+                <% if charging? %>
+                  <p style="margin-bottom: 5px;">
+                    <label id="charging_time">あと50分</label>
+                  </p>
+                <% end %>
+                <% if reserving? %>
+                  <p style="margin-bottom: 5px;">
+                    <% if get_reserve_remaining_minute != 0 %>
+                      <label id="reserveRemainingMinute"><%= get_reserve_remaining_minute %>分後に利用可能</label>
+                      <small class="label label-info pull-right" style="font-size: small; margin-right: 5px;">あと1人</small>
+                    <% else %>
+                      <label>利用可能です。</label>
+                    <% end %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6">
-        <div class="small-box" style="height: 100px;">
-          <a class="col-xs-12 btn btn-primary" href="/charging">
-            <i class="fa fa-plug" style="font-size:50px;"></i>
-            <h4><span class="label label-white">充電する<label></h4>
-          </a>
-        </div>
+      <div class="col-xs-12">
+        <h5 style="font-weight: bold; margin-top: 0px; margin-bottom: 5px; padding-bottom: 5px; text-align: left; border-bottom: 1px solid #10af9e;">
+          お気に入り
+        </h5>
       </div>
 
-      <div class="col-xs-12 col-sm-6">
-        <div class="small-box" style="height: 100px;">
-          <a class="col-xs-12 btn btn-primary" href="/passtime">
-            <i class="fa fa-music" style="font-size:50px;"></i>
-            <h4><span class="label label-white">暇つぶし<label></h4>
-          </a>
+      <% (0..@favorite_spot.length-1).each do |num| %>
+        <div class="col-xs-12">
+          <div class="box" style="border-top: none; border-radius: 20px; margin-bottom: 5px;">
+
+            <div class="box-body" style="padding-bottom: 0px; padding-right: 0px;">
+              <% if @favorite_spot[num]['id'] % 9 == 0 %>
+                <p class="label label-default pull-right" style="font-size: small; margin-top: 5px; width: 66px; height: 33px; line-height: 27px;">充電不可</p>
+              <%  elsif @favorite_spot[num]['id'] % 3 == 0 %>
+                <p class="label label-danger pull-right" style="font-size: small; margin-top: 5px; width: 66px; height: 33px;"><%= get_charge_start_time %>～</br> 充電可</p>
+              <%  else %>
+                <p class="label label-info pull-right" style="font-size: small; margin-top: 5px; width: 66px; height: 33px; line-height: 27px;">充電可</p>
+              <% end %>
+              <a href="/spot_detail?spot_id=<%=@favorite_spot[num]['id'] %>">
+                <h5><i class="fa fa-star"></i><strong><b><%= @favorite_spot[num]['name'] %></b></strong></h5>
+              </a>
+            </div>
+            <div class="box-footer" style="border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; border-top:0px; padding-top: 0px;">
+              <div class="row" style="padding: 10px; border-top: 1px solid grey; margin-left: 10px; margin-right: 10px; padding-bottom: 0px;">
+                <div class="col-sm-6 col-xs-6" style="border-right: 1px solid grey;">
+                  <% if @favorite_spot[num]['coupon_id'].present? %>
+                    <a href="/coupon?spot_id=<%= @favorite_spot[num]['id'] %>">
+                      <div class="description-block" style="margin: 0px; border-radius: 3px;">
+                        <i class="fa fa-tag" style="color: cornflowerblue; font-size: larger;"></i>クーポン
+                      </div>
+                    </a>
+                  <% else %>
+                    <div class="description-block" style="margin: 0px; border-radius: 3px; background-color:lightgray;">
+                      <i class="fa fa-tag" style="color: gray; font-size: larger;"></i>クーポン
+                    </div>
+                  <% end %>
+                </div>
+                <% if @favorite_spot[num]['id'] % 9 == 0 %>
+                  <div class="col-sm-6 col-xs-6" style="background-color:lightgray;">
+                <% else %>
+                  <div class="col-sm-6 col-xs-6" data-toggle="modal" data-target="#reservationModal" data-backdrop="true">
+                <% end %>
+                    <a>
+                      <div class="description-block" style="margin: 0px">
+                        <i class="fa fa-check" style="color: darkorange; font-size: larger;"></i>予約
+                      </div>
+                    </a>
+                  </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
+      <% end %>
+
+      <div class="col-xs-12">
+        <h5 style="font-weight: bold; margin-top: 0px; margin-bottom: 5px; padding-bottom: 5px; text-align: left; border-bottom: 1px solid #10af9e;">
+          その他
+        </h5>
       </div>
 
-      <div class="col-xs-12 col-sm-6">
-        <div class="small-box" style="height: 100px;">
-          <a class="col-xs-12 btn btn-primary" href="" data-toggle="modal" data-target="#emergencyChargingModal">
-            <i class="fa fa-battery-empty" style="font-size:50px;"></i>
-            <h4><span class="label label-white">今すぐ充電<label></h4>
+      <div class="col-xs-12">
+        <div class="small-box">
+          <a class="col-xs-12 btn btn-primary" href="/map?show_spot_list=on" style="border-radius: 30px;">
+            <i class="fa fa-map"></i>
+            <span class="label label-white h4">周辺のスポット<label>
           </a>
         </div>
       </div>
@@ -43,3 +129,7 @@
 </div>
 
 <%= render partial: "modal" %>
+
+<script>
+var charge_complete_img_path = "<%= asset_path 'charge_complete.gif' %>";
+</script>

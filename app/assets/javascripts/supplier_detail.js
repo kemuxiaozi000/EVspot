@@ -43,8 +43,9 @@ $(document).ready(function () {
       }
     })
       .done(function (data, textStatus, jqXHR) {
-        var url = "charging";
-        window.location.href = window.location.origin + "/" + url;
+        var url = "charge_welcome";
+        var spot_id = $('#spot_id').val();
+        window.location.href = window.location.origin + "/" + url + "?spot_id=" + spot_id;
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);

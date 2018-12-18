@@ -1,6 +1,7 @@
 <div class="wrapper">
   <%= render "common/header" %>
   <input type="hidden" id="supplier_id" value="<%= params[:supplier_id] %>">
+  <input type="hidden" id="spot_id" value="<%= session[:temporary_spot_id] %>">
   <div class="content-wrapper">
     <div class="content">
       <div class="row">
@@ -9,7 +10,6 @@
             <div class="box-header ">
               <strong>供給者詳細</strong>
             </div>
-
             <div class="box-body">
               <div class="media">
                 <div>

@@ -57,6 +57,12 @@ $(document).ready(function () {
             data.detail[0].other_services == 1 ? "その他サービス" : "";
           $("#target_service").text(supportedServicesText);
 
+          // クーポンボタンを非活性に変更
+          if (data.coupon_id == null || data.coupon_id == "") {
+            $("#coupon_btn").css('pointer-events', 'none');
+            $("#coupon_btn").addClass("disabled");
+          }
+
           spot_lat = data.lat;
           spot_lon = data.lon;
 

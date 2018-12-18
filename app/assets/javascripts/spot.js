@@ -7,13 +7,6 @@ $(document).ready(function () {
   var lat = 0;
   var lon = DEF_LON;
   var range = DEF_RANGE;
-  // 表示サイズ
-  var windowH = $(window).height();
-  var headerH = $(".main-header").height();
-  var contentPadding = parseInt($(".content").css("padding-top").replace('px', ''));
-  contentPadding += parseInt($(".content").css("padding-bottom").replace('px', ''));
-  contentPadding += parseInt($(".spot_list_area").css("padding-bottom").replace('px', ''));
-  $(".spot_list_area").css("height", parseInt(windowH - headerH - contentPadding));
 
   // 現在地取得
   getMyplace(getPlace, getError);

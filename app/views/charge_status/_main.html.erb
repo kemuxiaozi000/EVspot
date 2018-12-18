@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" style="width: 100%;">
   <div class="col-xs-12">
     <div class="box box-success">
       <div class="box-header">
@@ -11,10 +11,13 @@
         </div>
       </div>
       <div class="box-footer">
-        <a id="spot_info" class="btn btn-block btn-info" href="/map?spotinfo_zoom=true">スポット情報</a>
         <button type="button" id="stop_charging" class="btn btn-block btn-success" data-toggle="modal" data-target="#confirmModal" data-backdrop="true">
           充電をやめる
         </button>
+        <a id="spot_info" class="btn btn-block btn-info" href="/map?spotinfo_zoom=true">スポット情報</a>
+        <a href="<%= passtime_path %>" class="btn btn-block btn-primary">
+          <i class="fa fa-plug"></i> ひまつぶし
+        </a>
         <%= javascript_tag do %>
           var spot_id = <%= session[:charge_spot_id] %>;
           var charge_complete_img_path = "<%= asset_path 'charge_complete.gif' %>";

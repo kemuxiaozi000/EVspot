@@ -12,7 +12,7 @@ $(document).ready(function () {
     }
   });
 
-  // map画面表示
+  // 認証画面遷移
   function qr_url() {
     if ($('#charging').val() == "true") {
       url = "charge_status";
