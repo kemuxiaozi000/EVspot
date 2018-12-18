@@ -11,6 +11,12 @@ Rails.application.routes.draw do
   # Top画面
   get 'top' => 'top#index'
 
+  # 行き先を探す画面
+  get 'distinations' => 'distinations#index'
+
+  # Spot一覧表示画面
+  get 'spot' => 'spot#index'
+
   # 充電選択画面
   get 'charging' => 'charging#index', as: 'charging'
 
@@ -72,6 +78,23 @@ Rails.application.routes.draw do
   # 供給者詳細画面
   get 'supplier_detail' => 'supplier_detail#index', as: 'supplier_detail'
 
+  # 管理者ログイン画面
+  get 'admin_login' => 'admin_login#index'
+  post 'admin_login' => 'admin_login#login'
+
+  # 電源種別管理画面
+  get 'power_supply_types_edit' => 'power_supply_types_edit#index'
+
+  # 管理者クーポン画面
+  get 'admin_coupon' => 'admin_coupon#index'
+
+  # 管理者スポット画面
+  get 'admin_spots_edit' => 'admin_spots_edit#index'
+  get 'admin_spots_edit/:page' => 'admin_spots_edit#index'
+
+  # 管理者ログ確認画面
+  get 'admin_userlog' => 'admin_userlog#index'
+
   # DBアクセス
   namespace :api do
     # トップ画面
@@ -86,6 +109,7 @@ Rails.application.routes.draw do
       # 充電スポットを取得する処理
       namespace :spotinfolatlon do
         post '/index', action: 'index'
+        post '/read', action: 'read'
       end
     end
     # 詳細画面
@@ -126,11 +150,29 @@ Rails.application.routes.draw do
       namespace :supplier do
         post '/index', action: 'index'
         post '/upsert', action: 'upsert'
+        post '/destroy', action: 'destroy'
       end
       # 待ち時間/充電時間を取得する処理
       namespace :common_time do
         post '/index', action: 'index'
         post '/upsert', action: 'upsert'
+      end
+      # クーポンを取得する処理
+      namespace :admin_coupon do
+        post '/index', action: 'index'
+        post '/upsert', action: 'upsert'
+        post '/destroy', action: 'destroy'
+      end
+      # スポットの追加・修正・削除処理
+      namespace :admin_spot do
+        post '/index', action: 'index'
+        post '/index2', action: 'index2'
+        post '/upsert', action: 'upsert'
+        post '/destroy', action: 'destroy'
+      end
+      # ログ情報を取得する処理
+      namespace :admin_user_log do
+        post '/index', action: 'index'
       end
     end
     # 認証画面
@@ -170,6 +212,15 @@ Rails.application.routes.draw do
       # 選ぶ供給情報を取得する処理
       namespace :pushsend do
         post '/index', action: 'index'
+      end
+    end
+    # 電源種別管理画面
+    namespace :management, format: 'json' do
+      # 電源種別情報を取得する処理
+      namespace :power_supply_type do
+        post '/index', action: 'index'
+        post '/upsert', action: 'upsert'
+        post '/destroy', action: 'destroy'
       end
     end
   end

@@ -1,0 +1,17 @@
+<%= render "common/header" %>
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <%= render "common/manage_sidebar" %>
+  </section>
+</aside>
+<div class="content-wrapper">
+  <section class="content">
+    <%= render "admin_spots_edit/main" %>
+  </section>
+</div>
+
+<%= javascript_include_tag "admin_spots_edit"%>
+<%= render partial: "modal" %>
+<%= render partial: "map" %>
+
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyCCJ7asAsYkKB9_tgOqwQESsqKEPMf1vRc"></script>

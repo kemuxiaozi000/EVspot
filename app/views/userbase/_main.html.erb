@@ -4,7 +4,7 @@
 
       <div class="col-xs-12 col-sm-6">
         <div class="small-box" style="height: 100px;">
-          <a class="col-xs-12 btn btn-primary" href="/map" >
+          <a class="col-xs-12 btn btn-primary" href="/distinations" >
             <i class="fa fa-map" style="font-size:50px;"></i>
             <h4><span class="label label-white">行き先を探す<label></h4>
           </a>
@@ -29,6 +29,17 @@
         </div>
       </div>
 
+      <div class="col-xs-12 col-sm-6">
+        <div class="small-box" style="height: 100px;">
+          <a class="col-xs-12 btn btn-primary" href="" data-toggle="modal" data-target="#emergencyChargingModal">
+            <i class="fa fa-battery-empty" style="font-size:50px;"></i>
+            <h4><span class="label label-white">今すぐ充電<label></h4>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
+<%= render partial: "modal" %>

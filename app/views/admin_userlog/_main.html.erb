@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-body">
+        <form class="filter_form">
+          <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" id="datepicker-default">
+              <label class="control-label" style="padding-left:0px;">検索開始日</label>
+              <span class="form-inline">
+                <div class="input-group date">
+                  <input class="form-control" type="text" id="min_date" placeholder="2018/11/21" style="color:black;">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                </div>
+              </span>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" id="datepicker-default">
+              <label class="control-label" style="padding-left:0px;">検索終了日</label>
+              <span class="form-inline">
+                <div class="input-group date">
+                  <input class="form-control" type="text" id="max_date" placeholder="2018/11/21" style="color:black;">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                </div>
+              </span>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 col-xs-12 form-group">
+            <label class="control-label" style="padding-left:0px;">ユーザー名</label>
+
+            <span class="form-inline">
+              <div class="input-group ">
+                <div class="form-control" style = "text-align: center; border: none; padding-left:0px;">
+                  <%= collection_select(:user, :name, @user_name, :user_name, :user_name) %>
+                </div>
+              </div>
+            </span>
+          </div>
+
+          <div class="col-lg-1 col-md-3 col-xs-6 form-group" >
+            <span class="form-inline">
+              <div class="input-group">
+                <button type="submit" class="btn btn-info" id="research">
+                  検索<i class="fa fa-search pull-right" style="padding-top: 3px;"></i>
+                </button>
+              </div>
+            </span>
+          </div>
+        </form>
+        <div class="col-lg-1 col-md-3 col-xs-6" >
+          <button class="btn btn-success" id="csv_output">
+          CSV出力
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="box box-info">
+      <%= javascript_tag do %>
+        window.data = <%= raw @user_logs.to_json %>;
+      <% end %>
+
+      <div class="box-header with-border">
+          <p>ログ一覧</p>
+      </div>
+      <div class="box-body table-responsive no-padding">
+          <%= render "admin_userlog/result" %>
+      </div>
+    </div>
+
+    <input id="now_pageno" type="hidden" value="<%= @page %>">
+    <input id="last_pageno" type="hidden" value="<%= @last %>">
+    <div id="paging_search" class="box-footer clearfix" style="display: block;">
+    <span id="current_page"><%="#{@page}page/"%></span>
+    <span id="last_page"><%= "#{@last}page"%> </span>
+    <ul id="pagingLink"class="pagination pagination-sm no-margin pull-right">
+    </ul>
+    </div>
+  </div>
+</div>

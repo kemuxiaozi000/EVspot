@@ -1,0 +1,20 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <%= render "spot/sidemenu" %>
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12" style="margin: 0px;">
+          <div class="box-body spot_list_area" style="overflow-y: scroll; overflow-x: hidden">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag "location" %>
+<%= javascript_include_tag "spot" %>
+<script>
+  var noImage2 = "<%= asset_path "no_image2.png" %>";
+</script>

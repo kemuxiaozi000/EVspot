@@ -1,0 +1,58 @@
+<div class="container-fluid">
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-body">
+        <div id="info_message" class="callout callout-info" style="display: none;"></div>
+        <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
+        <form role="form" id="common_form">
+          <div class="box-body">
+            <div class="row">
+
+              <div class="form-group col-md-3 col-xs-6">
+                <label>共通管理項目</label>
+                <select class="form-control time_control_types" id="commonSelect" name="common" required>
+                    <option></option>
+                    <% for common in @commonlist do %>
+                        <option value="<%= common['id'] %>"><%= common['name'] %></option>
+                    <% end %>
+                </select>
+              </div>
+              <div class="form-group col-md-3 col-xs-6">
+                <label>設定値</label>
+                <div class="input-group">
+                  <input type="number" class="form-control time_value">
+                </div>
+              </div>
+
+            </div>
+            <div class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button type="reset" class="btn btn-default">クリア</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+    <div class="box box-info">
+        <%= javascript_tag do %>
+          window.data = <%= raw @commonlist.to_json %>;
+
+        <% end %>
+
+        <div class="box-header">
+            <p>共通管理項目一覧</p>
+        </div>
+        <div class="box-body">
+            <%= render "common_edit/result"%>
+        </div>
+    </div>
+  </div>
+</div>
+</div>

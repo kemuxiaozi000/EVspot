@@ -1,0 +1,165 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info" id="edit_form" style="display: none;">
+      <div class="box-body">
+        <div id="info_message" class="callout callout-info" style="display: none;"></div>
+        <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
+        <form role="form" id="admin_spot_form">
+          <div class="box-body">
+            <div class="row">
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>SPOT ID</label>
+                <input type="text" class="form-control spots_id" readonly="true">
+              </div>
+              <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                <label>SPOT名</label>
+                <input type="text" class="form-control spots_name">
+              </div>
+
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>クーポンID</label>
+                <input type="text" class="form-control spots_coupon_id">
+              </div>
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>供給者ID</label>
+                <input type="text" class="form-control spots_supplier_id">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-2 col-md-2 col-xs-12" style="display: none;">
+                <label>緯度(lat)</label>
+                <input type="text" id="latitude" class="form-control spots_lat">
+              </div>
+              <div class="form-group col-lg-2 col-md-2 col-xs-12" style="display: none;">
+                <label>経度(lon)</label>
+                <input type="text" id="longitude" class="form-control spots_lon">
+               </div>
+              <div class="form-group col-lg-9 col-md-9 col-xs-12">
+                <label>address</label>
+                <input type="text" id="address" class="form-control spot_details_address">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-6">
+              <br/>
+                <button type="button" id="lat_lon_edit" class="btn btn-block btn-success" data-toggle="modal" data-target="#MapModal" data-backdrop="true">
+                地図から入力
+                </button>
+               </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-2 col-md-2 col-xs-12" style="display: none;">
+                <label>SPOT詳細ID</label>
+                <input type="text" class="form-control spots_detail_id">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>営業時間(週)</label>
+                <input type="text" class="form-control spot_details_week" placeholder="hh:mm-hh:mm">
+              </div>
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>営業時間(土)</label>
+                <input type="text" class="form-control spot_details_sat" placeholder="hh:mm-hh:mm">
+              </div>
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>営業時間(日)</label>
+                <input type="text" class="form-control spot_details_sun" placeholder="hh:mm-hh:mm">
+              </div>
+              <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                <label>営業時間(祝)</label>
+                <input type="text" class="form-control spot_details_holiday" placeholder="hh:mm-hh:mm">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>休業日</label>
+                <input type="text" class="form-control spot_details_sales_remarkes" placeholder="無休、定休">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-4 col-md-4 col-xs-12">
+                <label>電話</label>
+                <input type="text" class="form-control spot_details_tel">
+              </div>
+              <div class="form-group col-lg-8 col-md-8 col-xs-12">
+                <label>コメント</label>
+                <input type="text" class="form-control spot_details_remarks">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>充電器情報1</label>
+                <input type="text" class="form-control spot_details_stand_1">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>充電器情報2</label>
+                <input type="text" class="form-control spot_details_stand_2">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>充電器情報3</label>
+                <input type="text" class="form-control spot_details_stand_3">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>充電タイプ</label><br/>
+                <input type="checkbox" name="charge_types" value="普通充電">普通充電&nbsp;&nbsp;
+                <input type="checkbox" name="charge_types" value="急速充電">急速充電
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>付帯設備</label><br/>
+                <input type="checkbox" name="additional_information" value="トイレ">トイレ&nbsp;&nbsp;
+                <input type="checkbox" name="additional_information" value="喫煙所">喫煙所
+              </div>
+              <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                <label>付帯設備2</label><br/>
+                <input type="checkbox" name="facility_information" value="カフェ">カフェ&nbsp;
+                <input type="checkbox" name="facility_information" value="レストラン">レストラン&nbsp;
+                <input type="checkbox" name="facility_information" value="遊び場">遊び場&nbsp;<br/>
+                <input type="checkbox" name="facility_information" value="ショッピング">ショッピング&nbsp;
+                <input type="checkbox" name="facility_information" value="授乳室">授乳室
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>近隣観光SPOT</label>
+                <input type="text" class="form-control spot_details_nearby_information" placeholder="徒歩*分">
+              </div>
+              <div class="form-group col-lg-9 col-md-9 col-xs-12">
+                <label>サービス情報</label>
+                <input type="text" class="form-control spot_details_supported_services">
+              </div>
+              <div class="form-group col-lg-3 col-md-3 col-xs-12">
+                <label>混雑時間</label>
+                <input type="text" class="form-control spot_details_crowded_time_zone" placeholder="hh:mm-hh:mm">
+              </div>
+            </div>
+
+            <div class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button type="reset" class="btn btn-default" onclick="form_hide()">クリア</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box box-info">
+        <%= javascript_tag do %>
+          window.data = <%= raw @spots.to_json %>;
+          window.data_detail = <%= raw @spot_details.to_json %>;
+        <% end %>
+
+        <div class="box-header with-border">
+            <div class="form-group col-lg-6 col-md-6 col-xs-6"><p>スポット一覧</p></div>
+            <div class="form-group col-lg-6 col-md-6 col-xs-6" style="text-align: right"><button id="spot_add" class="btn btn-info" type="button" onclick="spots_new()" value="<%= Spot.last.id.to_i+1 %>">新規追加</button></div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <%= render "admin_spots_edit/result" %>
+        </div>
+
+        <div class="box-body table-responsive no-padding">
+        <%= render "admin_spots_edit/paging" %>
+        </div>
+    </div>
+  </div>
+</div>

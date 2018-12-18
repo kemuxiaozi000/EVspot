@@ -21,12 +21,20 @@ $(document).ready(function () {
 
             content += '<div class="product-img">'
             // 発電画像設定処理
-            if (data[key].name == 'NGE48') {
+            if (data[key].name == 'NGE') {
               content += '<img src="' + nge48 + '" >';
             } else if (data[key].origin == "太陽光") {
               content += '<img src="' + sun_electric + '" >';
             } else if (data[key].origin == "火力") {
               content += '<img src="' + fire_electric + '">';
+            } else if (data[key].origin == "風力") {
+              content += '<img src="' + wind_electric + '">';
+            } else if (data[key].origin == "水力") {
+              content += '<img src="' + water_electric + '">';
+            } else if (data[key].origin == "地熱") {
+              content += '<img src="' + geothermal_electric + '">';
+            } else if (data[key].origin == "原子力") {
+              content += '<img src="' + newclear_electric + '">';
             } else {
               content += '<img src="' + other_electric + '">';
             }
@@ -69,6 +77,14 @@ $(document).ready(function () {
         console.log(errorThrown);
       });
   });
+
+  // 画面に合わせて位置を調整
+  var windowH = $(window).height();
+  var headerH = $(".main-header").height();
+  var contentPadding = parseInt($(".content").css("padding-top").replace('px', ''));
+  contentPadding += parseInt($(".content").css("padding-bottom").replace('px', ''));
+  contentPadding += parseInt($(".supplier_list_area").css("padding-bottom").replace('px', ''));
+  $(".supplier_list_area").css("height", parseInt(windowH - headerH - contentPadding));
 
   // 供給者情報の絞り込み実行
   $('.supplier_search_form').submit();

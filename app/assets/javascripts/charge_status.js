@@ -4,6 +4,9 @@
 $(document).ready(function () {
   var remains = 0;
 
+  // map情報削除
+  localStorage.clear();
+
   function getTimeString(second) {
     var min = parseInt(second / 60);
     var sec = second % 60;

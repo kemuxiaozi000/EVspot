@@ -23,24 +23,42 @@
       </header>
     </div>
 
-    <div class="routeInfo card card-success" style="position: absolute; right: 20px; bottom: 60px; margin:0px; display: none;">
+    <div style="position: absolute; right: 10px; bottom: 50px; margin:0px 0px 10px 0px;">
+      <button type="button" class="currentPlace" style="border-left-width: 0px;border-right-width: 0px;border-bottom-width: 0px;border-top-width: 0px;padding-left: 2px;padding-right: 2px;padding-bottom: 2px;padding-top: 2px;">
+        <img id="getCurrentPlace" style="width: 30px;height: 30px;" src='<%= asset_path 'currentPlace.png' %>' alt="">
+      </button>
+    </div>
+
+    <div class="routeInfo card card-success" style="position: absolute; right: 50px; bottom: 60px; margin:0px; display: none;">
       <table class="h4 text-bold bg-success" style="margin:0px;">
-        <tr>
+        <tr style="display: block;" height="25">
           <td>必要充電回数：</td>
           <td><span id="numberOfTimes">99</span></td>
         </tr>
-        <tr>
-          <td>到着予定時刻：</td>
-          <td><span id="estimateTime">99:99</span></td>
+        <tr class="stopover1" style="display: none;">
+          <td>経由地１到着予定時刻：</td>
+          <td><span id="estimateTimeStopover1">99:99</span></td>
         </tr>
+        <tr class="stopover2" style="display: none;">
+          <td>経由地２到着予定時刻：</td>
+          <td><span id="estimateTimeStopover2">99:99</span></td>
+        </tr>
+        <tr class="stopover3" style="display: none;">
+          <td>経由地３到着予定時刻：</td>
+          <td><span id="estimateTimeStopover3">99:99</span></td>
+        </tr>
+        <tr style="display: block;">
+        <td>到着予定時刻：</td>
+        <td><span id="estimateTime">99:99</span></td>
+      </tr>
       </table>
     </div>
 
   </div>
 </div>
 
-<%= render partial: "modal" %>
-<%= render partial: "reserve_ok" %>
+<%= render "common/modal_reservation" %>
+<%= render "common/reservation_ok" %>
 
 <script>
   var iconEmpty = '<%= asset_path "empty.png" %>';

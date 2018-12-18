@@ -5,6 +5,8 @@ class CouponController < ApplicationController
     @page_title = 'クーポン画面'
     # スポットID
     @spot_id = params[:spot_id].to_i
+    # スポット名
+    @spot_info = Spot.new.select_by_id(@spot_id)
 
     # ログ取得
     Userlog.new.insert(session[:user_name].to_s, 'coupon', nil, params.to_s)

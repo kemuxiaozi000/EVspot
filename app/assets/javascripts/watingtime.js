@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  var dt;
   reloadTable(data);
 
   // 引数の内容でcommon一覧を再描画する
@@ -23,20 +24,23 @@ $(document).ready(function () {
         //scrollX: false,
         scrollY: 450,
         retrieve: true,
-        ordering: false,
+        ordering: true,
         lengthChange: false,
         searching: false,
         info: false,
         paging: false,
-        order: [1, "asc"],
+        order: [0, "asc"],
         data: datalist,
-        columnDefs: [
-          { className: 'col-xs-2', 'targets': [0, 3] },
-          { className: 'col-xs-4', 'targets': [1, 2] }
-        ]
+        "bAutoWidth": false,
+        "columnDefs": [
+          {
+            "searchable": false,
+            "orderable": false,
+            "targets": [3]
+          }
+          ]
       });
       dt.columns.adjust();
-
     }
   }
 
@@ -96,5 +100,11 @@ $(document).ready(function () {
         console.log(errorThrown);
       });
   });
+
+
+  $(window).resize(function() {
+    dt.columns.adjust().draw();
+  });
+
 
 });

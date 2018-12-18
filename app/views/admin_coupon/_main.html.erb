@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-body">
+        <div id="info_message" class="callout callout-info" style="display: none;"></div>
+        <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
+        <form role="form" id="admin_coupon_form">
+          <div class="box-body">
+            <div class="row">
+              <div class="form-group col-lg-1 col-sm-4 col-xs-12">
+                <label>クーポンID</label>
+                <input type="text" class="form-control coupons_id">
+              </div>
+              <div class="form-group col-lg-3 col-sm-8 col-xs-12">
+                <label>タイトル</label>
+                <input type="text" class="form-control coupons_title">
+              </div>
+              <div class="form-group col-lg-4 col-sm-12 col-xs-12">
+                <label>メッセージ</label>
+                <input type="text" class="form-control coupons_message">
+              </div>
+              <div class="form-group col-lg-2 col-sm-6 col-xs-6">
+                <label>使用開始日</label>
+                <input type="text" class="form-control coupons_from_date">
+              </div>
+              <div class="form-group col-lg-2 col-sm-6 col-xs-6">
+                <label>使用終了日</label>
+                <input type="text" class="form-control coupons_to_date">
+              </div>
+            </div>
+            <div class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button type="reset" class="btn btn-default">クリア</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box box-info">
+        <%= javascript_tag do %>
+          window.data = <%= raw @coupons.to_json %>;
+
+        <% end %>
+
+        <div class="box-header with-border">
+            <p>クーポン一覧</p>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <%= render "admin_coupon/result" %>
+        </div>
+    </div>
+  </div>
+</div>

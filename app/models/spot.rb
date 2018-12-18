@@ -37,20 +37,20 @@ class Spot < ApplicationRecord
     arr
   end
 
-  def get_arround_sql(lat, lon, num, spot_detail_search_params)
+  def get_arround_sql(current_lat, current_lon, num, spot_detail_search_params)
     sql_select = 'SELECT '
     sql_select += select_sql
     sql_select += 'FROM spots '
     sql_select += 'inner join spot_details on spot_details.id = spots.detail_id '
+    sql_select += 'inner join (select id,'
+    sql_select += "(GLength(GeomFromText(CONCAT('LineString(" + current_lon + ' ' + current_lat
+    sql_select += ",', lon, ' ', lat,')'))) * 111.3194) as distance from spots) dis on dis.id = spots.id "
     sql_select += 'where '
-    sql_select += "(GLength(GeomFromText(CONCAT('LineString("
-    sql_select += lon
-    sql_select += ' '
-    sql_select += lat
-    sql_select += ",', lon, ' ', lat,')'))) * 111.3194) <= :num "
+    sql_select += 'dis.distance <= :num '
     sql_select += SpotDetail.new.get_spot_detail_condition_sql(spot_detail_search_params)
     # インタビュー用に対象のスポット情報を必ず表示させる
     sql_select += 'or (spots.id = 895 or spots.id = 1129 or spots.id = 2378 or spots.id = 2992 or spots.id = 9691 or spots.id = 9693) '
+    sql_select += 'order by distance '
     sql = ActiveRecord::Base.send(
       :sanitize_sql_array,
       [
@@ -67,7 +67,7 @@ class Spot < ApplicationRecord
     sql_select += 'address,week,sat,sun,holiday,sales_remarkes,tel,remarks,'
     sql_select += 'stand_1,stand_2,stand_3,additional_information,charge_types,'
     sql_select += 'facility_information,nearby_information,supported_services,'
-    sql_select += 'crowded_time_zone '
+    sql_select += 'crowded_time_zone, dis.distance '
     sql_select
   end
 
@@ -111,5 +111,12 @@ class Spot < ApplicationRecord
   # IDで検索
   def select_by_id(spot_id)
     Spot.where(id: spot_id)
+    # SpotDetail.where(id: detail_id) # とりあえず追加
+  end
+
+  # クーポン存在チェック(IDで検索)
+  def select_coupon_by_id(spot_id)
+    result_data = Spot.where(id: spot_id).where.not(coupon_id: nil)
+    result_data.length.positive? ? 1 : 0
   end
 end

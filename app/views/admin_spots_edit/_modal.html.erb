@@ -1,0 +1,32 @@
+<div class="modal fade" id="MapModal">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">住所入力</h4>
+    </div>
+    <div class="modal-body">
+    <div class="form-group col-lg-6 col-md-6 col-xs-6">
+    <label>緯度(lat)</label>
+    <input type="text" id="latitude_edit" class="form-control admin_spot_lat">
+  </div>
+  <div class="form-group col-lg-6 col-md-6 col-xs-6">
+    <label>経度(lon)</label>
+    <input type="text" id="longitude_edit" class="form-control admin_spot_lon">
+  </div>
+  <div class="form-group col-lg-12 col-md-12 col-xs-12">
+  <label>住所</label>
+  <input type="text" id="address_edit" class="form-control admin_spot_address">
+</div>
+<center>
+    <div id="map-canvas" style="height: 300px; width: 270px;"></div>
+
+    </center>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">キャンセル</button>
+      <button id="lat_lon_input" type="button" class="btn btn-primary" data-dismiss="modal">入力</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

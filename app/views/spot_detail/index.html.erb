@@ -33,6 +33,11 @@
                 <div class="row" style="padding-bottom: 5px;">
                   <i class="glyphicon glyphicon-time fa-fw"></i><span id="spot_time">【営業時間】平日:24時間営業, 土:null, 日:null</span>
                 </div>
+                <div class="row" style="padding-bottom: 5px;">
+                  <a href="/coupon?spot_id=<%= @spot_id %>" class="btn btn-primary" <% if @coupon == 0 %>disabled="disabled" style="pointer-events: none;"<% end %> >クーポン</a>
+                  <button class="btn btn-success destination_set" id="destination">ここへ行く</button>
+                  <a class="btn btn-warning" id="reservation" data-toggle="modal" data-target="#reservationModal" role="button">予約</a>
+                </div>
               </div>
             </div>
           </div>
@@ -41,6 +46,10 @@
     </div>
   </div>
 </div>
+
+<%= render "common/modal_reservation" %>
+<%= render "common/reservation_ok" %>
+
 <script>
   var iconToilet = '<%= asset_path "toilet.png" %>';
   var iconSmokingArea = '<%= asset_path "smoking_area.png" %>';
@@ -54,4 +63,4 @@
   var iconSightseeing = '<%= asset_path "sightseeing.png" %>';
 </script>
 
-<%= javascript_include_tag "detail"%>
+<%= javascript_include_tag "spot_detail"%>

@@ -23,6 +23,23 @@ class Api::Map::SpotinfolatlonController < ApplicationController
     render json: @result
   end
 
+  # スポット一覧取得
+  # @param  :lat
+  # @param  :lon
+  # @range  :range
+  # @return スポットIDリスト
+  def read
+    Userlog.new.insert(session[:user_name], 'map', 'スポット一覧取得', params.to_s)
+    # 位置
+    lat = params[:lat].to_s
+    lon = params[:lon].to_s
+    # 範囲
+    range = params[:range].to_i
+    # スポット一覧取得
+    @result = Spot.new.select_by_latlon_zoom(lat, lon, range, params)
+    render json: @result
+  end
+
   # zoom率から取得範囲の算出
   def get_range(zoom)
     result = case zoom

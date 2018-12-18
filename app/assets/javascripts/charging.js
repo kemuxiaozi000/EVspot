@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  // map情報削除
+  localStorage.clear();
+
+  // ボタン押下処理
   $(".small-box").click(function () {
     if ($("#charging_id", this).val() == "qr") {
       qr_url();

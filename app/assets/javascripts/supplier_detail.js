@@ -11,8 +11,24 @@ $(document).ready(function () {
     $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + matsubara + '"></img>');
   } else if (photo == "nge48.png") {
     $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + nge48 + '"></img>');
-  } else if (photo == "chubu.png") {
-    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + chubu + '"></img>');
+  } else if (photo == "aso.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + aso + '"></img>');
+  } else if (photo == "hiroi.png") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + hiroi + '"></img>');
+  } else if (photo == "inuyamajou.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + inuyamajou + '"></img>');
+  } else if (photo == "miyake.png") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + miyake + '"></img>');
+  } else if (photo == "reconstruction.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + reconstruction + '"></img>');
+  } else if (photo == "school.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + school + '"></img>');
+  } else if (photo == "shibuya.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + shibuya + '"></img>');
+  } else if (photo == "takayama.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + takayama + '"></img>');
+  } else if (photo == "uwajima.jpg") {
+    $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + uwajima + '"></img>');
   } else {
     $('#supplier_image').html('<img id="supplier_image" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);" src="' + no_image + '"></img>');
   }

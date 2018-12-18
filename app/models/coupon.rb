@@ -16,6 +16,10 @@ class Coupon < ApplicationRecord
           .order('from_date DESC')
   end
 
+  def select_by_id(coupon_id)
+    Coupon.where(id: coupon_id)
+  end
+
   # 緯度経度から付近のクーポン情報を新しい順で取得
   def select_all_by_latlon(current_lat, current_lon, todaysdate)
     latlon_arr = get_latlon_rad(current_lat, current_lon, 5000)

@@ -39,7 +39,6 @@ $(document).ready(function () {
     time = time < 0 ? 0 : time;
     $(".reserveRemainingMinute").text(time);
 
-
     var url = "/charge_welcome?spot_id=" + $("#temporary_spot_id").val();
     if (time != 0) {
       url += "&reservation=on";
@@ -49,7 +48,50 @@ $(document).ready(function () {
       $("#reservationChk").text("充電可能です。");
       $("#reservationMinute").hide();
     }
-    $("#reservationBtn").attr("href", url)
+    $("#reservationBtn").attr("href", url);
+  });
+
+  // 予約ダイアログの「〇」と「予」をクリックで交互に入れ替えるイベント登録
+  $(".reservation_time").on("click", function () {
+    var mark = $(this).text();
+    if (mark == "〇") {
+      $(".reservation_time").each(function (index, element) {
+        if ($(element).text() != "✕") {
+          $(element).text("〇");
+        }
+      });
+      $(this).text("予");
+    } else if (mark == "予") {
+      $(this).text("〇");
+    }
+  });
+
+  // 予約ダイアログの「OK」クリック時イベントの登録
+  $("#reservationConfirm").on("click", function () {
+    // 予約ダイアログを閉じる
+    $("#reservationModal").modal("hide");
+
+    // 「予」があるかどうかをチェック
+    var reserveFlag = false;
+    $(".reservation_time").each(function (index, element) {
+      if ($(element).text() == "予") {
+        reserveFlag = true;
+      }
+    });
+
+    if (reserveFlag) {
+      // 画面に合わせて位置を調整
+      var windowH = $(window).height();
+      var windowW = $(window).width();
+      var width = $("#alertFade").width();
+      $("#alertFade").css("bottom", parseInt(windowH / 2));
+      $("#alertFade").css("left", parseInt((windowW - width) / 2));
+      // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
+      $("#alertFade").fadeIn(500);
+      window.setTimeout(function () {
+        $("#alertFade").fadeOut();
+      }, 5000);
+    }
   });
 });
 

@@ -1,13 +1,15 @@
+<div class="wrapper">
 <%= render "common/header" %>
-<aside class="main-sidebar">
-  <section class="sidebar">
-    <%= render "common/manage_sidebar" %>
-  </section>
-</aside>
-<div class="content-wrapper">
-  <section class="content">
-    <%= render "common_edit/main" %>
-  </section>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <%= render "common/manage_sidebar" %>
+    </section>
+  </aside>
+  <div class="content-wrapper">
+    <section class="content container-fluid">
+      <%= render "common_edit/main" %>
+    </section>
+  </div>
 </div>
 
 <%= javascript_include_tag "watingtime"%>

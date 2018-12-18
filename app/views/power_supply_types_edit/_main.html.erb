@@ -4,25 +4,17 @@
       <div class="box-body">
         <div id="info_message" class="callout callout-info" style="display: none;"></div>
         <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
-        <form role="form" id="common_form">
+        <form role="form" id="power_supply_types_edit_form">
           <div class="box-body">
             <div class="row">
-
-              <div class="form-group col-md-3 col-xs-6">
-                <label>時間管理種類</label>
-                <select class="form-control time_control_types">
-                  <option value="1">待ち時間</option>
-                  <option value="2">充電時間</option>
-                </select>
+              <div class="form-group col-lg-4 col-md-4 col-xs-12">
+                <label>電源種別ID</label>
+                <input type="text" class="form-control power_supply_types_id">
               </div>
-              <div class="form-group col-md-3 col-xs-6">
-                <label>時間設定値</label>
-                <div class="input-group">
-                  <input type="number" class="form-control time_value">
-                  <span class="input-group-addon">分</span>
-                </div>
+              <div class="form-group col-lg-8 col-md-8 col-xs-12">
+                <label>電源種別名</label>
+                <input type="text" class="form-control power_supply_types_name">
               </div>
-
             </div>
             <div class="btn-group pull-right">
               <button type="submit" class="btn btn-success">
@@ -36,18 +28,16 @@
     </div>
     <div class="box box-info">
         <%= javascript_tag do %>
-          window.data = <%= raw @commonlist.to_json %>;
+          window.data = <%= raw @power_supply_types.to_json %>;
 
         <% end %>
 
-        <div class="box-header">
-            <p>時間管理種類一覧</p>
+        <div class="box-header with-border">
+            <p>電源種別一覧</p>
         </div>
         <div class="box-body table-responsive no-padding">
-            <%= render "common_edit/result"%>
+            <%= render "power_supply_types_edit/result" %>
         </div>
     </div>
   </div>
 </div>
-
-
