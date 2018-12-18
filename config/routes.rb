@@ -2,14 +2,47 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'login#index', as: :root
+  root 'userbase#index', as: :root
 
   # get
   # ホーム画面
-  get 'login' => 'login#index'
-  get '' => redirect('login')
+  get 'userbase' => 'userbase#index'
+  get '' => redirect('userbase')
   # Top画面
   get 'top' => 'top#index'
+
+  # 充電選択画面
+  get 'charging' => 'charging#index', as: 'charging'
+
+  # QRコード認証画面
+  get 'qrreader' => 'qrreader#index'
+
+  # 電源種別選択画面
+  get 'power_supply_types' => 'power_supply_types#index'
+
+  # 供給情報画面
+  get 'supplier' => 'supplier#index'
+
+  # 供給者管理画面
+  get 'suppliers_edit' => 'suppliers_edit#index', as: 'suppliers_edit'
+
+  # 充電履歴画面
+  get 'charge_history' => 'charge_history#index'
+
+  # 充電スポット認証画面
+  get 'charge_authenticate/index'
+
+  # 充電スポット充電開始画面
+  get 'charge_welcome/index'
+  get 'charge_welcome' => 'charge_welcome#index', as: 'charge_welcome'
+
+  # 充電スポット充電中画面
+  get 'charge_status/index'
+  get 'charge_status' => 'charge_status#index', as: 'charge_status'
+
+  # 充電スポット充電完了画面
+  get 'charge_complete/index'
+  get 'charge_complete' => 'charge_complete#index', as: 'charge_complete'
 
   # 会員登録画面
   get 'member' => 'member#index'
@@ -19,6 +52,12 @@ Rails.application.routes.draw do
 
   # 詳細画面
   get 'detail' => 'detail#index'
+
+  # 充電管理画面
+  get 'suppliers_edit' => 'suppliers_edit#index'
+
+  # 待ち時間管理画面
+  get 'waitingtime' => 'waitingtime#index'
 
   # DBアクセス
   namespace :api do
@@ -33,6 +72,10 @@ Rails.application.routes.draw do
     namespace :map, format: 'json' do
       # 充電スポットを取得する処理
       namespace :spotinfo do
+        post '/index', action: 'index'
+      end
+      # 充電スポットを取得する処理
+      namespace :spotinfolatlon do
         post '/index', action: 'index'
       end
     end
@@ -54,6 +97,46 @@ Rails.application.routes.draw do
     namespace :memberlist, format: 'json' do
       # 充電スポットを取得する処理
       namespace :register do
+        post '/index', action: 'index'
+      end
+    end
+    # 供給画面
+    namespace :supplierlist, format: 'json' do
+      # 供給情報を取得する処理
+      namespace :supplierinfo do
+        post '/index', action: 'index'
+      end
+    end
+    # 充電管理画面
+    namespace :management, format: 'json' do
+      # 選ぶ供給情報を取得する処理
+      namespace :supplier do
+        post '/index', action: 'index'
+        post '/upsert', action: 'upsert'
+      end
+      # 待ち時間を取得する処理
+      namespace :waitingtime do
+        post '/upsert', action: 'upsert'
+      end
+    end
+    # 認証画面
+    namespace :authenticate, format: 'json' do
+      # スポット情報を取得する処理
+      namespace :spotinfo do
+        post '/index', action: 'index'
+      end
+    end
+    # 充電画面
+    namespace :charge, format: 'json' do
+      # 明細情報を取得する処理
+      namespace :historyinfo do
+        post '/create', action: 'create'
+      end
+    end
+    # レシート情報画面
+    namespace :historyview, format: 'json' do
+      # 選ぶ供給情報を取得する処理
+      namespace :historyinfo do
         post '/index', action: 'index'
       end
     end

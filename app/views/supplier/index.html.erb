@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <%= render "supplier/header" %>
+  <%= render "supplier/sidemenu" %>
+  <input type="hidden" class="power_supply_type_id" value="<%= @pst_id %>">
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-body supplier_list_area">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag "supplier"%>

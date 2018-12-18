@@ -10,7 +10,7 @@ resource "aws_rds_cluster" "default" {
   db_subnet_group_name            = "${aws_db_subnet_group.vpc_main_db_subnet_group.name}"
   storage_encrypted               = true
   db_cluster_parameter_group_name = "${aws_rds_cluster_parameter_group.default.name}"
-  skip_final_snapshot             = true
+  skip_final_snapshot             = false
   final_snapshot_identifier       = "finalsnapshot"
 
   tags {

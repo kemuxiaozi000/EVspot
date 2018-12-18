@@ -1,19 +1,21 @@
 <li class="dropdown user user-menu">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-    <img src='<%= asset_path 'cat.png' %>' class="user-image" alt="User Image">
+    <i class="far fa-address-card fa-large fa-white"></i>
     <span class="">user</span>
   </a>
   <ul class="dropdown-menu">
     <!-- User image -->
-    <li class="user-header">
-      <img src='<%= asset_path 'cat.png' %>' class="user-image" alt="User Image">
-      <p>
-        user
-        <small>Member since Sep. 2018</small>
-      </p>
-    </li>
+    <!--<li class="user-header">
+      <i class="far fa-address-card fa-4x fa-white"></i>
+    </li>-->
     <!-- Menu Body-->
     <li class="user-body">
+      <p>Default </p>
+      <div class="row row-height">
+        <div class="col-xs-12 text-center">
+          <b>我が家の充電</b>
+        </div>
+      </div>
       <p>Battery status</p>
       <div class="row row-height">
         <div class="col-xs-6 text-center">
@@ -23,12 +25,11 @@
           <b style="font-size: 40px;">100%</b>
         </div>
       </div>
-
     </li>
     <!-- Menu Footer-->
     <li class="user-footer">
-      <div class="pull-right">
-        <a href="/login" class="btn btn-default btn-flat">Sign out</a>
+      <div class="pull-left">
+        <a href="/charge_history" class="btn btn-default btn-flat">履歴</a>
       </div>
     </li>
   </ul>

@@ -1,8 +1,6 @@
 # AWS general settings
-access_key = "<ACCESS_KEY>"
-secret_key = "<SECRET_KEY>"
 account_id = "<AWS_ACCOUNT_ID>"
-ec2_key_name = "agleader"
+ec2_key_name = "kevd"
 
 # Infra stack settings
 region = "ap-northeast-1"
@@ -12,13 +10,11 @@ db_cluster_instance_count = 1
 db_username = "admin"
 db_password = "PasswordMustBeFrom8To41Characters!"
 db_instance_type = "db.t2.small"
-environment = "<ENVIRONMENT>"
-
 web_instance_type = "t2.micro"
+loadbalancer_certificate_arn = "arn:aws:acm:ap-northeast-1:072176254947:certificate/52b508c2-9c37-4c56-b977-3dba138febe0"
 
 # Application settings
 app_name = "<APP_NAME>"
 secret_key_base = "<SECRET_KEY_BASE>"
-rails_env = "development"
 
-loadbalancer_certificate_arn = "arn:aws:acm:ap-northeast-1:298991489619:certificate/92e87303-0e7d-4e71-9c8a-6649cf927f0a"
+

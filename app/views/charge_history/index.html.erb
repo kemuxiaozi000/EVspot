@@ -1,0 +1,13 @@
+<%= render "common/header" %>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <%= render "charge_history/main" %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: "receipt/modal" %>
+
+<%= javascript_include_tag "chargehistory"%>

@@ -222,29 +222,4 @@ resource "aws_elastic_beanstalk_environment" "aws_eb_web_app_env" {
     name      = "RAILS_SERVE_STATIC_FILES"
     value     = "1"
   }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "SENDGRID_API_KEY"
-    value     = "${var.sendgrid_api_key}"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "SENDGRID_FROM"
-    value     = "${var.sendgrid_from}"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "WEATHER_API_KEY"
-    value     = "${var.weather_api_key}"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "WEATHER_BASE_URL"
-    value     = "${var.weather_base_url}"
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "WEATHER_IMAGE_URL"
-    value     = "${var.weather_image_url}"
-  }
 }

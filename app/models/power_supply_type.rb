@@ -1,0 +1,2 @@
+class PowerSupplyType < ApplicationRecord
+end

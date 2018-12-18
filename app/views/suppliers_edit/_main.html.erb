@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-body">
+        <div id="info_message" class="callout callout-info" style="display: none;"></div>
+        <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
+        <form role="form" id="supplier_edit_form">
+          <div class="box-body">
+            <div class="row">
+              <div class="form-group col-xs-1">
+                <label>供給者ID</label>
+                <input type="text" class="form-control suppliers_id">
+              </div>
+              <div class="form-group col-xs-3">
+                <label>供給者名</label>
+                <input type="text" class="form-control suppliers_name">
+              </div>
+              <div class="form-group col-xs-2">
+                <label>電源種別</label>
+                <select class="form-control power_supply_types">
+                  <option value="0">クリーンエネルギー</option>
+                  <option value="1">レガシーエネルギー</option>
+                  <option value="2">その他のエネルギー</option>
+                </select>
+              </div>
+              <div class="form-group col-xs-2">
+                <label>充電単価</label>
+                <div class="input-group">
+                  <input type="number" class="form-control suppliers_value">
+                  <span class="input-group-addon">円</span>
+                </div>
+              </div>
+              <div class="form-group col-xs-2">
+                <label>産地</label>
+                <input type="text" class="form-control producing_area">
+              </div>
+              <div class="form-group col-xs-2">
+                <label>由来</label>
+                <input type="text" class="form-control origin">
+              </div>
+            </div>
+            <div class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button type="reset" class="btn btn-default">クリア</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box box-info">
+        <%= javascript_tag do %>
+          window.data = <%= raw @suppliers.to_json %>;
+
+        <% end %>
+
+        <div class="box-header with-border">
+            <p>供給者一覧</p>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <%= render "suppliers_edit/result" %>
+        </div>
+    </div>
+  </div>
+</div>

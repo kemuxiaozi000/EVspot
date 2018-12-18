@@ -1,0 +1,57 @@
+<aside id="sidebar" class="main-sidebar">
+  <section class="sidebar">
+    <div class="user-panel" style="height:50px;">
+      <div class="info">
+        <a href="/" class="logo">
+          <label style="font-size:20px;">供給情報</label>
+        </a>
+      </div>
+    </div>
+    <form class="supplier_search_form">
+      <div class="bg-primary sidebar-form" >
+        <button id="research" class="btn-primary form-control">検索<i class="fa fa-search pull-right" style="padding-top: 3px;"></i></button>
+      </div>
+      <ul class="sidebar-menu tree" data-widget="tree" style="color:white;">
+        <li class="header">MAIN</li>
+
+        <li class="treeview">
+          <a href="#">
+          <i class="fa fa-edit"></i> <span>充電施設絞り込み</span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+          </span>
+          </a>
+          <ul class="treeview-menu">
+            <div class="container-fluid">
+              <div class="row" style="margin-top:5px; margin-bottom:10px;">
+                <div class="col-xs-12">
+                  <div class="input-group">
+                    <label for="suppiler_search_name">名称</label>
+                    <input type="text" class="form-control" id="suppiler_search_name" placeholder="名称">
+                  </div>
+
+                  <div class="input-group  col-lg-12">
+                    <label class="col-xs-12" for="suppiler_search_price" style="padding-left:0px;">価格</label>
+                    <input type="number" class="col-xs-5" id="supplier_search_price_min" placeholder="small" style="color:black;">
+                    <div class="col-xs-2" style="padding: 3px 0px 0px 0px"><center >～</center></div>
+                    <input type="number" class="col-xs-5" id="supplier_search_price_max" placeholder="big" style="color:black;">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="supplier_search_production_area">産地</label>
+                    <input type="text" class="form-control" id="supplier_search_production_area" placeholder="産地">
+                  </div>
+
+                  <div class="input-group">
+                    <label for="suppiler_search_origin">由来</label>
+                    <input type="text" class="form-control" id="supplier_search_origin" placeholder="由来">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </li>
+      </ul>
+    </form>
+  </section>
+</aside>

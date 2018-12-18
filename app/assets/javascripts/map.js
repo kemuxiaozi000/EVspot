@@ -6,12 +6,19 @@ $(document).ready(function () {
   var markerinfo = [];
   var window_marker;
   var route_marker = "";
+  var waitingTime = null;
+  var docOpenTime = new Date();
+  var refreshTime = 0;
 
   // 目的地取得
   destination = $("#destination").val();
   $("#destination_text").val(destination);
   $("#route_destination").val(destination);
-  if ($("#spot_lat").val() == "") {
+
+  // 条件判別を変更
+  if ($("#destination").val() == "") {
+    spotinfoLatLon($("#spot_lat").val(),$("#spot_lon").val());
+  } else if ($("#spot_lat").val() == "") {
     spotinfo();
   } else {
     route_search();
@@ -116,8 +123,38 @@ $(document).ready(function () {
     });
   }
 
+  function spotinfoLatLon(lat, lon) {
+    $.ajax({
+      url: "/api/map/spotinfolatlon/index",
+      data: {
+        lat : lat,
+        lon : lon
+      },
+      type: "POST"
+    })
+    .done(function(data, textStatus, jqXHR) {
+      if(data) {
+        initMap(data);
+      } else {
+        alert("検索できませんでした。");
+      }
+      $("#destination_search").prop("disabled", false);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      alert("検索できませんでした。");
+      console.log(errorThrown);
+    })
+    .always(function(jqXHR, textStatus, errorThrown) {
+      console.log("complete:spotinfo");
+    });
+  }
+
   // マップ情報作成
   function initMap(data) {
+    if (waitingTime == null) {
+      waitingTime = data.watingtime;
+    }
+
     // マップ作成
     map = new google.maps.Map(document.getElementById('map'), { // #mapに地図を埋め込む
       center: { // 地図の中心を指定
@@ -138,39 +175,61 @@ $(document).ready(function () {
         map: map // マーカーを立てる地図を指定
       });
       var content = "";
-      content = '<div class="row">'
+      var timeString = getEndime(data.watingtime);
+      var image = "";
+      var viewFlg = 0;
+
+      if((parseInt(data.spot[key].id) % 3) == 0){
+        image = iconNotAvailable;
+      } else {
+        if(data.watingtime > 0) {
+          image = iconFull;
+          viewFlg = 1;
+        } else {
+          image = iconEmpty;
+        }
+      }
+      content = '<div class="container-fluid" style="margin:0px padding:0px;">'
+      content += '<div class="row">'
 
       content += '<div class="col-md-12">'
-                 +   '<div class="box" style="border-top: 0px;">'
-               +   '<div class="box-header"><span class="box-title">' + data.spot[key].name + '</span></div>'
-             +   '<div id="spot_area" class="box-body" style="overflow: auto; height: 80px;">' ;
-      for (i in data.spot[key].supplier) {
-        content += '<div class="info-box" onclick="myFunction(this)">'
-        switch (i) {
-          case "0":
-            content += '<span class="info-box-icon bg-green"><i class="fas fa-shopping-cart"></i></span>'
-            break;
-          case "1":
-            content += '<span class="info-box-icon bg-yellow"><i class="fas fa-male"></i></span>'
-            break;
-          case "2":
-            content += '<span class="info-box-icon bg-aqua"><i class="fas fa-cogs"></i></span>'
-            break;
-          default:
-            content += '<span class="info-box-icon bg-aqua"><i class="fas fa-cogs"></i></span>'
-            break;
-        }
-
-        content +=    '<div class="info-box-content">'
-                +      '<span class="info-box-text">' + data.spot[key].supplier[i].name + '</span>'
-                +      '<span class="info-box-number pull-right">' + data.spot[key].supplier[i].value + '<small>円</small></span>'
-            +    '</div>'
-            +   '<input type="hidden" id="coupon_id" value="'+ data.spot[key].coupon_id + '">'
-            +   '<input type="hidden" id="spot_id" value="'+ data.spot[key].id + '">'
-            +   '<input type="hidden" id="supplier_id" value="'+ data.spot[key].supplier[i].id + '">'
-                +  '</div>'
+              +   '<div class="box" style="border-top: 0px;">'
+              +   '<div class="box-header"><span class="h5">' + data.spot[key].name + '</span></div>'
+              +   '<div id="spot_area" class="box-body" >' ;
+      content += '<img src="' + image + '" alt="充電中..." height="24" width="24">'
+      if (viewFlg == 1) {
+        content += '<div >' + timeString + 'から充電可</div>'
+        content += '<span class="waiting-time">待ち時間 : 00分</span>'
       }
-      content += '</div></div></div></div>'
+
+      // for (i in data.spot[key].supplier) {
+      //   content += '<div class="info-box" onclick="myFunction(this)">'
+      //   switch (i) {
+      //     case "0":
+      //       content += '<span class="info-box-icon bg-green"><i class="fas fa-shopping-cart"></i></span>'
+      //       break;
+      //     case "1":
+      //       content += '<span class="info-box-icon bg-yellow"><i class="fas fa-male"></i></span>'
+      //       break;
+      //     case "2":
+      //       content += '<span class="info-box-icon bg-aqua"><i class="fas fa-cogs"></i></span>'
+      //       break;
+      //     default:
+      //       content += '<span class="info-box-icon bg-aqua"><i class="fas fa-cogs"></i></span>'
+      //       break;
+      //   }
+
+      //   content +=    '<div class="info-box-content">'
+      //           +      '<span class="info-box-text">' + data.spot[key].supplier[i].name + '</span>'
+      //           +      '<span class="info-box-number pull-right">' + data.spot[key].supplier[i].value + '</span>'
+      //           // +      '<span class="info-box-number pull-right">' + data.spot[key].supplier[i].value + '<small>円</small></span>'
+      //       +    '</div>'
+      //       +   '<input type="hidden" id="coupon_id" value="'+ data.spot[key].coupon_id + '">'
+      //       +   '<input type="hidden" id="spot_id" value="'+ data.spot[key].id + '">'
+      //       +   '<input type="hidden" id="supplier_id" value="'+ data.spot[key].supplier[i].id + '">'
+      //       +  '</div>'
+      // }
+      content += '</div></div></div></div></div>'
 
       markerinfo[key] = new google.maps.InfoWindow({ // 吹き出しの追加
         content: content
@@ -214,6 +273,7 @@ $(document).ready(function () {
       strokeOpacity: 1,  // 外周透過度（0: 透明 ⇔ 1:不透明）
       strokeWeight: 1    // 外周太さ
     });
+
   }
 
   // マーカーにクリックイベントを追加
@@ -222,6 +282,16 @@ $(document).ready(function () {
       if (window_marker) {
         window_marker.close();
       }
+
+      // 吹き出し内容の設定
+      var markeropen = new Date();
+      dispTime = parseInt((markeropen.getTime() - docOpenTime.getTime()) / (1000 * 60));
+      dispTime = waitingTime - dispTime;
+      dispTime = dispTime <= 0 ? 0 : dispTime;
+
+      var cons = markerinfo[i].content;
+      cons = cons.replace(/待ち時間 : ..分/, "待ち時間 : " + dispTime + "分");
+      markerinfo[i].setContent(cons);
       markerinfo[i].open(map, marker[i]); // 吹き出しの表示
       window_marker = markerinfo[i];
     });
@@ -332,4 +402,46 @@ $(document).ready(function () {
     DR.setDirections(result);
   }
 
+//終了予定時間取得
+function getEndime(minute) {
+  var min = minute%60;
+  var hr = parseInt(minute / 60);
+
+  //今の時間取得
+  var myDate = new Date();
+  var nowtime_hr = myDate.getHours();
+  var nowtime_min = myDate.getMinutes();
+  var endtime_min = 0
+  var endtime_hr = 0
+  var timeString = ''
+  if (nowtime_min + min >= 60 ) {
+    endtime_min = nowtime_min + min - 60
+    if ( nowtime_hr + hr + 1 >= 24 ) {
+      endtime_hr = nowtime_hr + hr + 1 - 24
+    } else {
+      endtime_hr = nowtime_hr + hr + 1
+    }
+    endtime_hr = endtime_hr + hr
+  } else {
+    endtime_min = nowtime_min + min
+    if ( nowtime_hr + hr >= 24 ) {
+      endtime_hr = nowtime_hr + hr - 24
+    } else {
+      endtime_hr = nowtime_hr + hr
+    }
+  }
+  if (endtime_hr < 10) {
+    timeString += '0';
+  }
+  timeString += endtime_hr;
+  timeString += ':';
+  if (endtime_min < 10) {
+    timeString += '0';
+  }
+  timeString += endtime_min;
+  return timeString;
+}
+
 });
+
+

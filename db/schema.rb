@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_26_033249) do
+ActiveRecord::Schema.define(version: 2018_10_31_051408) do
+
+  create_table "commons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "coupons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "title"
@@ -31,9 +38,24 @@ ActiveRecord::Schema.define(version: 2018_10_26_033249) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.datetime "datetime"
+    t.string "spot_id"
+    t.string "volume"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "email_address"
     t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "power_supply_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -54,11 +76,14 @@ ActiveRecord::Schema.define(version: 2018_10_26_033249) do
     t.string "sat"
     t.string "sun"
     t.string "holiday"
-    t.string "sales_remarkes"
+    t.text "sales_remarkes"
     t.string "tel"
-    t.string "remarks"
+    t.text "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stand_1"
+    t.string "stand_2"
+    t.string "stand_3"
   end
 
   create_table "spots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -77,6 +102,9 @@ ActiveRecord::Schema.define(version: 2018_10_26_033249) do
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "power_supply_types_id"
+    t.string "producing_area"
+    t.string "origin"
   end
 
 end

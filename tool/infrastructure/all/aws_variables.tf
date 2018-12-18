@@ -2,8 +2,6 @@
 # General Settings
 #####################################
 
-variable "access_key" {}
-variable "secret_key" {}
 variable "account_id" {}
 
 variable "region" {
@@ -36,14 +34,6 @@ variable "vpc_main_cidr_public2" {
   default = "172.16.2.0/24"
 }
 
-variable "vpc_main_cidr_collector1" {
-  default = "172.16.21.0/24"
-}
-
-variable "vpc_main_cidr_collector2" {
-  default = "172.16.22.0/24"
-}
-
 variable "vpc_main_cidr_db1" {
   default = "172.16.11.0/24"
 }
@@ -69,23 +59,11 @@ variable "db_instance_type" {
 # Application Settings
 #####################################
 
-variable "environment" {}
-
 variable "solution_stack_name" {
   default = "64bit Amazon Linux 2018.03 v2.10.0 running Docker 17.12.1-ce"
 }
 
-variable "rails_env" {
-  default = "production"
-}
-
 variable "app_name" {}
-
-variable "sendgrid_api_key" {}
-variable "sendgrid_from" {}
-variable "weather_api_key" {}
-variable "weather_base_url" {}
-variable "weather_image_url" {}
 
 variable "web_healthcheck_path" {
   default = "/robots.txt"

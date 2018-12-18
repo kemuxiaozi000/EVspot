@@ -1,0 +1,36 @@
+<% if @history_list.length == 0 %>
+<div class="card card-danger">
+  <div class="container">
+    <div class="row">
+      <div class="text-center">
+        <h1>充電履歴なし</h1>
+      </div>
+      <div style="height:60vh">
+          <p class="card-text no-work">
+            過去の充電履歴はありません。<br>
+            楽しいEVカーライフを！
+          </p>
+      </div>
+      <input type="hidden" id="field_id" value=''>
+      <input type="hidden" id="work_id" value=''>
+    </div>
+  </div>
+</div>
+<% else %>
+<% (0..@history_list.length-1).each do |num| %>
+  <div class="col-lg-3 col-xs-12" style="margin-top:15px;">
+    <!-- small box -->
+    <div class="small-box bg-blue ripple" id="<%= @history_list[num]['id'] %>">
+      <div class="inner btn" data-toggle="modal" data-target="#receiptModal" data-backdrop="true">
+        <h4 style="font-weight: bold;"><%= @history_list[num]['spot_name'] %></h4>
+        <p align="right"><font size="4"><%= @history_list[num]['datetime'] %></font></p>
+        <p align="right"><font size="4"><%= @history_list[num]['volume'] %></font>kWh</p>
+        <p align="right"><font size="4"><%= @history_list[num]['price'] %></font>円</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-leaf"></i>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

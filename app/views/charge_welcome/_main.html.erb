@@ -1,0 +1,18 @@
+<div class="content">
+  <div class="col-xs-12">
+    <div class="box box-success">
+      <div class="box-header">
+        <h2 class="box-title">ようこそ user さん</h2>
+      </div>
+      <div class="box-body">
+        ここは<%= @spot_name %>の充電スタンドです。
+      </div>
+      <div class="box-footer">
+        <div class="text-center">
+          <a href="<%= charging_path %>" class="btn btn-default btn-sm">キャンセル</a>
+          <a href="<%= charge_status_path + '?spot_id=' + params[:spot_id] %>" class="btn btn-success btn-sm"><i class="fa fa-plug"></i>充電する</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

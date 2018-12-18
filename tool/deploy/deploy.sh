@@ -38,8 +38,7 @@ if [ -z "${APPLICATION_NAME}" ]; then
 fi
 
 if [ -z "${ENVIRONMENT}" ]; then
-  echo "ENVIRONMENT was not provided, aborting deploy!"
-  exit 1
+  ENVIRONMENT=review
 fi
 
 if [ -z "${REGION}" ]; then
@@ -49,16 +48,6 @@ fi
 
 if [ -z "${AWS_ACCOUNT_ID}" ]; then
   echo "AWS_ACCOUNT_ID was not provided, aborting deploy!"
-  exit 1
-fi
-
-if [ -z "${AWS_ACCESS_KEY_ID}" ]; then
-  echo "AWS_ACCESS_KEY_ID was not provided, aborting deploy!"
-  exit 1
-fi
-
-if [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
-  echo "AWS_SECRET_ACCESS_KEY was not provided, aborting deploy!"
   exit 1
 fi
 

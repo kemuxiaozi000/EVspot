@@ -1,0 +1,39 @@
+<div class="modal fade modal-primary" id="receiptModal" tabindex="-1" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="receipt_place" class="modal-title"></h4>
+        <p id="receipt_time" class="h5 text-right"></p>
+      </div>
+      <div class="modal-body">
+        <div>
+          <table class="table">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <td >産地</td>
+                <td id="receipt_area" class="h4 text-right"></td>
+              </tr>
+              <tr>
+                <td>量</td>
+                <td class="h4 text-right"><span id="receipt_volume"></span><span class="h6">kWh</span></td>
+              </tr>
+              <tr>
+                <td>種類</td>
+                <td id="receipt_types" class="h4 text-right"></td>
+              </tr>
+              <tr>
+                <td>金額</td>
+                <td class="h4 text-right"><span id="receipt_price"></span><span class="h6">円</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

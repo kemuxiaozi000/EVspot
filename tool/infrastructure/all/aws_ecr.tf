@@ -27,7 +27,7 @@ resource "aws_ecr_lifecycle_policy" "expiration_policy" {
                 "type": "expire"
             }
         },
-                {
+        {
             "rulePriority": 2,
             "description": "Expire images older than 4 generations",
             "selection": {
@@ -36,21 +36,6 @@ resource "aws_ecr_lifecycle_policy" "expiration_policy" {
                 "countNumber": 3,
                 "tagPrefixList": [
                      "review"
-                ]
-            },
-            "action": {
-                "type": "expire"
-            }
-        },
-                {
-            "rulePriority": 3,
-            "description": "Expire images older than 4 generations",
-            "selection": {
-                "tagStatus": "tagged",
-                "countType": "imageCountMoreThan",
-                "countNumber": 3,
-                "tagPrefixList": [
-                     "demo"
                 ]
             },
             "action": {

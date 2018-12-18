@@ -3,39 +3,43 @@
 <input type="hidden" id="spot_lon" value="<%= @spot_lon %>">
 
 <div class="row">
-    <div class="col-xs-12" style="padding-right: 0px; padding-left: 0px;">
-        <div id="map" style="width: 100vw; height: 100vh;"></div>
-        <div class="col-xs-12" style="position: absolute; top: 5px;">
-            <header class="main-header">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="fa fa-bars" data-toggle="push-menu" style="padding: 0px;"></span>
-                    </span>
-                    <input id="destination_text" type="text" class="form-control input-lg">
-                    <span class="input-group-addon">
-                        <span id="destination_search" class="glyphicon glyphicon-search"></span>
-                    </span>
-                </div>
-            </header>
+  <div class="col-xs-12" style="padding-right: 0px; padding-left: 0px;">
+    <div id="map" style="width: 100vw; height: 100vh;"></div>
+    <div class="col-xs-12" style="position: absolute; top: 5px;">
+      <header class="main-header">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <span class="fa fa-bars" data-toggle="push-menu" style="padding: 0px;"></span>
+          </span>
+          <input id="destination_text" type="text" class="form-control input-lg">
+          <span class="input-group-addon">
+            <span id="destination_search" class="glyphicon glyphicon-search"></span>
+          </span>
         </div>
+      </header>
     </div>
+  </div>
 </div>
 
 <script>
-        function myFunction() {
-            var url = "/detail";
-            var $postData;
-            var $form = $('<form />', {
-            action: url,
-            method: 'get'
-            });
-            $postData = $('<input />', {type: 'hidden', name: 'coupon_id', value: document.getElementById("coupon_id").value});
-            $form.append($postData);
-            $postData = $('<input />', {type: 'hidden', name: 'spot_id', value: document.getElementById("spot_id").value});
-            $form.append($postData);
-            $postData = $('<input />', {type: 'hidden', name: 'supplier_id', value: document.getElementById("supplier_id").value});
-            $form.append($postData);
-            $("body").append($form);
-            $form.submit();
-        }
+  var iconEmpty = '<%= asset_path "empty.png" %>';
+  var iconFull = '<%= asset_path "full.png" %>';
+  var iconNotAvailable = '<%= asset_path "not_available.png" %>';
+
+  function myFunction() {
+    var url = "/detail";
+    var $postData;
+    var $form = $('<form />', {
+    action: url,
+    method: 'get'
+    });
+    $postData = $('<input />', {type: 'hidden', name: 'coupon_id', value: document.getElementById("coupon_id").value});
+    $form.append($postData);
+    $postData = $('<input />', {type: 'hidden', name: 'spot_id', value: document.getElementById("spot_id").value});
+    $form.append($postData);
+    $postData = $('<input />', {type: 'hidden', name: 'supplier_id', value: document.getElementById("supplier_id").value});
+    $form.append($postData);
+    $("body").append($form);
+    $form.submit();
+  }
 </script>

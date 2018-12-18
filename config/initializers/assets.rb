@@ -15,11 +15,19 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
-Rails.application.config.assets.precompile += %w[common.css]
-
 Rails.application.config.assets.precompile += %w[top.js]
 Rails.application.config.assets.precompile += %w[map.js]
+Rails.application.config.assets.precompile += %w[suppliers_edit.js]
 Rails.application.config.assets.precompile += %w[detail.js]
 Rails.application.config.assets.precompile += %w[mapvisual_silver.js]
 Rails.application.config.assets.precompile += %w[login.js]
 Rails.application.config.assets.precompile += %w[member.js]
+Rails.application.config.assets.precompile += %w[qr_packed.js]
+Rails.application.config.assets.precompile += %w[qr_reader.js]
+Rails.application.config.assets.precompile += %w[charge_status.js]
+Rails.application.config.assets.precompile += %w[supplier.js]
+Rails.application.config.assets.precompile += %w[chargehistory.js]
+Rails.application.config.assets.precompile += %w[charge_complete.js]
+Rails.application.config.assets.precompile += %w[watingtime.js]
+Rails.application.config.assets.precompile += %w[charging.js]
+Rails.application.config.assets.precompile += %w[charge_complete.js]

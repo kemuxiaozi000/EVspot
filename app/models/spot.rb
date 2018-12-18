@@ -21,12 +21,60 @@ class Spot < ApplicationRecord
       result_data['coupon_id'] = data.coupon_id
       result_data['supplier_id'] = data.supplier_id
       result_data['detail_id'] = data.detail_id
-      result_data['supplier'] = Supplier.new.select_all_by_id_arr(devide_string(data.supplier_id.to_s, ':'))
+      result_data['supplier'] = Supplier.new.select_by_id(devide_string(data.supplier_id.to_s, ':'))
       arr.push(result_data)
     end
     result['spot'] = arr
     result['position'] = address_latlon
     result
+  end
+
+  # 緯度経度から付近のスポット情報を取得(new)
+  def select_by_latlon_new(lat, lon)
+    sql = get_arround_sql(lat, lon, 5)
+    spot_data = ActiveRecord::Base.connection.select_all(sql)
+    result = {}
+    result['spot'] = data_input(spot_data)
+    position_struct = Struct.new(:latitude, :longitude)
+    position = position_struct.new(lat.to_f, lon.to_f)
+    result['position'] = position
+    result
+  end
+
+  def data_input(spot_data)
+    arr = []
+    spot_data.each do |data|
+      result_data = {}
+      result_data['id'] = data['id']
+      result_data['name'] = data['name']
+      result_data['lat'] = data['lat']
+      result_data['lon'] = data['lon']
+      result_data['coupon_id'] = data['coupon_id']
+      result_data['supplier_id'] = data['supplier_id']
+      result_data['detail_id'] = data['detail_id']
+      result_data['detail_data'] = SpotDetail.new.select_by_id(data['detail_id'])
+      result_data['supplier'] = Supplier.new.select_by_id(devide_string(data['supplier_id'].to_s, ':'))
+      arr.push(result_data)
+    end
+    arr
+  end
+
+  def get_arround_sql(lat, lon, num)
+    sql_select = 'select id,name,lat,lon,coupon_id,supplier_id,detail_id '
+    sql_select += "from(SELECT id,name,lat,lon,coupon_id,supplier_id,detail_id,GLength(GeomFromText(CONCAT('LineString("
+    sql_select += lon
+    sql_select += ' '
+    sql_select += lat
+    sql_select += ",', lon, ' ', lat,')'))) * 111.3194 AS distance FROM spots ORDER BY distance) as cus where distance <= :num"
+
+    sql = ActiveRecord::Base.send(
+      :sanitize_sql_array,
+      [
+        sql_select,
+        num: num
+      ]
+    )
+    sql
   end
 
   # クーポンIDからスポット情報を取得する処理

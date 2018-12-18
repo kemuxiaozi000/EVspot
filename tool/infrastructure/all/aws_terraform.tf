@@ -4,7 +4,7 @@
 
 terraform {
   backend "s3" {
-    bucket = "agleader-terraform-review"
+    bucket = "kevd-terraform"
     key    = "terraform.tfstate.aws"
     region = "ap-northeast-1"
   }

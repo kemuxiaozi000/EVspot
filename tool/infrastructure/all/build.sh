@@ -37,11 +37,6 @@ if [ -z "${APPLICATION_NAME}" ]; then
   exit 1
 fi
 
-if [ -z "${ENVIRONMENT}" ]; then
-  echo "ENVIRONMENT was not provided, aborting deploy!"
-  exit 1
-fi
-
 if [ -z "${REGION}" ]; then
   echo "REGION was not provided, aborting deploy!"
   exit 1
@@ -49,16 +44,6 @@ fi
 
 if [ -z "${AWS_ACCOUNT_ID}" ]; then
   echo "AWS_ACCOUNT_ID was not provided, aborting deploy!"
-  exit 1
-fi
-
-if [ -z "${AWS_ACCESS_KEY_ID}" ]; then
-  echo "AWS_ACCESS_KEY_ID was not provided, aborting deploy!"
-  exit 1
-fi
-
-if [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
-  echo "AWS_SECRET_ACCESS_KEY was not provided, aborting deploy!"
   exit 1
 fi
 
@@ -77,9 +62,6 @@ fi
 
 # Replace the <VARIABLE> with your environement variables
 cp terraform.tfvars.template terraform.tfvars
-sed -i -e "s#<ACCESS_KEY>#${AWS_ACCESS_KEY_ID}#g" terraform.tfvars
-sed -i -e "s#<SECRET_KEY>#${AWS_SECRET_ACCESS_KEY}#g" terraform.tfvars
-sed -i -e "s#<ENVIRONMENT>#${ENVIRONMENT}#g" terraform.tfvars
 sed -i -e "s#<APP_NAME>#${APPLICATION_NAME}#g" terraform.tfvars
 sed -i -e "s#<AWS_ACCOUNT_ID>#${AWS_ACCOUNT_HASH}#g" terraform.tfvars
 sed -i -e "s#<SECRET_KEY_BASE>#${SECRET_KEY_BASE}#g" terraform.tfvars

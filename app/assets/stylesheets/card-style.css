@@ -1,0 +1,103 @@
+.card {
+  background: #fff;
+  border-radius: 5px;
+  border-top: 3px solid #d2d6de;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  transition: .3s;
+  cursor: pointer;
+  margin: 15px;
+}
+.card.card-info {
+  border-top-color: #00c0ef;
+}
+.card.card-success {
+  border-top-color: #00a65a;
+}
+.card.card-warn {
+  border-top-color: #f39c12;
+}
+.card.card-danger {
+  border-top-color: #f56954;
+}
+.card-img {
+  border-radius: 5px 5px 0 0;
+  max-width: 100%;
+  height: auto;
+}
+.card-content {
+  padding: 20px;
+}
+.card-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+.card-text {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.card-link {
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding: 20px;
+}
+.card-link a {
+  text-decoration: none;
+  color: #0bd;
+  margin: 0 10px;
+}
+.card-link a:hover {
+  color: #0090aa;
+}
+
+.work {
+	color: #3E4147;
+	font-family: 'Arvo';
+  font-size: 85px;
+	font-weight: 700;
+	line-height: 36px;
+	letter-spacing: -0.01em;
+	margin-bottom: 48px;
+}
+
+.card-text.no-work{
+  position: inherit;
+  bottom: 0;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple .rp-effect {/*エフェクト*/
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.35;/*波紋の濃さ*/
+  transform: scale(0);
+  background: #FFF;/*波紋色*/
+  animation: ripple 700ms;
+  pointer-events: none;
+}
+
+@-webkit-keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2.0);
+  }
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2.0);
+  }
+}
