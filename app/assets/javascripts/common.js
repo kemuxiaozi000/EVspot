@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var charging = $("#charging").val() == "true" ? true : false;
   var chargeStartTime = new Date($("#chargeStartTime").val());
   var chargeRemainingMinute = parseInt($("#chargeRemainingMinute").val());
@@ -9,19 +9,19 @@ $(document).ready(function() {
   if (charging) {
     // 5分前
     if (chargeRemainingSecond >= 300) {
-      setTimeout(function() {
+      setTimeout(function () {
         createAlart(5);
       }, (chargeRemainingSecond - 5 * 60) * 1000);
     }
     // 完了
     if (chargeRemainingSecond != 0) {
-      setTimeout(function() {
+      setTimeout(function () {
         createAlart(0);
       }, chargeRemainingSecond * 1000);
     }
   }
 
-  $("#chargeStatus").on("click", function() {
+  $("#chargeStatus").on("click", function () {
     var start = new Date();
     var time = parseInt(
       (start.getTime() - chargeStartTime.getTime()) / (1000 * 60)
@@ -29,6 +29,27 @@ $(document).ready(function() {
     time = parseInt($("#chargeRemainingBaseMinute").val()) - time;
     time = time < 0 ? 0 : time;
     $(".chargeRemainingMinute").text(time);
+  });
+
+  $("#reservationStatus").on("click", function () {
+    var now = new Date();
+    var reserve = new Date($("#reserveStartTime").val());
+    var time = parseInt((now.getTime() - reserve.getTime()) / (1000 * 60));
+    time = parseInt($("#reserveBaseRemainingMinute").val()) - time;
+    time = time < 0 ? 0 : time;
+    $(".reserveRemainingMinute").text(time);
+
+
+    var url = "/charge_welcome?spot_id=" + $("#temporary_spot_id").val();
+    if (time != 0) {
+      url += "&reservation=on";
+      $("#reservationChk").text("充電可能まで");
+      $("#reservationMinute").show();
+    } else {
+      $("#reservationChk").text("充電可能です。");
+      $("#reservationMinute").hide();
+    }
+    $("#reservationBtn").attr("href", url)
   });
 });
 
@@ -45,7 +66,7 @@ function createAlart(minutes) {
       .register("/serviceworker.js", {
         scope: "./"
       })
-      .then(function(reg) {
+      .then(function (reg) {
         console.log("[Companion]", "Service worker registered!");
 
         // プッシュ通知の購読
@@ -54,7 +75,7 @@ function createAlart(minutes) {
           applicationServerKey: window.vapidPublicKey
         };
         reg.pushManager.subscribe(options).then(
-          function(subscription) {
+          function (subscription) {
             console.log(subscription.subscriptionId);
             console.log(subscription.endpoint);
             // ここから、IndexedDB にデータを書き込んだり、いずれかのウィンドウに
@@ -69,7 +90,7 @@ function createAlart(minutes) {
               type: "POST"
             });
           },
-          function(error) {
+          function (error) {
             // 開発中は、コンソールにエラーを表示するのに役立ちます。
             // 本番環境では、アプリケーションサーバにエラー情報を送信
             // するためにも 役立ちます。
@@ -119,7 +140,7 @@ function loaderFadeIn() {
 
 // loaderフェードアウト処理
 function loaderFadeOut() {
-  $("#loader, #indicator-overlay").fadeOut("slow", function() {
+  $("#loader, #indicator-overlay").fadeOut("slow", function () {
     $("#indicator-overlay").remove();
     $("#searchButton").prop("disabled", false);
     $("#detailSearchButton").prop("disabled", false);

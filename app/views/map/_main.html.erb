@@ -12,8 +12,9 @@
       <%# <header class="main-header"> %>
         <div class="input-group" >
           <span class="input-group-addon" style="padding-left: 6px;padding-right: 6px;padding-bottom: 3px;padding-top: 3px;width: 30px;height: 30px;border-top-width: 0px;border-bottom-width: 0px;">
-            <span class="fa fa-bars" data-toggle="push-menu" style="padding: 0px;"></span>
+            <span class="fa fa-bars fa-lg" data-toggle="push-menu" style="padding: 0px; "></span>
           </span>
+          <%# <span id="distance" style="font-size:36px;padding-right:10px;"></span> %>
           <%# <input id="destination_text" type="text" class="form-control input-lg">
           <span class="input-group-addon">
             <span id="destination_search" class="glyphicon glyphicon-search"></span>
@@ -21,8 +22,25 @@
         </div>
       </header>
     </div>
+
+    <div class="routeInfo card card-success" style="position: absolute; right: 20px; bottom: 60px; margin:0px; display: none;">
+      <table class="h4 text-bold bg-success" style="margin:0px;">
+        <tr>
+          <td>必要充電回数：</td>
+          <td><span id="numberOfTimes">99</span></td>
+        </tr>
+        <tr>
+          <td>到着予定時刻：</td>
+          <td><span id="estimateTime">99:99</span></td>
+        </tr>
+      </table>
+    </div>
+
   </div>
 </div>
+
+<%= render partial: "modal" %>
+<%= render partial: "reserve_ok" %>
 
 <script>
   var iconEmpty = '<%= asset_path "empty.png" %>';
@@ -39,6 +57,10 @@
   var iconNursingRoom = '<%= asset_path "nursing_room.png" %>';
   var iconSightseeing = '<%= asset_path "sightseeing.png" %>';
   var pageCoupon = '<%= coupon_path  %>';
+  var spotInfoZoom = false;
+  <% if params[:spotinfo_zoom] == "true" %>
+    spotInfoZoom = true;
+  <% end %>
 
   function myFunction() {
     var url = "/detail";

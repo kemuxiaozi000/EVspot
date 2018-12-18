@@ -59,6 +59,10 @@ $(document).ready(function () {
             $('#receipt_supplier_img').html('<img class="img-responsive" src="' + hatakeyama + '" style="vertical-align: top;">');
           } else if (data.photo == "matsubara.jpg") {
             $('#receipt_supplier_img').html('<img class="img-responsive" src="' + matsubara + '" style="vertical-align: top;">');
+          } else if (data.photo == "nge48.png") {
+            $('#receipt_supplier_img').html('<img class="img-responsive" src="' + nge48 + '" style="vertical-align: top;">');
+          } else if (data.photo == "chubu.png") {
+            $('#receipt_supplier_img').html('<img class="img-responsive" src="' + chubu + '" style="vertical-align: top;">');
           } else {
             $('#receipt_supplier_img').html('<img class="img-responsive" src="' + no_image + '" style="vertical-align: top;">');
           }

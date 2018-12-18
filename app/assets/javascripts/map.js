@@ -6,10 +6,14 @@ $(document).ready(function () {
   // 現在地取得できない場合の初期値
   const DEF_LAT = 35.507456;
   const DEF_LON = 139.617585;
-  const DEF_ZOOM = 13;
+  var DEF_ZOOM;
 
-  var zoom = 13;
-  var map;
+  // 定数
+  const START_MARKER = "https://maps.google.com/mapfiles/kml/pal4/icon62.png";
+  const END_MARKER = "https://maps.google.com/mapfiles/kml/pal2/icon13.png";
+  const CHNGE_ROOT_COLOR_YELLOW = 48000;
+  const CHNGE_ROOT_COLOR_RED = 120000;
+
   // Marker情報
   var markers = [];
   // Markerコンテンツ情報
@@ -27,13 +31,23 @@ $(document).ready(function () {
   // 充電時間
   var waitingTime = null;
   var docOpenTime = new Date();
-  var refreshTime = 0;
 
   // DirectRendererオブジェクト(ルート検索表示)
   var DR;
+  var directionsDisplay;
+
+  // ルート検索時の線描画
+  var stepPolyline;
+
+  //charge画面からマップ画面に遷移する
+  if (spotInfoZoom) {
+    DEF_ZOOM = 15;
+  } else {
+    DEF_ZOOM = 13;
+  }
 
   // 初期化
-  map = initMap();
+  var map = initMap();
   // 現在地取得
   getMyplace();
 
@@ -43,11 +57,15 @@ $(document).ready(function () {
     event.preventDefault();
     // 現在地における絞り込み検索を実行
     spotinfoLatLon($("#spot_lat").val(), $("#spot_lon").val());
+    $(".sidebar-mini").removeClass('sidebar-open');
   });
 
   //ルート検索ボタン押下処理
   $("#destination_search").click(function () {
-    route_search($("#destination_text").val());
+    if ($("#destination_text").val()) {
+      console.log("destination_search button clicked");
+      route_search($("#destination_text").val());
+    }
   });
 
   // 目的地に設定ボタン押下処理
@@ -77,44 +95,173 @@ $(document).ready(function () {
       streetViewControl: false, //ストリートビュー コントロール
       zoomControl: false //ズーム コントロール
     });
+    var mapType = new google.maps.StyledMapType(mapstyle);
+    map.mapTypes.set("style", mapType);
+    map.setMapTypeId("style");
     return map;
   }
 
-  // 現在地取得
-  function getMyplace() {
-    if (!navigator.geolocation) { //Geolocation apiがサポートされていない場合
-      alert("位置情報サービス非対応です。");
-      return;
-    }
+  function getSpotsAroundMe(position) {
+    console.log("getSpotsAroundMe", position);
+    latitude = position.coords.latitude; //緯度
+    longitude = position.coords.longitude; //経度
+    spotinfoLatLon(latitude, longitude);
+  }
 
-    function success(position) {
-      latitude = position.coords.latitude; //緯度
-      longitude = position.coords.longitude; //経度
-      spotinfoLatLon(latitude, longitude);
-    }
-
-    function error(error) {
-      var err_msg = "";
-      switch (error.code) {
-        case 1:
-          err_msg =
-            "位置情報の利用が許可されていません。<br>設定より位置情報の利用を許可してください。";
-          break;
-        case 2:
-          err_msg = "位置情報の取得に失敗しました。";
-          break;
-        case 3:
-          err_msg = "タイムアウトしました。";
-          break;
-        default:
-          err_msg = "エラーが発生しました。<br>管理者までご連絡ください。";
-          alert(err_msg);
+  function getDirections(position, destination) {
+    console.log("getDirections", position);
+    if (DR) {
+      DR.setMap(null);
+      if (departureMarker) {
+        departureMarker.setMap(null);
+      }
+      if (destinationMarker) {
+        destinationMarker.setMap(null);
       }
     }
 
-    navigator.geolocation.getCurrentPosition(success, error, {
-      enableHighAccuracy: true
-    }); //成功と失敗を判断
+    // 48km以上のpolyLine削除
+    if (directionsDisplay) {
+      directionsDisplay.setMap(null);
+      stepPolyline.setMap(null);
+      polylines.forEach(function (line, index) {
+        line.setMap(null);
+      });
+      polylines = [];
+    }
+
+    var DS = new google.maps.DirectionsService();
+    DR = new google.maps.DirectionsRenderer({
+      suppressMarkers: true
+    });
+
+    // 現在地
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+
+    DR.setMap(map);
+    var request = {
+      origin: new google.maps.LatLng(lat, lon),
+      destination: destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true
+    };
+    DS.route(request, function (result, status) {
+      var leg = result.routes[0].legs[0];
+
+      if (leg.distance.value < CHNGE_ROOT_COLOR_YELLOW) {
+        DR.setDirections(result);
+        // 出発地(=現在地)のマーカー
+        departureMarker = new google.maps.Marker({
+          icon: START_MARKER,
+          map: map,
+          position: leg.start_location,
+          zIndex: 1000
+        });
+        // 目的地のマーカー
+        destinationMarker = new google.maps.Marker({
+          icon: END_MARKER,
+          map: map,
+          position: leg.end_location,
+          zIndex: 1001
+        });
+      } else {
+        // 経路検索距離が48km以上のため色分けが必要
+        var infowindow = new google.maps.InfoWindow();
+        var directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer({
+          suppressPolylines: true,
+          suppressMarkers: true,
+          infoWindow: infowindow
+        });
+        directionsDisplay.setMap(map);
+        // 1.経由地点算出
+        var distance = 0;
+        var waypts = [];
+        var flg48 = false;
+        var flg120 = false;
+        leg.steps.forEach(function (step) {
+          distance = distance + step.distance.value;
+          if (distance > CHNGE_ROOT_COLOR_YELLOW) {
+            if (flg48 == false) {
+              // 48kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
+              waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_YELLOW));
+              console.log("over 48km -- set position");
+              flg48 = true;
+            }
+          }
+          if (distance > CHNGE_ROOT_COLOR_RED) {
+            if (flg120 == false) {
+              // 120kmを超えたためsteps.lat_lngsの配列数で一番近い地点を割り出す
+              waypts.push(setWayPt(step, distance, CHNGE_ROOT_COLOR_RED));
+              console.log("over 120km -- set position");
+              flg120 = true;
+            }
+          }
+        });
+        // 2.calculateAndDisplayRoute
+        var org = new google.maps.LatLng(lat, lon);
+        calculateAndDisplayRoute(
+          directionsService,
+          directionsDisplay,
+          waypts,
+          org,
+          destination
+        );
+      }
+
+      var chargeTimes = getChargeTimes(result.routes[0].legs);
+      // 必要充電回数の設定
+      setChargeTimes(chargeTimes);
+      var totalDurationSeconds = getTotalDuration(result.routes[0].legs);
+      // 到着予想時刻の設定
+      setEstimateTime(chargeTimes, totalDurationSeconds);
+
+      $(".routeInfo").css("display", "block");
+      $(".sidebar-mini").removeClass("sidebar-open");
+    });
+  }
+
+  function getGeolocationError(error) {
+    var err_msg = "";
+    console.log("getGeolocationError", error);
+    switch (error.code) {
+      case 1:
+        err_msg =
+          "位置情報の利用が許可されていません。<br>設定より位置情報の利用を許可してください。";
+        break;
+      case 2:
+        err_msg = "位置情報の取得に失敗しました。";
+        break;
+      case 3:
+        err_msg = "タイムアウトしました。";
+        break;
+      default:
+        err_msg = "エラーが発生しました。<br>管理者までご連絡ください。";
+        alert(err_msg);
+    }
+  }
+
+  var getGeolocationOptions = {
+    enableHighAccuracy: true
+  };
+
+  // 現在地取得
+  function getMyplace() {
+    if (!navigator.geolocation) {
+      //Geolocation apiがサポートされていない場合
+      alert("位置情報サービス非対応です。");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        getSpotsAroundMe(position);
+      },
+      function (positionError) {
+        getGeolocationError(positionError);
+      },
+      getGeolocationOptions
+    ); //成功と失敗を判断
   }
 
   /**
@@ -136,6 +283,7 @@ $(document).ready(function () {
 
   // スポット情報検索
   var markerLoadingFlg = false;
+
   function spotinfoLatLonSearch(lat, lon, zoomlevel) {
     // マーカーの初期化
     if (markers.length > 0) {
@@ -227,12 +375,11 @@ $(document).ready(function () {
       });
       markerEvent(key); // マーカーにクリックイベントを追加
     }
-    markerCluster = new MarkerClusterer(map, markers,
-      {
-        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-        maxZoom: 12
-      }
-    );
+    markerCluster = new MarkerClusterer(map, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+      maxZoom: 12
+    });
   }
 
   // マーカーにクリックイベントを追加
@@ -250,8 +397,16 @@ $(document).ready(function () {
       );
       dispTime = waitingTime - dispTime;
       dispTime = dispTime <= 0 ? 0 : dispTime;
-      var cons = markerContent(markerinfo[key].spot_id, markerinfo[key].spot_name, markerinfo[key].timeString, dispTime,
-        markerinfo[key].detail_data, markerinfo[key].pst_name, markerinfo[key].coupon_id, key);
+      var cons = markerContent(
+        markerinfo[key].spot_id,
+        markerinfo[key].spot_name,
+        markerinfo[key].timeString,
+        dispTime,
+        markerinfo[key].detail_data,
+        markerinfo[key].pst_name,
+        markerinfo[key].coupon_id,
+        key
+      );
       markerinfo[key].setContent(cons);
       markerinfo[key].open(map, markers[key]); // 吹き出しの表示
       window_marker = markerinfo[key];
@@ -280,7 +435,16 @@ $(document).ready(function () {
   });
 
   // マーカー内の内容を作成
-  function markerContent(spot_id, spot_name, timeString, wating, facilitiesinfo, pst_name, coupon_id, key) {
+  function markerContent(
+    spot_id,
+    spot_name,
+    timeString,
+    wating,
+    facilitiesinfo,
+    pst_name,
+    coupon_id,
+    key
+  ) {
     var image = "";
     var viewFlg = 0;
     var hasFacility = {
@@ -328,62 +492,69 @@ $(document).ready(function () {
       }
     }
 
-    content =
-      '<input type="hidden" id="spot_id" value="' + spot_id + '"></input>';
-    content += '<div class="container-fluid" style="margin:0px padding:0px;">';
-    content += '<div class="row p-2">';
+    content = '<input type="hidden" id="spot_id" value="' + spot_id + '"></input>';
 
-    content += '<div class="col-xs-12">';
-    content += "<div>";
-    content +=
-      '<div ><span class="h4"><a href="/spot_detail?spot_id=' +
-      spot_id +
-      '"> ' +
-      spot_name +
-      " </a></span></div>";
-    content += '<div id="spot_area">';
-
-    content +=
-      '<div class="row p-2" style="padding-bottom: 5px;padding-top: 5px;">';
-    // アイコン 周辺情報など
+    content += '<div class="container-fluid">';
+    content += '<div class="row">';
     content += '<div class="col-xs-12">';
 
+    // タイトル
+    content += '<div class="row">';
+    content += '<span class="h5"><a href="/spot_detail?spot_id=' + spot_id + '"> '
+      + spot_name +
+      " </a></span>";
+    content += "</div>";
+
+    // アイコン表示
+    content += '<div class="row" style="padding-bottom: 5px;padding-top: 5px;">';
     content += "<span>" + setIcon(hasFacility) + "</span>";
     content += "</div>";
+
+    // テキストエリア start
+    content += '<div class="row">';
+    // 満空不可
+    content += '<div class="col-xs-4" style="padding:0px;">';
+    content += '<img src="' + image + '" alt="充電中..." height="50" width="55">';
     content += "</div>";
 
-    content += '<div class="row p-2">';
-
-    // アイコン 満空不可
-    content += '<div class="col-xs-4">';
-    content +=
-      '<img src="' + image + '" alt="充電中..." height="55" width="55">';
-    content += "</div>";
-
-    content += '<div class="col-xs-8">';
-    content += '<div class="row ">';
-
+    // 右エリア
+    content += '<div class="col-xs-8" style="padding-left:5px;">';
     // 充電待ち時間
-    content += '<div class="col-xs-12 text-left">';
+    content += '<div class="col-xs-12 text-left" style="padding:0px;">';
     if (viewFlg == 1) {
+      content += "<div>1人待ち</div>";
       content += "<div>" + timeString + "から充電可</div>";
-      content +=
-        '<div  class="waiting-time">あと' + wating + "分で利用可</div>";
     }
     if (pst_name == "クリーンエネルギー") {
       content += "<span> 自然エネルギー </span>";
     }
+    // テキストエリア end
+    content += '</div></div></div>'
 
+    // ボタンエリア start
+    content += '<div class="row">';
+    // クーポンボタン
     if (coupon_id) {
       content +=
-        '<div style="margin-bottom: 2px;"><a href="/coupon?spot_id=' +
+        '<div class="col-xs-4 text-center" style="padding:3px;"><a href="/coupon?spot_id=' +
         spot_id +
-        '" class="btn btn-primary btn-sm">クーポン</a></div>';
+        '" class="btn btn-primary" style="font-size:9px;">クーポン</a></div>';
     }
+    // 目的地ボタン
+    content += '<div class="col-xs-4 text-center" style="padding:3px;">'
+    content += '<button type="button" class="btn btn-success destination_set" value = "' + key + '" style="font-size:9px;">目的地</button>'
+    content += '</div>'
 
-    content += '<div><button type="button" class="btn btn-success btn-sm destination_set" value = "' + key + '">目的地に設定</button></div>'
+    // 予約するボタン
+    if (image != iconNotAvailable) {
+      content += '<div class="col-xs-4 text-center" style="padding:3px;">'
+      content += '<a class="btn btn-warning" id="appoint" href="" data-toggle="modal" data-target="#appointmentModal" role="button" style="font-size:9px;">　予約　</a>'
+      content += '</div>'
+    }
+    // ボタンエリア　end
+    content += '</div>'
 
-    content += '</div></div></div></div></div></div></div>';
+    // container-fluid
     content += '</div></div></div>';
 
     return content;
@@ -394,56 +565,103 @@ $(document).ready(function () {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          if (DR) {
-            DR.setMap(null);
-            departureMarker.setMap(null);
-            destinationMarker.setMap(null);
-          }
-          var DS = new google.maps.DirectionsService();
-          DR = new google.maps.DirectionsRenderer({
-            suppressMarkers: true
-          });
-
-          // 現在地
-          var lat = position.coords.latitude;
-          var lon = position.coords.longitude;
-
-          DR.setMap(map);
-          var request = {
-            origin: new google.maps.LatLng(lat, lon),
-            destination: destination,
-            travelMode: google.maps.TravelMode.DRIVING,
-            optimizeWaypoints: true
-          };
-          DS.route(request, function (result, status) {
-            // route_search_init(DR, result);
-            DR.setDirections(result);
-            var leg = result.routes[0].legs[0];
-            // 出発地(=現在地)のマーカー
-            departureMarker = new google.maps.Marker({
-              icon: 'https://maps.google.com/mapfiles/kml/pal4/icon62.png',
-              map: map,
-              position: leg.start_location,
-              zIndex: 1000
-            });
-            // 目的地のマーカー
-            destinationMarker = new google.maps.Marker({
-              icon: 'https://maps.google.com/mapfiles/kml/pal2/icon13.png',
-              map: map,
-              position: leg.end_location,
-              zIndex: 1001
-            });
-
-            $(".sidebar-mini").removeClass('sidebar-open');
-          });
+          getDirections(position, destination);
         },
-        function (error) {
-          alert(error);
-        }
+        function (positionError) {
+          getGeolocationError(positionError);
+        },
+        getGeolocationOptions
       );
     } else {
       console.log("error -- fail to get current position");
     }
+  }
+
+  function setWayPt(step, distance, threshold) {
+    var bfDis = distance - step.distance.value;
+    var lenNum = step.lat_lngs.length;
+    var avgNum = step.distance.value / lenNum;
+    for (var i = 0; i < lenNum; i++) {
+      // 繰り返し処理
+      bfDis = bfDis + avgNum;
+      if (bfDis > threshold) {
+        var waypt = {
+          location: new google.maps.LatLng(
+            step.lat_lngs[i].lat(),
+            step.lat_lngs[i].lng()
+          ),
+          stopover: true
+        };
+        //waypts.push(waypt);
+        return waypt;
+      }
+    }
+  }
+
+  /**
+   * 必要充電回数を取得する
+   * @param {Array<DirectionsLeg>} legs ルート検索結果の道順(曲がり角ごとの情報の配列)
+   * @returns {number} 必要充電回数
+   */
+  function getChargeTimes(legs) {
+    var journey = 0;
+    for (var i in legs) {
+      journey += legs[i].distance.value;
+    }
+    // 総距離(km換算)を96kmで割った結果を充電回数とする
+    return parseInt(journey / 1000 / 96);
+  }
+
+  /**
+   * 必要充電回数を画面に設定する
+   * @param {number} chargeTimes 必要充電回数
+   */
+  function setChargeTimes(chargeTimes) {
+    // 画面上に必要充電回数を出力
+    $("#numberOfTimes").text(chargeTimes);
+  }
+
+  /**
+   * ルート検索時の、充電無しの所要時間を取得する
+   * @param {Array<DirectionsLeg>} legs ルート検索結果の道順(曲がり角ごとの情報の配列)
+   * @returns {number} 充電無しの所要時間(単位:秒)
+   */
+  function getTotalDuration(legs) {
+    var totalDuration = 0;
+    for (var leg in legs) {
+      totalDuration += legs[leg].duration.value;
+    }
+    return totalDuration;
+  }
+
+  /**
+   * 到着予想時刻を画面に設定する
+   * @param {number} chargeTimes 充電回数
+   * @param {number} totalSeconds 充電無しの所要時間(単位:秒)
+   */
+  function setEstimateTime(chargeTimes, totalSeconds) {
+    var totalDurationSeconds = totalSeconds;
+    // 充電回数x30分を所要時間に加算(計算は秒単位で実施)
+    if (chargeTimes > 0) {
+      totalDurationSeconds += chargeTimes * 1800;
+    }
+    // 現在時刻を取得し、所要時間を加算
+    var estimateDate = new Date();
+    // 「hh:mm」にフォーマット
+    estimateDate.setSeconds(totalDurationSeconds);
+    var durationText = "";
+    if (estimateDate.getHours() < 10) {
+      durationText += "0";
+    }
+    durationText += estimateDate.getHours();
+    durationText += ":";
+    if (estimateDate.getMinutes() < 10) {
+      durationText += "0";
+    }
+    durationText += estimateDate.getMinutes();
+
+    // 画面上に到着予想時刻を出力
+    $("#estimateTime").text(durationText);
   }
 
   /**
@@ -566,5 +784,126 @@ $(document).ready(function () {
     }
     icon_content += "</div>";
     return icon_content;
+  }
+
+  // 予約ダイアログの「〇」と「予」をクリックで交互に入れ替えるイベント登録
+  $(".appointment_time").on("click", function () {
+    var mark = $(this).text();
+    if (mark == "〇") {
+      $(".appointment_time").each(function (index, element) {
+        if ($(element).text() != "✕") {
+          $(element).text("〇");
+        }
+      });
+      $(this).text("予");
+    } else if (mark == "予") {
+      $(this).text("〇");
+    }
+  });
+
+  // 予約ダイアログの「OK」クリック時イベントの登録
+  $("#confirm").on("click", function () {
+    // 予約ダイアログを閉じる
+    $("#appointmentModal").modal("hide");
+
+    // 「予」があるかどうかをチェック
+    var reserveFlag = false;
+    $(".appointment_time").each(function (index, element) {
+      if ($(element).text() == "予") {
+        reserveFlag = true;
+      }
+    });
+
+    if (reserveFlag) {
+      // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
+      $("#alertFade").fadeIn(500);
+      window.setTimeout(function () {
+        $("#alertFade").fadeOut();
+      }, 5000);
+    }
+  });
+
+  // ルート検索処理 48kmを超えた場合
+  function calculateAndDisplayRoute(
+    directionsService,
+    directionsDisplay,
+    calcWaypts,
+    origin,
+    destination
+  ) {
+    // 充電残量ごとの位置情報を求めて設定する必要あり
+    var waypts = calcWaypts;
+    directionsService.route(
+      {
+        // 現在地
+        origin: origin,
+        // 目的地
+        destination: destination,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+      },
+      function (response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          // 出発地(=現在地)のマーカー
+          departureMarker = new google.maps.Marker({
+            icon: START_MARKER,
+            map: map,
+            position: response.routes[0].legs[0].start_location,
+            zIndex: 1000
+          });
+          // 目的地のマーカー
+          destinationMarker = new google.maps.Marker({
+            icon: END_MARKER,
+            map: map,
+            position:
+              response.routes[0].legs[response.routes[0].legs.length - 1]
+                .end_location,
+            zIndex: 1001
+          });
+          directionsDisplay.setOptions({
+            directions: response
+          });
+          var route = response.routes[0];
+          renderDirectionsPolylines(response, map);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+  }
+
+  var polylineOptions = {
+    strokeColor: "#C83939",
+    strokeOpacity: 1,
+    strokeWeight: 4
+  };
+  var colors = ["#4169e1", "#ffa500", "#ff6347"];
+  var polylines = [];
+
+  // ルート検索線描画処理
+  function renderDirectionsPolylines(response) {
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < polylines.length; i++) {
+      polylines[i].setMap(null);
+    }
+    var legs = response.routes[0].legs;
+    for (i = 0; i < legs.length; i++) {
+      var steps = legs[i].steps;
+      for (j = 0; j < steps.length; j++) {
+        var nextSegment = steps[j].path;
+        stepPolyline = new google.maps.Polyline(polylineOptions);
+        stepPolyline.setOptions({
+          strokeColor: colors[i]
+        });
+        for (k = 0; k < nextSegment.length; k++) {
+          stepPolyline.getPath().push(nextSegment[k]);
+          bounds.extend(nextSegment[k]);
+        }
+        polylines.push(stepPolyline);
+        stepPolyline.setMap(map);
+      }
+    }
+    map.fitBounds(bounds);
   }
 });

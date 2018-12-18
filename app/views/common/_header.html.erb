@@ -7,8 +7,15 @@
   </a>
   <!-- Header Navbar -->
   <nav class="navbar navbar-static-top" role="navigation">
+    <% if params[:controller] == 'supplier' %>
+      <a href="#" class="sidebar-toggle" role="button" style="content:none;">
+        <span class="fa fa-bars" data-toggle="push-menu"></span>
+      </a>
+    <% end %>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
+        <%= render "common/specified_reservation_status" %>
+        <%= render "common/reservation_status" %>
         <%= render "common/chargeRemind" %>
         <%= render "common/loginUser" %>
       </ul>
@@ -16,9 +23,17 @@
   </nav>
 </header>
 <input type="hidden" id="charging" value="<%= charging? %>">
-<input type="hidden" id="chargeStartTime" value="<%= get_charge_start_time %>">
+<input type="hidden" id="chargeStartTime" value="<%= session[:charge_start_time] %>">
 <input type="hidden" id="chargeRemainingMinute" value="<%= get_charge_remaining_minute %>">
 <input type="hidden" id="chargeRemainingSecond" value="<%= get_charge_remaining_second %>">
 <input type="hidden" id="chargeRemainingBaseMinute" value="<%= get_charge_remaining_base_minute %>">
+
+<input type="hidden" id="reserveStartTime" value="<%=session[:reservation_time]%>">
+<input type="hidden" id="reserveBaseRemainingMinute" value="<%= get_reserve_remaining_base_minute %>">
+<input type="hidden" id="reserveRemainingMinute" value="<%= get_reserve_remaining_minute %>">
+
+<%= render "common/appointCheckModal" %>
+<%= render "common/modal_point" %>
+<%= render "common/modal_news" %>
 
 <%= javascript_include_tag "common"%>

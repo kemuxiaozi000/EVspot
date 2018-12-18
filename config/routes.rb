@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   # クーポン画面
   get 'coupon' => 'coupon#index'
 
+  # 暇つぶしメニュー画面
+  get 'passtime' => 'passtime#index'
+
   # 充電管理画面
   get 'suppliers_edit' => 'suppliers_edit#index'
 
@@ -65,6 +68,9 @@ Rails.application.routes.draw do
   resources :web_push, only: [:create]
   # スポット詳細画面
   get 'spot_detail' => 'spot_detail#index', as: 'spot_detail'
+
+  # 供給者詳細画面
+  get 'supplier_detail' => 'supplier_detail#index', as: 'supplier_detail'
 
   # DBアクセス
   namespace :api do
@@ -138,6 +144,10 @@ Rails.application.routes.draw do
     namespace :charge, format: 'json' do
       # 明細情報を取得する処理
       namespace :historyinfo do
+        post '/index', action: 'index'
+      end
+      # 予約
+      namespace :reservation do
         post '/index', action: 'index'
       end
     end

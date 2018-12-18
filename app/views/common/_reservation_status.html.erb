@@ -1,0 +1,26 @@
+<li class="dropdown user user-menu">
+  <% if reserving? %>
+    <a href="#" id="reservationStatus" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <img src='<%=asset_path "reservation.png" %>' alt="..." height="15" width="15" style="margin-right: 3px;">
+    </a>
+    <ul class="dropdown-menu">
+
+      <li class="user-body">
+        <div class="row row-height">
+          <div class="col-xs-12 text-center h3">
+            <b id="reservationChk">充電可能まで</b>
+          </div>
+        </div>
+
+        <div class="row" id="reservationMinute">
+          <div class="col-xs-12 text-center h3">
+            <label class="reserveRemainingMinute">XX</label>
+            <label>分</label>
+          </div>
+        </div>
+      </li>
+      <a id="reservationBtn" href="" class="btn btn-default btn-flat btn-block">予約状況確認</a>
+      <input type="hidden" id="temporary_spot_id" value="<%= get_temporary_spot_id %>"></input>
+    </ul>
+  <% end %>
+</li>

@@ -13,29 +13,28 @@ require 'csv'
 ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spots`')
 if Spot.count.zero?
   CSV.foreach('db/gogoevspot.csv') do |row|
-    # 各spotに3個のクーポンIDをつける
-    coupon_id_1 = rand(1..6)
-    coupon_id_2 = rand(1..6)
-    coupon_id_3 = rand(1..6)
-    coupon_id = coupon_id_1.to_s + ':'+ coupon_id_2.to_s + ':' + coupon_id_3.to_s
-    coupon_info = [nil, coupon_id]
-
-    # 供給者IDは1～9をランダムで登録する
-    supplier_id = rand(1..5)
+    # 各spotに0～3個のクーポンIDを付ける
+    coupon = nil
+    coupon_amount = rand(0..3)
 
     # 11/18 インタビュー用設定
     case row[0]
     when  '中日本高速道路(株) NEXCO中日本 名神高速道路 養老SA (上り)',
           '中日本高速道路(株) NEXCO中日本 名神高速道路 養老SA (下り)'
-      coupon = nil
+      coupon_amount = 0
     when  '中日本高速道路(株) NEXCO中日本 名神高速道路 多賀SA (上り)',
           '中日本高速道路(株) NEXCO中日本 名神高速道路 多賀SA (下り)',
           '中日本高速道路(株) NEXCO中日本 名神高速道路 尾張一宮PA (上り)',
           '中日本高速道路(株) NEXCO中日本 名神高速道路 尾張一宮PA (下り)'
-      coupon = coupon_id
-    else
-      coupon = coupon_info[rand(0..1)]
+      coupon_amount = 3
     end
+
+    if (coupon_amount > 0)
+      coupon = (1..6).to_a.shuffle![0..(coupon_amount -1)].sort.join(':')
+    end
+
+    # 供給者IDは1～5をランダムで登録する
+    supplier_id = rand(1..5)
 
     Spot.create(name: row[0], lat: row[1], lon:row[2], coupon_id: coupon, supplier_id: supplier_id, detail_id:row[3])
   end
@@ -77,7 +76,7 @@ if Supplier.count.zero?
 end
 
 # Coupons
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `coupons`')
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `coupons`')
 if Coupon.count.zero?
   CSV.foreach('db/coupons.csv') do |row|
     Coupon.create(title: row[1], message: row[2], from_date: row[3], to_date: row[4], lat: row[7], lon: row[8])

@@ -1,0 +1,68 @@
+<div class="wrapper">
+  <%= render "common/header" %>
+  <input type="hidden" id="supplier_id" value="<%= params[:supplier_id] %>">
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-info">
+            <div class="box-header ">
+              <strong>供給者詳細</strong>
+            </div>
+
+            <div class="box-body">
+              <div class="media">
+                <div>
+                  <div class="media-left" id="supplier_image">
+                  </div>
+                  <div class="media-body">
+                    <div class="clearfix">
+                      <h4 id="supplier_comment" style="margin-top: 0">
+                        <% if @supplier_detail[0].comment.present? %>
+                          <%= @supplier_detail[0].comment %>
+                        <% else %>
+                          （コメントなし）
+                        <% end %>
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="media-body" style="padding-top: 15px;padding-bottom: 5px;">
+                  <p style="margin-bottom: 0">
+                    <i class="fa fa-fw fa-bolt"></i><span id="origin"> <%= @supplier_detail[0].origin %></span>
+                  </p>
+                  <p style="margin-bottom: 0">
+                    <i class="fa fa-fw fa-globe"></i><span id="producing_area"> <%= @supplier_detail[0].producing_area %></span>
+                  </p>
+                  <p style="margin-bottom: 0">
+                    <i class="fa fa-fw fa-user"></i><span id="supplier_name"> <%= @supplier_detail[0].name %></span>
+                  </p>
+                  <p style="margin-bottom: 0">
+                    <i class="fa fa-fw fa-shopping-cart"></i><span id="value"> <%= @supplier_detail[0].value %>円／回</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="box-footer">
+              <button type="button" class="btn btn-default btn-sm back col-xs-6" onClick="history.back();">戻る</button>
+              <button type="button" class="btn btn-info btn-sm choose col-xs-6">選択</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var photo = '<%= @supplier_detail[0].photo %>';
+  var hatakeyama = '<%= asset_path "hatakeyama.jpg" %>';
+  var matsubara = '<%= asset_path "matsubara.jpg" %>';
+  var nge48 = '<%= asset_path "nge48.png" %>';
+  var no_image = '<%= asset_path "no_image.png" %>';
+  var chubu = '<%= asset_path "chubu.png" %>';
+  var fire_electric = '<%= asset_path "fire_electric.jpg" %>';
+  var sun_electric = '<%= asset_path "sun_electric.jpg" %>';
+
+</script>
+
+<%= javascript_include_tag "supplier_detail"%>

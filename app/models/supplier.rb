@@ -13,7 +13,6 @@ class Supplier < ApplicationRecord
     # 発電場所
     suppliers = produciton_conditions(suppliers, s_params)
     # 価格
-    suppliers = price_min_conditions(suppliers, s_params)
     suppliers = price_max_conditions(suppliers, s_params)
     suppliers
   end
@@ -41,15 +40,6 @@ class Supplier < ApplicationRecord
     producing_area.push('愛知県名古屋市') if s_params[:other_area]&.to_s == 'on'
     suppliers = suppliers.where(producing_area: producing_area) unless producing_area.empty?
     suppliers
-  end
-
-  # 最低価格条件
-  def price_min_conditions(suppliers, s_params)
-    if s_params[:price_min]&.to_i != 0
-      suppliers.where('value >= ?', s_params[:price_min]&.to_i)
-    else
-      suppliers
-    end
   end
 
   # 最大価格条件

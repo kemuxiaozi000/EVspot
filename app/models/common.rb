@@ -13,4 +13,9 @@ class Common < ApplicationRecord
     result = Common.where('id = 2')
     result[0].value
   end
+
+  def select_by_spotid
+    result = Common.where('id = 3')
+    result[0].value
+  end
 end
