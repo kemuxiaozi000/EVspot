@@ -62,6 +62,9 @@ $(document).ready(function () {
             $("#coupon_btn").css('pointer-events', 'none');
             $("#coupon_btn").addClass("disabled");
           }
+          // 予約ボタンにspot情報を追加
+          $("#reservation").attr('data-spotid', data.id);
+          $("#reservation").attr('data-spotName', data.name);
 
           spot_lat = data.lat;
           spot_lon = data.lon;

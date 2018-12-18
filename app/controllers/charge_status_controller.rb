@@ -11,6 +11,11 @@ class ChargeStatusController < ApplicationController
     session[:reservation_time] = nil
     session.delete(:temporary_spot_id)
 
+    # セッション（時間予約）の情報削除
+    session[:time_reservation_spot_id] = nil
+    session[:time_reservation_spot_name] = nil
+    session[:time_reservation_index] = nil
+
     # ログ取得
     Userlog.new.insert(session[:user_name].to_s, 'charge_status', nil, params.to_s)
   end

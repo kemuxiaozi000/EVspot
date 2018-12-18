@@ -178,11 +178,13 @@ function markerContent(
 ) {
   var image = "";
   var viewFlg = 0;
-  var hasFacility = {
-    isToilet: facilitiesinfo.toilet,
-    isSmokingArea: facilitiesinfo.smoking_area,
+  var chargeTypes = {
     isRapidCharge: facilitiesinfo.rapid_charge,
     isNormalCharge: facilitiesinfo.normal_charge,
+  };
+  var facilities = {
+    isToilet: facilitiesinfo.toilet,
+    isSmokingArea: facilitiesinfo.smoking_area,
     isCafe: facilitiesinfo.cafe,
     isRestaurant: facilitiesinfo.restaurant,
     isShopping: facilitiesinfo.shopping,
@@ -223,61 +225,61 @@ function markerContent(
     }
   }
 
-  content =
-    '<input type="hidden" id="spot_id" value="' + spot_id + '"></input>';
+  content = '<input type="hidden" id="spot_id" value="' + spot_id + '"></input>';
 
-  content += '<div class="container-fluid">';
+  content += '<div class="container-fluid spot_baloon">';
   content += '<div class="row">';
   content += '<div class="col-xs-12">';
 
-  // タイトル
+  // タイトル・充電種別
   content += '<div class="row">';
   content +=
-    '<span class="h5"><a href="/spot_detail?spot_id=' +
-    spot_id +
-    '"> ' +
-    spot_name +
-    " </a></span>";
+    '<div class="col-xs-9">' +
+    '<span class="h5"><a href="/spot_detail?spot_id=' + spot_id + '"> ' + spot_name + " </a></span></div>";
+  content += '<div class="col-xs-3 spot_charge_types">' + setChargeTypeIcon(chargeTypes) + '</div>';
   content += "</div>";
 
-  // アイコン表示
+  // スポット情報アイコン・クーポンボタン
   content += '<div class="row" style="padding-bottom: 5px;padding-top: 5px;">';
-  content += "<span>" + setIcon(hasFacility) + "</span>";
-  content += "</div>";
-
-  // テキストエリア start
-  content += '<div class="row">';
-  // 満空不可
-  content += '<div class="col-xs-4" style="padding:0px;">';
-  content += '<img src="' + image + '" alt="充電中..." height="50" width="55">';
-  content += "</div>";
-
-  // 右エリア
-  content += '<div class="col-xs-8" style="padding-left:5px;">';
-  // 充電待ち時間
-  content += '<div class="col-xs-12 text-left" style="padding:0px;">';
-  if (viewFlg == 1) {
-    content += "<div>1人待ち</div>";
-    content += "<div>" + timeString + "から充電可</div>";
-  }
-  if (pst_name == "クリーンエネルギー") {
-    content += "<span> 自然エネルギー </span>";
-  }
-  // テキストエリア end
-  content += "</div></div></div>";
-
-  // ボタンエリア start
-  content += '<div class="row">';
-  // クーポンボタン
-  content += '<div class="col-xs-6 text-center" style="padding:3px;">';
+  content += '<div class="col-xs-8 spot_facilities">' + setFacilityIcon(facilities) + '</div>';
+  content += '<div class="col-xs-4 text-center" style="padding: 3px;">';
   if (coupon_id) {
     content += '<a href="/coupon?spot_id=' + spot_id + '" class="btn btn-info btn-block" style="font-size:9px;">クーポン</a>';
   } else {
     content += '<button type="button" class="btn btn-info btn-block" style="font-size: 9px;" disabled>クーポン</button>';
   }
   content += '</div>';
+  content += "</div>";
+
+  // テキストエリア start
+  content += '<div class="row">';
+  // 満空不可
+  content += '<div class="col-xs-4" style="padding:0px;">';
+  content += '<img src="' + image + '" alt="充電中..." height="60" width="70">';
+  content += "</div>";
+
+  // 右エリア
+  content += '<div class="col-xs-8 text-left">';
+  // 充電待ち時間
+  if (viewFlg == 1) {
+    content += "<div>ただいま1人待ち</div>";
+    content += "<div>" + timeString + "から充電可</div>";
+  } else if (parseInt(spot_id) % 9 != 0) {
+    content += "<div>ただいま待ちなし</div>";
+    content += "<div>今すぐ充電可</div>"
+  }
+  if (pst_name == "クリーンエネルギー") {
+    content += "<span> 自然エネルギー </span>";
+  }
+  content += "</div>";
+
+  // テキストエリア end
+  content += "</div>";
+
+  // ボタンエリア start
+  content += '<div class="row">';
   // 目的地ボタン
-  content += '<div class="col-xs-6 text-center" style="padding:3px;">';
+  content += '<div class="col-xs-4 text-center" style="padding:3px;">';
   content +=
     '<button type="button" class="btn btn-success btn-block destination_set" value = "' +
     key +
@@ -287,7 +289,7 @@ function markerContent(
   var disableStyle =
     destinationSpot != "" && stopovers.length < 3 ? "" : "disabled";
   // 経由地ボタン
-  content += '<div class="col-xs-6 text-center" style="padding:3px;">';
+  content += '<div class="col-xs-4 text-center" style="padding:3px;">';
   content +=
     '<button type="button" class="btn btn-primary btn-block stopover" value = "' +
     key +
@@ -296,13 +298,13 @@ function markerContent(
     ">経由地</button>";
   content += "</div>";
   // 予約するボタン
-  content += '<div class="col-xs-6 text-center" style="padding: 3px;">';
+  content += '<div class="col-xs-4 text-center" style="padding: 3px;">';
   if (image != iconNotAvailable) {
     content +=
-      '<a class="btn btn-warning btn-block" id="reservation" href="" data-toggle="modal" data-target="#reservationModal" role="button" style="font-size:9px;">　予約　</a>';
+      '<a class="btn btn-warning btn-block" id="reservation" href="" data-toggle="modal" data-target="#reservationModal" data-spotid="' +
+      spot_id + '" data-spotname="' + spot_name + '" role="button" style="font-size:9px;">予約</a>';
   } else {
-    content +=
-      '<button type="button" class="btn btn-warning btn-block" style="font-size: 9px;" disabled>　予約　</button>';
+    content += '<button type="button" class="btn btn-warning btn-block" style="font-size: 9px;" disabled>　予約　</button>';
   }
   content += '</div>';
   // ボタンエリア　end

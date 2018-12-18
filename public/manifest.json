@@ -1,5 +1,10 @@
 {
-  "name": "My App",
-    "short_name": "my-app",
-    "start_url": "/"
+  "name": "K-EVD",
+  "short_name": "K-EVD",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "Scope": "/",
+  "start_url": "/"
 }

@@ -41,6 +41,15 @@ body {
   /* color: #fff !important; */
 }
 
+a.disabled {
+  border-color: gray;
+  background-color: gray;
+}
+button[disabled] {
+  border-color: gray;
+  background-color: gray;
+}
+
 .row-height {
   display: flex;
   flex-wrap: wrap;

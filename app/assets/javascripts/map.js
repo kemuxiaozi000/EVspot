@@ -201,81 +201,68 @@ function getEndtime(minute) {
   return timeString;
 }
 
-//アイコン表示
-function setIcon(hasFacility) {
+// 充電種別アイコン表示
+function setChargeTypeIcon(chargeTypes) {
   var icon_content = "";
-  icon_content += '<div class="">';
 
-  if (hasFacility["isToilet"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconToilet +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
+  // 急速充電
+  icon_content += '<img src="';
+  icon_content += (chargeTypes["isRapidCharge"] == 1) ?
+    iconRapidCharge : iconRapidChargeDisabled;
+  icon_content += '" style="margin-left: 3px; margin-right: 3px;">';
 
-  if (hasFacility["isSmokingArea"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconSmokingArea +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
+  // 普通充電
+  icon_content += '<img src="';
+  icon_content += (chargeTypes["isNormalCharge"] == 1) ?
+    iconNormalCharge : iconNormalChargeDisabled;
+  icon_content += '">';
 
-  if (hasFacility["isRapidCharge"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconRapidCharge +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
+  return icon_content;
+}
 
-  if (hasFacility["isNormalCharge"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconNormalCharge +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isCafe"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconCafe +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isRestaurant"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconRestaurant +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isShopping"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconShopping +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isPlaySpace"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconPlaySpace +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isNursingRoom"] == 1) {
-    icon_content +=
-      '<img src="' +
-      iconNursingRoom +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-
-  if (hasFacility["isSightseeing"] != null) {
-    icon_content +=
-      '<img src="' +
-      iconSightseeing +
-      '" alt="..." height="20" width="20" style="margin-right: 3px;">';
-  }
-  icon_content += "</div>";
+//アイコン表示
+function setFacilityIcon(facilities) {
+  var icon_content = "";
+  // トイレ
+  icon_content += '<img src="';
+  icon_content += (facilities["isToilet"] == 1) ?
+    iconToilet : iconToiletDisabled;
+  icon_content += '">';
+  // 喫煙所
+  icon_content += '<img src="';
+  icon_content += (facilities["isSmokingArea"] == 1) ?
+    iconSmokingArea : iconSmokingAreaDisabled;
+  icon_content += '">';
+  // カフェ
+  icon_content += '<img src="';
+  icon_content += (facilities["isCafe"] == 1) ?
+    iconCafe : iconCafeDisabled;
+  icon_content += '">';
+  // レストラン
+  icon_content += '<img src="';
+  icon_content += (facilities["isRestaurant"] == 1) ?
+    iconRestaurant : iconRestaurantDisabled;
+  icon_content += '">';
+  // ショッピング
+  icon_content += '<img src="';
+  icon_content += (facilities["isShopping"] == 1) ?
+    iconShopping : iconShoppingDisabled;
+  icon_content += '">';
+  // プレイスペース
+  icon_content += '<img src="';
+  icon_content += (facilities["isPlaySpace"] == 1) ?
+    iconPlaySpace : iconPlaySpaceDisabled;
+  icon_content += '">';
+  // 授乳スペース
+  icon_content += '<img src="';
+  icon_content += (facilities["isNursingRoom"] == 1) ?
+    iconNursingRoom : iconNursingRoomDisabled;
+  icon_content += '">';
+  // 観光スポット
+  icon_content += '<img src="';
+  icon_content += (facilities["isSightseeing"] == 1) ?
+    iconSightseeing : iconSightseeingDisabled;
+  icon_content += '">';
   return icon_content;
 }
 

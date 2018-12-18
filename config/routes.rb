@@ -197,6 +197,10 @@ Rails.application.routes.draw do
       namespace :reservation do
         post '/index', action: 'index'
       end
+      # 順番予約
+      namespace :reservation_time do
+        post '/index', action: 'index'
+      end
     end
     # レシート情報画面
     namespace :historyview, format: 'json' do

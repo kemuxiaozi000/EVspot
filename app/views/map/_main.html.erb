@@ -63,16 +63,25 @@
   var iconFull = '<%= asset_path "full.png" %>';
   var iconNotAvailable = '<%= asset_path "not_available.png" %>';
   var iconToilet = '<%= asset_path "toilet.png" %>';
+  var iconToiletDisabled = '<%= asset_path "toilet_disabled.png" %>';
   var iconSmokingArea = '<%= asset_path "smoking_area.png" %>';
+  var iconSmokingAreaDisabled = '<%= asset_path "smoking_area_disabled.png" %>';
   var iconRapidCharge = '<%= asset_path "rapid_charge.png" %>';
+  var iconRapidChargeDisabled = '<%= asset_path "rapid_charge_disabled.png" %>';
   var iconNormalCharge = '<%= asset_path "normal_charge.png" %>';
+  var iconNormalChargeDisabled = '<%= asset_path "normal_charge_disabled.png" %>';
   var iconCafe = '<%= asset_path "cafe.png" %>';
+  var iconCafeDisabled = '<%= asset_path "cafe_disabled.png" %>';
   var iconRestaurant = '<%= asset_path "restaurant.png" %>';
+  var iconRestaurantDisabled = '<%= asset_path "restaurant_disabled.png" %>';
   var iconShopping = '<%= asset_path "shopping.png" %>';
+  var iconShoppingDisabled = '<%= asset_path "shopping_disabled.png" %>';
   var iconPlaySpace = '<%= asset_path "play_space.png" %>';
+  var iconPlaySpaceDisabled = '<%= asset_path "play_space_disabled.png" %>';
   var iconNursingRoom = '<%= asset_path "nursing_room.png" %>';
+  var iconNursingRoomDisabled = '<%= asset_path "nursing_room_disabled.png" %>';
   var iconSightseeing = '<%= asset_path "sightseeing.png" %>';
-  var pageCoupon = '<%= coupon_path  %>';
+  var iconSightseeingDisabled = '<%= asset_path "sightseeing_disabled.png" %>';
   var spotInfoZoom = false;
   <% if params[:spotinfo_zoom] == "true" || params[:show_spot_list] == "on" %>
     spotInfoZoom = true;
@@ -96,6 +105,24 @@
   }
 </script>
 <style>
+.spot_baloon .col-xs-9,
+.spot_baloon .col-xs-8,
+.spot_baloon .col-xs-4,
+.spot_baloon .col-xs-3 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.spot_baloon .spot_charge_types img {
+  width: 20px;
+  height: 20px;
+}
+.spot_baloon .spot_facilities img {
+  margin-right: 3px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
+}
 #spot_list_area {
   height: 20vh;
   overflow-y: scroll;

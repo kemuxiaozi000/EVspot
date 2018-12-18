@@ -6,19 +6,28 @@
         <h4 class="modal-title">予約確認</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered " align="center">
-          <tbody>
+
+          <div class="box">
+            <div class="box-header">
+              <div id="time_reservation_spot_name" style="word-wrap: break-word;"><%= session[:time_reservation_spot_name] %></div>
+              <div>で予約中</div>
+              <input type="hidden" id="time_reservation_spot_id" value='<%= session[:time_reservation_spot_id] %>'>
+              <input type="hidden" id="time_reservation_index" value='<%= session[:time_reservation_index] %>'>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-condensed" id="time_reserved_table">
               <tr>
                 <td>18:00 - 18:40</td>
                 <td class="h4 text-center"><span>〇</span></td>
               </tr>
               <tr>
                 <td>18:40 - 19:20</td>
-                <td class="h4 text-center"><span>×</span></td>
+                <td class="h4 text-center"><span>✕</span></td>
               </tr>
               <tr>
                 <td>19:20 - 20:00</td>
-                <td class="h4 text-center"><span>予</span></td>
+                <td class="h4 text-center"><span>〇</span></td>
               </tr>
               <tr>
                 <td>20:00 - 20:40</td>
@@ -32,8 +41,11 @@
                 <td>21:20 - 22:00</td>
                 <td class="h4 text-center"><span>〇</span></td>
               </tr>
-          </tbody>
-        </table>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

@@ -4,6 +4,9 @@ $(document).ready(function () {
   var chargeRemainingMinute = parseInt($("#chargeRemainingMinute").val());
   var chargeRemainingSecond = parseInt($("#chargeRemainingSecond").val());
 
+  var reservationSpotId = "";
+  var reservationSpotName = "";
+
   // 充電中の処理
   Push.Permission.request();
   if (charging) {
@@ -50,6 +53,36 @@ $(document).ready(function () {
     $("#reservationBtn").attr("href", url);
   });
 
+  // 時間予約ダイアログ初期表示処理
+  $('#reservationModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    reservationSpotId = button.data('spotid');
+    reservationSpotName = button.data('spotname');
+
+    $("#reservation_spot_name").text(reservationSpotName);
+    var timeReservedSpotId = parseInt($("#time_reservation_spot_id").val());
+    if (parseInt(reservationSpotId) == timeReservedSpotId) {
+      var index = $("#time_reservation_index").val();
+      $('#time_reservation_table tr').each(function (i) {
+        if (i == index) {
+          // $(this).addClass("success");
+          $('td', this).eq(1).children().text("予");
+        } else {
+          if ($('td', this).eq(1).children().text() != "✕") {
+            $('td', this).eq(1).children().text("〇");
+          }
+          // $(this).removeClass("success");
+        }
+      });
+    } else {
+      $('#time_reservation_table tr').each(function (i) {
+        if ($('td', this).eq(1).children().text() != "✕") {
+          $('td', this).eq(1).children().text("〇");
+        }
+      });
+    }
+  });
+
   // 予約ダイアログの「〇」と「予」をクリックで交互に入れ替えるイベント登録
   $(".reservation_time").on("click", function () {
     var mark = $(this).text();
@@ -72,25 +105,85 @@ $(document).ready(function () {
 
     // 「予」があるかどうかをチェック
     var reserveFlag = false;
+    var reserveTime = -1;
     $(".reservation_time").each(function (index, element) {
       if ($(element).text() == "予") {
         reserveFlag = true;
+        reserveTime = index;
       }
     });
 
-    if (reserveFlag) {
-      // 画面に合わせて位置を調整
-      var windowH = $(window).height();
-      var windowW = $(window).width();
-      var width = $("#alertFade").width();
-      $("#alertFade").css("bottom", parseInt(windowH / 2));
-      $("#alertFade").css("left", parseInt((windowW - width) / 2));
-      // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
-      $("#alertFade").fadeIn(500);
-      window.setTimeout(function () {
-        $("#alertFade").fadeOut();
-      }, 5000);
-    }
+    // 予約済みのスポットと別のスポットの予約ダイアログを開いて、閉じただけの場合は何もしない
+    if (!reserveFlag && reservationSpotId != $("#time_reservation_spot_id").val()) return;
+
+    // session追加
+    $.ajax({
+      url: '/api/charge/reservation_time/index',
+      type: 'post',
+      data: {
+        spot_id: reservationSpotId,
+        spot_name: reservationSpotName,
+        time_index: reserveTime
+      }
+    })
+      .done(function (data, textStatus, jqXHR) {
+        if (reserveFlag) {
+          // 予約内容をhiddenに反映
+          $("#time_reservation_spot_id").val(reservationSpotId);
+          $("#time_reservation_index").val(reserveTime);
+          $("#time_reservation_spot_name").text(reservationSpotName);
+
+          $("#reservationDropdown").css("display", '');
+          // 画面に合わせて位置を調整
+          var windowH = $(window).height();
+          var windowW = $(window).width();
+          var width = $("#alertFade").width();
+          $("#alertFade").css("bottom", parseInt(windowH / 2));
+          $("#alertFade").css("left", parseInt((windowW - width) / 2));
+          // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
+          $("#alertFade").fadeIn(500);
+          window.setTimeout(function () {
+            $("#alertFade").fadeOut();
+          }, 5000);
+        } else {
+          // 予約キャンセル内容をhiddenに反映
+          $("#time_reservation_spot_id").val("");
+          $("#time_reservation_index").val("");
+          $("#time_reservation_spot_name").text("");
+
+          $("#reservationDropdown").css("display", 'none');
+          // 画面に合わせて位置を調整
+          var windowH = $(window).height();
+          var windowW = $(window).width();
+          var width = $("#alertFadeNg").width();
+          $("#alertFadeNg").css("bottom", parseInt(windowH / 2));
+          $("#alertFadeNg").css("left", parseInt((windowW - width) / 2));
+          // 通知ダイアログを表示する(500ミリ秒でフェードイン、5秒後に自動でフェードアウト)
+          $("#alertFadeNg").fadeIn(500);
+          window.setTimeout(function () {
+            $("#alertFadeNg").fadeOut();
+          }, 5000);
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+      });
+  });
+
+  // 時間予約ステータスアイコンのクリック処理
+  $("#specifiedReservationStatus").on("click", function () {
+    var index = $("#time_reservation_index").val();
+    $('#time_reserved_table tr').each(function (i) {
+      if ($('td', this).eq(1).children().text() != "✕") {
+        $('td', this).eq(1).children().text("〇");
+      }
+      if (i == index) {
+        $(this).addClass("success");
+        $('td', this).eq(1).children().text("予");
+      } else {
+        $(this).removeClass("success");
+      }
+    });
   });
 
   // フッタの「充電する」メニューの設定

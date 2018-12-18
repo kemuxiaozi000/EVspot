@@ -93,7 +93,7 @@
                 <% if @favorite_spot[num]['id'] % 9 == 0 %>
                   <div class="col-sm-6 col-xs-6" style="background-color:lightgray;">
                 <% else %>
-                  <div class="col-sm-6 col-xs-6" data-toggle="modal" data-target="#reservationModal" data-backdrop="true">
+                  <div class="col-sm-6 col-xs-6" data-toggle="modal" data-target="#reservationModal" data-backdrop="true" data-spotid="<%=@favorite_spot[num]['id'] %>" data-spotname="<%=@favorite_spot[num]['name'] %>">
                 <% end %>
                     <a>
                       <div class="description-block" style="margin: 0px">

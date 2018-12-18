@@ -36,7 +36,7 @@
                 <div class="row" style="padding-bottom: 5px;">
                   <a href="/coupon?spot_id=<%= @spot_id %>" class="btn btn-primary col-xs-4" id="coupon_btn" >クーポン</a>
                   <button class="btn btn-success destination_set col-xs-4" id="destination">ここへ行く</button>
-                  <a class="btn btn-warning col-xs-4" id="reservation" data-toggle="modal" data-target="#reservationModal" role="button">予約</a>
+                  <a class="btn btn-warning col-xs-4" id="reservation" data-toggle="modal" data-target="#reservationModal" data-spotid="<%= @spot_id %>" data-spotname="<%= @spot_id %>" role="button">予約</a>
                 </div>
               </div>
             </div>
