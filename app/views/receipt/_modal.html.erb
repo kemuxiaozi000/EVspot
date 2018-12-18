@@ -6,34 +6,54 @@
         <h4 id="receipt_place" class="modal-title"></h4>
         <p id="receipt_time" class="h5 text-right"></p>
       </div>
+
       <div class="modal-body">
-        <div>
-          <table class="table">
-            <thead></thead>
-            <tbody>
-              <tr>
-                <td >産地</td>
-                <td id="receipt_area" class="h4 text-right"></td>
-              </tr>
-              <tr>
-                <td>量</td>
-                <td class="h4 text-right"><span id="receipt_volume"></span><span class="h6">kWh</span></td>
-              </tr>
-              <tr>
-                <td>種類</td>
-                <td id="receipt_types" class="h4 text-right"></td>
-              </tr>
-              <tr>
-                <td>金額</td>
-                <td class="h4 text-right"><span id="receipt_price"></span><span class="h6">円</span></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>量</td>
+                    <td class="h4 text-right"><span id="receipt_volume"></span><span class="h6">kWh</span></td>
+                  </tr>
+                  <tr>
+                    <td>金額</td>
+                    <td class="h4 text-right"><span id="receipt_price"></span><span class="h6">円</span></td>
+                  </tr>
+                  <tr>
+                    <td>種類</td>
+                    <td id="receipt_types" class="h4 text-right"></td>
+                  </tr>
+                  <tr>
+                    <td>産地</td>
+                    <td id="receipt_area" class="h4 text-right"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-xs-12">
+              <div id="receipt_supplier_img" class="col-xs-3 col-md-2" style="padding-right: 0px; padding-left: 0px;"></div>
+              <div class="col-xs-9 col-md-10" style="padding-right: 0px;">
+                <span id="receipt_supplier"></span>
+                <span>さんの電気を買いました。</span>
+                <p id="receipt_thank" ></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">Close</button>
       </div>
+
     </div>
   </div>
 </div>
+
+<script>
+  var hatakeyama = '<%= asset_path "hatakeyama.jpg" %>';
+  var matsubara = '<%= asset_path "matsubara.jpg" %>';
+  var no_image = '<%= asset_path "no_image.png" %>';
+</script>

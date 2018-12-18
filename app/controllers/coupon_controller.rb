@@ -2,7 +2,7 @@
 
 class CouponController < ApplicationController
   def index
-    @page_title = 'クーポン画面 - これからEVドライブ'
+    @page_title = 'クーポン画面'
     # スポットID
     @spot_id = params[:spot_id].to_i
 

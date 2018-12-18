@@ -2,7 +2,7 @@
 
 class ChargeHistoryController < ApplicationController
   def index
-    @page_title = '充電履歴 - これからEVドライブ'
+    @page_title = '充電履歴'
     # 充電履歴の取得
     @history_list = History.new.select_all
 

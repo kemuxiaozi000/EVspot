@@ -5,8 +5,44 @@
         <h2 class="box-title">充電完了</h2>
       </div>
       <div class="box-body">
-        <div id="<%= params[:history_id] %>" class="receipt inner btn btn-block btn-info" data-toggle="modal" data-target="#receiptModal" data-backdrop="true">
-          明細
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="h4"><%= @history['spot_name'] %></div>
+              <div class="h5 text-right"><%= @history['history_date'] %></div>
+              <table class="table">
+                <tbody>
+
+                  <tr>
+                    <td>量</td>
+                    <td class="h4 text-right"><span><%= @history['volume'] %></span><span class="h6">kWh</span></td>
+                  </tr>
+                  <tr>
+                    <td>金額</td>
+                    <td class="h4 text-right"><span><%= @history['price'] %></span><span class="h6">円</span></td>
+                  </tr>
+                  <tr>
+                    <td>種類</td>
+                    <td class="h4 text-right"><%= @history['pst_name'] %></td>
+                  </tr>
+                  <tr>
+                    <td>産地</td>
+                    <td class="h4 text-right"><%= @history['producing_area'] %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-xs-12">
+              <div id="receipt_supplier_img" class="col-xs-3 col-md-2" style="padding-right: 0px; padding-left: 0px;">
+                <img src="<%= asset_path @history['photo'] %>" class="img-responsive">
+              </div>
+              <div class="col-xs-9 col-md-10" style="padding-right: 0px;">
+                <span><%= @history['supplier_name'] %></span>
+                <span>さんの電気を買いました。</span>
+                <p><%= '「' + @history['thanks_comment'] + '」' if @history['thanks_comment'].present? %></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="box-footer">
@@ -16,4 +52,8 @@
   </div>
 </div>
 
-<%= render partial: "receipt/modal" %>
+<script>
+  var hatakeyama = '<%= asset_path "hatakeyama.jpg" %>';
+  var matsubara = '<%= asset_path "matsubara.jpg" %>';
+  var no_image = '<%= asset_path "no_image.png" %>';
+</script>

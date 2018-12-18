@@ -2,7 +2,7 @@
 
 class SpotDetailController < ApplicationController
   def index
-    @page_title = 'スポット詳細 - これからEVドライブ'
+    @page_title = 'スポット詳細'
     # スポット詳細
     @spot_id = params[:spot_id]
   end

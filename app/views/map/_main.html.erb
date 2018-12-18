@@ -2,19 +2,22 @@
 <input type="hidden" id="spot_lat" value="<%= @spot_lat %>">
 <input type="hidden" id="spot_lon" value="<%= @spot_lon %>">
 
+<div id="loader"></div>
+
 <div class="row">
   <div class="col-xs-12" style="padding-right: 0px; padding-left: 0px;">
     <div id="map" style="width: 100vw; height: 100vh;"></div>
     <div class="col-xs-12" style="position: absolute; top: 5px;">
-      <header class="main-header">
-        <div class="input-group">
-          <span class="input-group-addon">
+      <header class="main-header" style="margin-right: 0px;width: 15px;">
+      <%# <header class="main-header"> %>
+        <div class="input-group" >
+          <span class="input-group-addon" style="padding-left: 6px;padding-right: 6px;padding-bottom: 3px;padding-top: 3px;width: 30px;height: 30px;border-top-width: 0px;border-bottom-width: 0px;">
             <span class="fa fa-bars" data-toggle="push-menu" style="padding: 0px;"></span>
           </span>
-          <input id="destination_text" type="text" class="form-control input-lg">
+          <%# <input id="destination_text" type="text" class="form-control input-lg">
           <span class="input-group-addon">
             <span id="destination_search" class="glyphicon glyphicon-search"></span>
-          </span>
+          </span> %>
         </div>
       </header>
     </div>

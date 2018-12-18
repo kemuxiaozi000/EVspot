@@ -22,7 +22,7 @@
     <!-- small box -->
     <div class="small-box bg-blue ripple" id="<%= @history_list[num]['id'] %>">
       <div class="inner btn" data-toggle="modal" data-target="#receiptModal" data-backdrop="true">
-        <h4 style="font-weight: bold;"><%= @history_list[num]['spot_name'] %></h4>
+        <div style="font-weight: bold;white-space: normal;" class="h4 text-left"><%= @history_list[num]['spot_name'] %></div>
         <p align="right"><font size="4"><%= @history_list[num]['datetime'] %></font></p>
         <p align="right"><font size="4"><%= @history_list[num]['volume'] %></font>kWh</p>
         <p align="right"><font size="4"><%= @history_list[num]['price'] %></font>円</p>

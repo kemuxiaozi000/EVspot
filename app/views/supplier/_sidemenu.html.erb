@@ -12,8 +12,6 @@
         <button id="research" class="btn-primary form-control">検索<i class="fa fa-search pull-right" style="padding-top: 3px;"></i></button>
       </div>
       <ul class="sidebar-menu tree" data-widget="tree" style="color:white;">
-        <li class="header">MAIN</li>
-
         <li class="treeview">
           <a href="#">
           <i class="fa fa-edit"></i> <span>充電施設絞り込み</span>
@@ -21,32 +19,58 @@
               <i class="fa fa-angle-left pull-right"></i>
           </span>
           </a>
-          <ul class="treeview-menu">
+          <ul class="treeview-menu" style="padding-top:5px; padding-bottom:10px;">
+            <label for="suppiler_search_name">発電者</label>
+            <li>
+              <a>発電者は私
+              <div class="pull-right">
+                <input name="supplier_me" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_supply_type">発電種別</label>
+            <li>
+              <a>自然エネルギー
+              <div class="pull-right">
+                <input name="natural_energy" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>火力
+              <div class="pull-right">
+                <input name="thermal_power" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_producing_area">発電場所</label>
+            <li>
+              <a>地元愛
+              <div class="pull-right">
+                <input name="love_local" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>復興支援
+              <div class="pull-right">
+                <input name="reconstruction_support" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <li>
+              <a>その他
+              <div class="pull-right">
+                <input name="other_area" class="pull-right" type="checkbox" data-toggle="toggle" data-size="mini">
+              </div>
+              </a>
+            </li>
+            <label for="suppiler_search_producing_area">価格</label>
             <div class="container-fluid">
-              <div class="row" style="margin-top:5px; margin-bottom:10px;">
-                <div class="col-xs-12">
-                  <div class="input-group">
-                    <label for="suppiler_search_name">名称</label>
-                    <input type="text" class="form-control" id="suppiler_search_name" placeholder="名称">
-                  </div>
-
-                  <div class="input-group  col-lg-12">
-                    <label class="col-xs-12" for="suppiler_search_price" style="padding-left:0px;">価格</label>
-                    <input type="number" class="col-xs-5" id="supplier_search_price_min" placeholder="small" style="color:black;">
-                    <div class="col-xs-2" style="padding: 3px 0px 0px 0px"><center >～</center></div>
-                    <input type="number" class="col-xs-5" id="supplier_search_price_max" placeholder="big" style="color:black;">
-                  </div>
-
-                  <div class="input-group">
-                    <label for="supplier_search_production_area">産地</label>
-                    <input type="text" class="form-control" id="supplier_search_production_area" placeholder="産地">
-                  </div>
-
-                  <div class="input-group">
-                    <label for="suppiler_search_origin">由来</label>
-                    <input type="text" class="form-control" id="supplier_search_origin" placeholder="由来">
-                  </div>
-                </div>
+              <div class="input-group  col-lg-12">
+                <input type="number" class="col-xs-5" id="supplier_search_price_min" name="price_min" placeholder="low" style="color:black;">
+                <div class="col-xs-2" style="padding: 3px 0px 0px 0px"><center >～</center></div>
+                <input type="number" class="col-xs-5" id="supplier_search_price_max" name="price_max" placeholder="high" style="color:black;">
               </div>
             </div>
           </ul>

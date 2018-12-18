@@ -59,8 +59,8 @@ Rails.application.routes.draw do
   # 充電管理画面
   get 'suppliers_edit' => 'suppliers_edit#index'
 
-  # 待ち時間管理画面
-  get 'waitingtime' => 'waitingtime#index'
+  # 共通管理画面
+  get 'common_edit' => 'common_edit#index'
 
   resources :web_push, only: [:create]
   # スポット詳細画面
@@ -77,10 +77,6 @@ Rails.application.routes.draw do
     end
     # 充電スポット画面
     namespace :map, format: 'json' do
-      # 充電スポットを取得する処理
-      namespace :spotinfo do
-        post '/index', action: 'index'
-      end
       # 充電スポットを取得する処理
       namespace :spotinfolatlon do
         post '/index', action: 'index'
@@ -113,6 +109,10 @@ Rails.application.routes.draw do
       namespace :supplierinfo do
         post '/index', action: 'index'
       end
+      # 供給情報を取得する処理
+      namespace :supplierselect do
+        post '/index', action: 'index'
+      end
     end
     # 充電管理画面
     namespace :management, format: 'json' do
@@ -121,8 +121,9 @@ Rails.application.routes.draw do
         post '/index', action: 'index'
         post '/upsert', action: 'upsert'
       end
-      # 待ち時間を取得する処理
-      namespace :waitingtime do
+      # 待ち時間/充電時間を取得する処理
+      namespace :common_time do
+        post '/index', action: 'index'
         post '/upsert', action: 'upsert'
       end
     end

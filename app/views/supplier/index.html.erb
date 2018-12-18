@@ -1,7 +1,6 @@
 <div class="wrapper">
   <%= render "supplier/header" %>
   <%= render "supplier/sidemenu" %>
-  <input type="hidden" class="power_supply_type_id" value="<%= @pst_id %>">
   <div class="content-wrapper">
     <div class="content">
       <div class="row">
@@ -15,5 +14,10 @@
     </div>
   </div>
 </div>
+<script>
+  var hatakeyama = '<%= asset_path "hatakeyama.jpg" %>';
+  var matsubara = '<%= asset_path "matsubara.jpg" %>';
+  var no_image = '<%= asset_path "no_image.png" %>';
+</script>
 
 <%= javascript_include_tag "supplier"%>

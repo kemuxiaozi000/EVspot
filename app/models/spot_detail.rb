@@ -22,14 +22,7 @@ class SpotDetail < ApplicationRecord
     spotdetail_data.each do |data|
       result_data = {}
       result_data['id'] = data['id']
-      result_data['address'] = data['address']
-      result_data['week'] = data['week']
-      result_data['sat'] = data['sat']
-      result_data['sun'] = data['sun']
-      result_data['holiday'] = data['holiday']
-      result_data['sales_remarkes'] = data['sales_remarkes']
-      result_data['tel'] = data['tel']
-      result_data['remarks'] = data['remarks']
+      result_data = detail_info(result_data, data)
       result_data = detail_additional(result_data, data)
       result_data = detail_charge_types(result_data, data)
       result_data = detail_facility(result_data, data)
@@ -38,6 +31,18 @@ class SpotDetail < ApplicationRecord
       arr.push(result_data)
     end
     arr
+  end
+
+  def detail_info(result_data, data)
+    result_data['address'] = data['address']
+    result_data['week'] = data['week']
+    result_data['sat'] = data['sat']
+    result_data['sun'] = data['sun']
+    result_data['holiday'] = data['holiday']
+    result_data['sales_remarkes'] = data['sales_remarkes']
+    result_data['tel'] = data['tel']
+    result_data['remarks'] = data['remarks']
+    result_data
   end
 
   def detail_additional(result_data, data)

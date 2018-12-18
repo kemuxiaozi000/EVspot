@@ -2,7 +2,7 @@
 
 class MapController < ApplicationController
   def index
-    @page_title = '充電スポット - これからEVドライブ'
+    @page_title = '充電スポット'
     # 目的地
     @destination = params[:destination].to_s
     # lat（空許容）

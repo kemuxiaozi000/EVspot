@@ -8,4 +8,9 @@ class Common < ApplicationRecord
     result = Common.where('id = 1')
     result[0].value
   end
+
+  def select_by_chargingtime
+    result = Common.where('id = 2')
+    result[0].value
+  end
 end

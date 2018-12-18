@@ -2,7 +2,7 @@
 
 class ChargeStatusController < ApplicationController
   def index
-    @page_title = '充電中 - これからEVドライブ'
+    @page_title = '充電中'
     # セッション（充電情報）の設定
     !session[:charge_spot_id].present? ? session[:charge_spot_id] = params[:spot_id] : nil
     !session[:charge_start_time].present? ? session[:charge_start_time] = Time.now.to_s : nil

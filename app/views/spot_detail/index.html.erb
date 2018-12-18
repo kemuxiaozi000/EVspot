@@ -10,35 +10,40 @@
 
               <div class="box-body">
                 <div class="media">
-                  <div class="media-left">
-                    <img src="/assets/cat-1676ecfa3f697ef3074525ee95a4b30f5350d98c584a23b5947dee6708c7d53a.png" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);">
-                  </div>
-                  <div class="media-body">
-                    <div class="clearfix">
-                      <h4 id="spot_name" style="margin-top: 0">北海道三菱自動車販売(株) 南店</h4>
-                      <p style="margin-bottom: 0">
-                        <i class="fa fa-fw fa-users margin-r5"></i><span id="busy_time">【混雑時間帯】 </span>
-                      </p>
-                      <p style="margin-bottom: 0">
-                        <i class="fa fa-fw fa-plug margin-r5"></i><span id="spot_type"> 【電源種別】 </span>
-                      </p>
-                      <p style="margin-bottom: 0">
-                        <i class="fa fa-fw fa-random margin-r5"></i><span id="target_service"> 【対象サービス】 </span>
-                      </p>
-                      <p style="margin-bottom: 0">
-                        <i class="fa fa-fw fa-phone margin-r5"></i><span id="spot_tel">【電話】011-531-5181   </span>
-                      </p>
-                      <p style="margin-bottom: 0">
-                        <i class="fa fa-fw fa-map-marker margin-r5"></i><span id="spot_address">【住所】北海道札幌市中央区南十条西10-1-15   </span>
-                      </p>
-                      <p style="margin-bottom: 0">
-                        <i class="glyphicon glyphicon-time fa-fw margin-r5"></i><span id="spot_time">【営業時間】平日:24時間営業, 土:null, 日:null</span>
-                      </p>
+                  <div>
+                    <div class="media-left">
+                      <img src="/assets/cat-1676ecfa3f697ef3074525ee95a4b30f5350d98c584a23b5947dee6708c7d53a.png" alt="" class="media-object" style="width: 80px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);">
                     </div>
+                    <div class="media-body">
+                      <div class="clearfix">
+                        <h4 id="spot_name" style="margin-top: 0">北海道三菱自動車販売(株) 南店</h4>
+                      </div>
+                       <div class="clearfix detail_icon">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="media-body" style="padding-top: 15px;padding-bottom: 5px;">
+                    <p style="margin-bottom: 0">
+                        <i class="fa fa-fw fa-users margin-r5"></i><span id="busy_time">【混雑時間帯】 </span>
+                    </p>
+                    <p style="margin-bottom: 0">
+                      <i class="fa fa-fw fa-plug margin-r5"></i><span id="spot_type"> 【電源種別】 </span>
+                    </p>
+                    <p style="margin-bottom: 0">
+                      <i class="fa fa-fw fa-random margin-r5"></i><span id="target_service"> 【対象サービス】 </span>
+                    </p>
+                    <p style="margin-bottom: 0">
+                      <i class="fa fa-fw fa-phone margin-r5"></i><span id="spot_tel">【電話】011-531-5181   </span>
+                    </p>
+                    <p style="margin-bottom: 0">
+                      <i class="fa fa-fw fa-map-marker margin-r5"></i><span id="spot_address">【住所】北海道札幌市中央区南十条西10-1-15   </span>
+                    </p>
+                    <p style="margin-bottom: 0">
+                      <i class="glyphicon glyphicon-time fa-fw margin-r5"></i><span id="spot_time">【営業時間】平日:24時間営業, 土:null, 日:null</span>
+                    </p>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -46,5 +51,17 @@
     </div>
   </div>
 </div>
+<script>
+  var iconToilet = '<%= asset_path "toilet.png" %>';
+  var iconSmokingArea = '<%= asset_path "smoking_area.png" %>';
+  var iconRapidCharge = '<%= asset_path "rapid_charge.png" %>';
+  var iconNormalCharge = '<%= asset_path "normal_charge.png" %>';
+  var iconCafe = '<%= asset_path "cafe.png" %>';
+  var iconRestaurant = '<%= asset_path "restaurant.png" %>';
+  var iconShopping = '<%= asset_path "shopping.png" %>';
+  var iconPlaySpace = '<%= asset_path "play_space.png" %>';
+  var iconNursingRoom = '<%= asset_path "nursing_room.png" %>';
+  var iconSightseeing = '<%= asset_path "sightseeing.png" %>';
+</script>
 
 <%= javascript_include_tag "detail"%>

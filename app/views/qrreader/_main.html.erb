@@ -9,7 +9,6 @@
           <div style="text-align: center">
               充電スタンドに添付されているQRコードを読み込み
               個人認証を行います
-              <div class="trim"><img src='<%= asset_path 'smartphone_qr_code_man.png' %>' alt=""　width="295"></div>
               <video id="video" style="width: 80%; height: auto;" autoplay="" playsinline=""></video>
           </div>
           <img id="img">
@@ -28,7 +27,6 @@
           <div style="text-align: center">
               充電スタンドに添付されているQRコードを読み込み
               個人認証を行います
-              <div class="trim"><img src='<%= asset_path 'smartphone_qr_code_man.png' %>' alt=""　width="295"></div>
               <label for="input-qr" class="btn btn-block btn-primary btn-lg">QRコードを読み取る</label>
               <input type="file" id="input-qr" accept="image/*" capture="environment" tabindex="-1" style="display: none" onchange="openQRCamera(this);">
               <input type="hidden" id="qr">

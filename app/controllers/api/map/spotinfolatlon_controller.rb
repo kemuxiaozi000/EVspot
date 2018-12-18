@@ -7,16 +7,34 @@ class Api::Map::SpotinfolatlonController < ApplicationController
   #
   # @param :lat
   # @param :lon
+  # @zoom  :zoom
   # @return スポットテーブルの構造体 + key:supplier value:提供者テーブルの構造体
   def index
     Userlog.new.insert(session[:user_name], 'map', 'スポット情報取得処理', params.to_s)
     # 住所
     lat = params[:lat].to_s
     lon = params[:lon].to_s
+    # zoom level
+    zoom = params[:zoom].to_i
 
     # スポット情報の取得
-    @result = Spot.new.select_by_latlon_new(lat, lon, params)
+    @result = Spot.new.select_by_latlon_zoom(lat, lon, get_range(zoom), params)
     @result['watingtime'] = Common.new.select_by_watingtime
     render json: @result
+  end
+
+  # zoom率から取得範囲の算出
+  def get_range(zoom)
+    result = case zoom
+             when 0..4
+               0
+             when 5..6
+               100
+             when 7..8
+               50
+             else
+               20
+             end
+    result
   end
 end

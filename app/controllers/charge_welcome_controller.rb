@@ -2,7 +2,7 @@
 
 class ChargeWelcomeController < ApplicationController
   def index
-    @page_title = '認証完了 - これからEVドライブ'
+    @page_title = '認証完了'
     @spot_name = Spot.find_by(id: params[:spot_id])&.name
 
     # ログ取得

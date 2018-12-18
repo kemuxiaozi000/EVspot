@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box box-info">
+      <div class="box-body">
+        <div id="info_message" class="callout callout-info" style="display: none;"></div>
+        <div id="warning_message" class="callout callout-warning" style="display: none;"></div>
+        <form role="form" id="common_form">
+          <div class="box-body">
+            <div class="row">
+
+              <div class="form-group col-md-3 col-xs-6">
+                <label>時間管理種類</label>
+                <select class="form-control time_control_types">
+                  <option value="1">待ち時間</option>
+                  <option value="2">充電時間</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3 col-xs-6">
+                <label>時間設定値</label>
+                <div class="input-group">
+                  <input type="number" class="form-control time_value">
+                  <span class="input-group-addon">分</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="btn-group pull-right">
+              <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+              <button type="reset" class="btn btn-default">クリア</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box box-info">
+        <%= javascript_tag do %>
+          window.data = <%= raw @commonlist.to_json %>;
+
+        <% end %>
+
+        <div class="box-header">
+            <p>時間管理種類一覧</p>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <%= render "common_edit/result"%>
+        </div>
+    </div>
+  </div>
+</div>
+
+

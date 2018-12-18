@@ -16,7 +16,12 @@
  *= require datatables.net-bs/css/dataTables.bootstrap.min
  *= require admin-lte/dist/css/AdminLTE.min
  *= require admin-lte/dist/css/skins/skin-black.min
- *= require admin-lte/plugins/iCheck/all
+ *= require admin-lte/plugins/iCheck/minimal/_all
+ *= require admin-lte/plugins/iCheck/square/_all
+ *= require admin-lte/plugins/iCheck/flat/_all
+ *= require admin-lte/plugins/iCheck/line/_all
+ *= require admin-lte/plugins/iCheck/polaris/polaris
+ *= require admin-lte/plugins/iCheck/futurico/futurico
  *= require_tree .
  *= require_self
  */

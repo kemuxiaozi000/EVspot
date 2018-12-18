@@ -2,7 +2,7 @@
 
 class DetailController < ApplicationController
   def index
-    @page_title = '詳細画面 - これからEVドライブ'
+    @page_title = '詳細画面'
     # クーポンID
     coupon_id = params[:coupon_id].to_i
     # スポットID

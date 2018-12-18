@@ -21,13 +21,28 @@ if Spot.count.zero?
     coupon_info = [nil, coupon_id]
 
     # 供給者IDは1～9をランダムで登録する
-    supplier_id = rand(1..9)
-    Spot.create(name: row[0], lat: row[1], lon:row[2], coupon_id: coupon_info[rand(0..1)], supplier_id: supplier_id, detail_id:row[3])
+    supplier_id = rand(1..5)
+
+    # 11/18 インタビュー用設定
+    case row[0]
+    when  '中日本高速道路(株) NEXCO中日本 名神高速道路 養老SA (上り)',
+          '中日本高速道路(株) NEXCO中日本 名神高速道路 養老SA (下り)'
+      coupon = nil
+    when  '中日本高速道路(株) NEXCO中日本 名神高速道路 多賀SA (上り)',
+          '中日本高速道路(株) NEXCO中日本 名神高速道路 多賀SA (下り)',
+          '中日本高速道路(株) NEXCO中日本 名神高速道路 尾張一宮PA (上り)',
+          '中日本高速道路(株) NEXCO中日本 名神高速道路 尾張一宮PA (下り)'
+      coupon = coupon_id
+    else
+      coupon = coupon_info[rand(0..1)]
+    end
+
+    Spot.create(name: row[0], lat: row[1], lon:row[2], coupon_id: coupon, supplier_id: supplier_id, detail_id:row[3])
   end
 end
 
 # Spot_detail
- ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `spot_details`')
 if SpotDetail.count.zero?
   # 付帯情報のパターン(レコードごとにランダムで登録)
   additional_info = [nil, 'トイレ', '喫煙所', 'トイレ:喫煙所']
@@ -54,10 +69,10 @@ if SpotDetail.count.zero?
 end
 
 # Suppliers
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `suppliers`')
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `suppliers`')
 if Supplier.count.zero?
   CSV.foreach('db/suppliers.csv') do |row|
-    Supplier.create(name: row[1], value: row[2], power_supply_types_id: row[3], producing_area: row[4], origin: row[5])
+    Supplier.create(id: row[0], name: row[1], value: row[2], power_supply_types_id: row[3], producing_area: row[4], origin: row[5], photo: row[6], comment: row[7], thanks_comment: row[8])
   end
 end
 
@@ -79,11 +94,11 @@ end
 
 # Histories
 # ActiveRecord::Base.connection.execute('TRUNCATE TABLE `histories`')
-if History.count.zero?
-  CSV.foreach('db/history.csv') do |row|
-    History.create(datetime: row[1], spot_id: row[2], volume: row[3], price: row[4])
-  end
-end
+# if History.count.zero?
+#   CSV.foreach('db/history.csv') do |row|
+#     History.create(datetime: row[1], spot_id: row[2], volume: row[3], price: row[4],supplier_id: row[5])
+#   end
+# end
 
 # power_supply_types
 ActiveRecord::Base.connection.execute('TRUNCATE TABLE `power_supply_types`')
@@ -94,9 +109,9 @@ if PowerSupplyType.count.zero?
 end
 
 # Common
-# ActiveRecord::Base.connection.execute('TRUNCATE TABLE `commons`')
+ActiveRecord::Base.connection.execute('TRUNCATE TABLE `commons`')
 if Common.count.zero?
   CSV.foreach('db/common.csv') do |row|
-    Common.create(name: row[1], value: row[2])
+    Common.create(id: row[0], name: row[1], value: row[2])
   end
 end

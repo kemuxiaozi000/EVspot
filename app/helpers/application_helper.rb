@@ -20,8 +20,10 @@ module ApplicationHelper
     charge_start_time = session[:charge_start_time]
     start_time = Time.parse(charge_start_time) if charge_start_time.present?
     if start_time.present?
-      # 現在時間と充電開始時間の差から、残り時間を計算(計算結果は秒単位) ※1回あたりの充電時間は30分(=1800秒)固定
-      remaining_second = 360 - (Time.now - start_time).to_i
+      # 現在時間と充電開始時間の差から、残り時間を計算(計算結果は秒単位)
+      # ベースとなる充電時間はDBから取得する(単位は分)
+      base_time = Common.find(2).value.to_i * 60
+      remaining_second = base_time - (Time.now - start_time).to_i
       # 分単位の残り時間を計算
       if remaining_second.positive?
         remaining_minute = (remaining_second / 60).to_i
@@ -41,11 +43,23 @@ module ApplicationHelper
     charge_start_time = session[:charge_start_time]
     start_time = Time.parse(charge_start_time) if charge_start_time.present?
     if start_time.present?
-      # 現在時間と充電開始時間の差から、残り時間を計算(計算結果は秒単位) ※1回あたりの充電時間は30分(=1800秒)固定
-      remaining_second = 360 - (Time.now - start_time).to_i
+      # 現在時間と充電開始時間の差から、残り時間を計算(計算結果は秒単位)
+      # ベースとなる充電時間はDBから取得する(単位は分)
+      base_time = Common.find(2).value.to_i * 60
+      remaining_second = base_time - (Time.now - start_time).to_i
     end
     # 残り時間が負数になった場合は0扱いにする
     remaining_second = 0 unless remaining_second.positive?
     remaining_second
+  end
+
+  # 充電残り時間のベースとなる時間を取得する
+  # @return 充電残り時間のベース時間(分単位)
+  def get_charge_remaining_base_minute
+    Common.find(2).value.to_i
+  end
+
+  def get_supplier_name
+    session[:supplier_name].present? ? session[:supplier_name] : '我が家の電気'
   end
 end

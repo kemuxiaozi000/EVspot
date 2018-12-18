@@ -5,43 +5,19 @@ require 'concerns/utils'
 class Spot < ApplicationRecord
   include Utils
 
-  # 緯度経度から付近のスポット情報を取得
-  def select_all_by_latlon(address_latlon)
-    latlon_arr = get_latlon_rad(address_latlon.latitude, address_latlon.longitude, 5000)
-    spot_data = Spot.where(lat: latlon_arr[0]..latlon_arr[1])
-                    .where(lon: latlon_arr[2]..latlon_arr[3])
-    result = {}
-    arr = []
-    spot_data.each do |data|
-      result_data = {}
-      result_data['id'] = data.id
-      result_data['name'] = data.name
-      result_data['lat'] = data.lat
-      result_data['lon'] = data.lon
-      result_data['coupon_id'] = data.coupon_id
-      result_data['supplier_id'] = data.supplier_id
-      result_data['detail_id'] = data.detail_id
-      result_data['supplier'] = Supplier.new.select_by_id(devide_string(data.supplier_id.to_s, ':'))
-      arr.push(result_data)
-    end
-    result['spot'] = arr
-    result['position'] = address_latlon
-    result
-  end
-
-  # 緯度経度から付近のスポット情報を取得(new)
-  def select_by_latlon_new(lat, lon, spot_detail_search_params = {})
-    sql = get_arround_sql(lat, lon, 5, spot_detail_search_params)
+  # 緯度経度,zoom率から付近のスポット情報を取得
+  def select_by_latlon_zoom(lat, lon, range, spot_detail_search_params = {})
+    sql = get_arround_sql(lat, lon, range, spot_detail_search_params)
     spot_data = ActiveRecord::Base.connection.select_all(sql)
     result = {}
-    result['spot'] = data_input(spot_data)
+    result['spot'] = data_input(spot_data, spot_detail_search_params[:natural_energy])
     position_struct = Struct.new(:latitude, :longitude)
     position = position_struct.new(lat.to_f, lon.to_f)
     result['position'] = position
     result
   end
 
-  def data_input(spot_data)
+  def data_input(spot_data, natural_energy)
     arr = []
     spot_data.each do |data|
       result_data = {}
@@ -52,24 +28,29 @@ class Spot < ApplicationRecord
       result_data['coupon_id'] = data['coupon_id']
       result_data['supplier_id'] = data['supplier_id']
       result_data['detail_id'] = data['detail_id']
-      result_data['detail_data'] = SpotDetail.new.select_all_by_id(data['detail_id'])
+      result_data['detail_data'] = set_spot_detail_data(data)
+      # SpotDetail.new.select_all_by_id(data['detail_id'])
       # result_data['supplier'] = Supplier.new.select_by_id(devide_string(data['supplier_id'].to_s, ':'))
       result_data['supplier'] = Supplier.new.select_pst_by_id(devide_string(data['supplier_id'].to_s, ':'))
-      arr.push(result_data)
+      arr.push(result_data) unless natural_energy == 'on' && result_data['supplier'][0].power_supply_types_id != 0
     end
     arr
   end
 
   def get_arround_sql(lat, lon, num, spot_detail_search_params)
-    sql_select = 'select id,name,lat,lon,coupon_id,supplier_id,detail_id '
-    sql_select += "from(SELECT spots.id as id,name,lat,lon,coupon_id,supplier_id,detail_id,GLength(GeomFromText(CONCAT('LineString("
+    sql_select = 'SELECT '
+    sql_select += select_sql
+    sql_select += 'FROM spots '
+    sql_select += 'inner join spot_details on spot_details.id = spots.detail_id '
+    sql_select += 'where '
+    sql_select += "(GLength(GeomFromText(CONCAT('LineString("
     sql_select += lon
     sql_select += ' '
     sql_select += lat
-    sql_select += ",', lon, ' ', lat,')'))) * 111.3194 AS distance, additional_information, charge_types, facility_information, nearby_information FROM spots "
-    sql_select += ' inner join spot_details on spot_details.id = spots.detail_id '
-    sql_select += 'ORDER BY distance) as cus where distance <= :num '
+    sql_select += ",', lon, ' ', lat,')'))) * 111.3194) <= :num "
     sql_select += SpotDetail.new.get_spot_detail_condition_sql(spot_detail_search_params)
+    # インタビュー用に対象のスポット情報を必ず表示させる
+    sql_select += 'or (spots.id = 895 or spots.id = 1129 or spots.id = 2378 or spots.id = 2992 or spots.id = 9691 or spots.id = 9693) '
     sql = ActiveRecord::Base.send(
       :sanitize_sql_array,
       [
@@ -78,6 +59,16 @@ class Spot < ApplicationRecord
       ]
     )
     sql
+  end
+
+  # select句作成
+  def select_sql
+    sql_select = 'spots.id as id,name,lat,lon,coupon_id,supplier_id,detail_id,'
+    sql_select += 'address,week,sat,sun,holiday,sales_remarkes,tel,remarks,'
+    sql_select += 'stand_1,stand_2,stand_3,additional_information,charge_types,'
+    sql_select += 'facility_information,nearby_information,supported_services,'
+    sql_select += 'crowded_time_zone '
+    sql_select
   end
 
   # クーポンIDからスポット情報を取得する処理
@@ -103,6 +94,18 @@ class Spot < ApplicationRecord
       result['detail'] = SpotDetail.new.select_all_by_id(data.detail_id.to_i)
     end
     result
+  end
+
+  def set_spot_detail_data(data)
+    result_data = {}
+    result_data['id'] = data['detail_id']
+    result_data = SpotDetail.new.detail_info(result_data, data)
+    result_data = SpotDetail.new.detail_additional(result_data, data)
+    result_data = SpotDetail.new.detail_charge_types(result_data, data)
+    result_data = SpotDetail.new.detail_facility(result_data, data)
+    result_data = SpotDetail.new.detail_supported_services(result_data, data)
+    result_data['crowded_time_zone'] = data['crowded_time_zone']
+    result_data
   end
 
   # IDで検索

@@ -7,13 +7,13 @@ $(document).ready(function () {
 
   function detailInfo() {
     $.ajax({
-      url: "/api/detail/spotdetailinfo/index",
-      data: {
-        spot_id: spot_id,
-        supplier_id: supplier_id
-      },
-      type: "POST"
-    })
+        url: "/api/detail/spotdetailinfo/index",
+        data: {
+          spot_id: spot_id,
+          supplier_id: supplier_id
+        },
+        type: "POST"
+      })
       .done(function (data, textStatus, jqXHR) {
         if (data) {
           $("#spot_name").text(data.name);
@@ -27,8 +27,8 @@ $(document).ready(function () {
           $("#spot_type").text(spotTypeText);
           $("#spot_tel").text(data.detail[0].tel);
           $("#spot_address").text(data.detail[0].address);
-          $("#spot_time").text("営業時間: "
-            + ((data.detail[0].week) ? data.detail[0].week : "-"));
+          $("#spot_time").text("営業時間: " +
+            ((data.detail[0].week) ? data.detail[0].week : "-"));
           var busyTimeText = "混雑時間帯: ";
           busyTimeText += (data.detail[0].crowded_time_zone) ? data.detail[0].crowded_time_zone : "なし";
           $("#busy_time").text(busyTimeText);
@@ -65,6 +65,23 @@ $(document).ready(function () {
           //   content += '</div></div>';
           //   $('#suplier_area').append(content);
           // }
+          // HTML作成
+          var content = '';
+          var hasFacility = {
+            'isToilet': data.detail[0].toilet,
+            'isSmokingArea': data.detail[0].smoking_area,
+            'isRapidCharge': data.detail[0].rapid_charge,
+            'isNormalCharge': data.detail[0].normal_charge,
+            'isCafe': data.detail[0].cafe,
+            'isRestaurant': data.detail[0].restaurant,
+            'isShopping': data.detail[0].shopping,
+            'isPlaySpace': data.detail[0].play_space,
+            'isNursingRoom': data.detail[0].nursing_room,
+            'isSightseeing': data.detail[0].sightseeing
+          };
+
+          content += '<span>' + setIcon(hasFacility) + '</span>';
+          $('.detail_icon').html(content);
         }
 
       })
@@ -74,6 +91,53 @@ $(document).ready(function () {
       .always(function (jqXHR, textStatus, errorThrown) {
         console.log("complete:spotinfo");
       });
+  }
+  //アイコン表示
+  function setIcon(hasFacility) {
+    var icon_content = "";
+    icon_content += '<div class="">';
+
+    if (hasFacility['isToilet'] == 1) {
+      icon_content += '<img src="' + iconToilet + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isSmokingArea'] == 1) {
+      icon_content += '<img src="' + iconSmokingArea + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isRapidCharge'] == 1) {
+      icon_content += '<img src="' + iconRapidCharge + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isNormalCharge'] == 1) {
+      icon_content += '<img src="' + iconNormalCharge + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isCafe'] == 1) {
+      icon_content += '<img src="' + iconCafe + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isRestaurant'] == 1) {
+      icon_content += '<img src="' + iconRestaurant + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isShopping'] == 1) {
+      icon_content += '<img src="' + iconShopping + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isPlaySpace'] == 1) {
+      icon_content += '<img src="' + iconPlaySpace + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isNursingRoom'] == 1) {
+      icon_content += '<img src="' + iconNursingRoom + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+
+    if (hasFacility['isSightseeing'] != null) {
+      icon_content += '<img src="' + iconSightseeing + '" alt="..." height="20" width="20" style="margin-right: 3px;">';
+    }
+    icon_content += '</div>';
+    return icon_content;
   }
 
   // // ここへ向かう押下処理
